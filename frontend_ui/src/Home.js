@@ -32,9 +32,9 @@ export default function YourHome(){
             <CardContent>
               <div>
                 <h2>Projects</h2>
-                <p>Project 1<Button sx={{ m: 1 }} variant="contained" type="submit">Delete</Button></p>
-                <p>Project 2<Button sx={{ m: 1 }} variant="contained" type="submit">Delete</Button></p>
-                <p>Project 3<Button sx={{ m: 1 }} variant="contained" type="submit">Delete</Button></p>
+                <p>Project 1<Button sx={{ m: 1 }} variant="contained" >Delete</Button></p>
+                <p>Project 2<Button sx={{ m: 1 }} variant="contained" >Delete</Button></p>
+                <p>Project 3<Button sx={{ m: 1 }} variant="contained" >Delete</Button></p>
               </div>
             </CardContent>
           </Card>
