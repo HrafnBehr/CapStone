@@ -22,8 +22,10 @@ router.post('/', async (req, res) => {
     return res.status(200).json(newProj)
 })
 
-router.put('/', async (req, res) => {
-    const Editproj = await Editprojs(req.body)
+// router.put('/', async (req, res) => {
+//     const Editproj = await Editprojs(req.body)
 
-    return res.status(200).json(Editproj)
-})
+//     return res.status(200).json(Editproj)
+// })
+
+module.exports = router

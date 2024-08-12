@@ -4,6 +4,9 @@ const createError = require('http-errors')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const cors = require('cors')
+const usersRouter = require('./models/users/users.routes')
+const projectsRouter = require('./models/projects/projects.routes')
+const { jwt } = require('./middleware/jwt')
 
 const app = express()
 
@@ -15,8 +18,10 @@ app.use(logger('dev'))
 app.use(cookieParser())
 
 // Routes
-app.use('/api/v1/users', require('./models/users/users.routes'))
-app.use('/api/v1/projects', require('./models/projects/projects.routes'))
+app.use('/api/v1/users', usersRouter)
+
+// If you have problems with authentication, remove the jwt middleware
+app.use('/api/v1/projects', jwt, projectsRouter)
 
 // Catch 404 and forward to error handler
 app.use((_req, _res, next) => {

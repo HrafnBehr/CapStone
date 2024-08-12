@@ -5,8 +5,10 @@
 exports.up = function(knex) {
     return knex.schema.createTable('Projects', function(table){
         table.increments('id'),
-        table.string('Project_name').notNullable();
-        table.date('date').notNullable();
+        table.string('name').notNullable();
+        table.string('description').notNullable();
+        table.date('start_date').notNullable();
+        table.date('end_date').notNullable();
     })
   
 };
