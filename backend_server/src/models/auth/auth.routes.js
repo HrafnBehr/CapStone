@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
       .status(200)
       .send()
   } catch (err) {
-    return res.clearCookie('jwt').status(400).json({ error: err.message })
+    return res.clearCookie('jwt').status(401).json({ error: err.message })
   }
 })
 
