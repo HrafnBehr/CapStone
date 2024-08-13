@@ -21,7 +21,8 @@ app.use(cookieParser())
 // Routes
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', jwt, usersRouter)
-app.use('/api/v1/projects', jwt, projectsRouter)
+app.use('/api/v1/projects', projectsRouter)
+//app.use('/api/v1/projects', jwt, projectsRouter)
 
 // Catch 404 and forward to error handler
 app.use((_req, _res, next) => {

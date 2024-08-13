@@ -18,6 +18,8 @@ import {
 
 export default function Login(){
   const navigate =useNavigate();
+  let [username, seUsername]= useState('');
+  let [password, setPassword]= useState('');
 
     return (
         <>

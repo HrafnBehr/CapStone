@@ -18,6 +18,14 @@ export default function YourHome(){
   const Username = "Gabagool"
   const navigate = useNavigate();
 
+  const [ data, setData ] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/v1/projects/")
+    .then(res => res.json())
+    .then(data => setData(data.projects));
+  }, [])
+
 
   return (
     <>
@@ -31,10 +39,10 @@ export default function YourHome(){
           <Card>
             <CardContent>
               <div>
-                <h2>Projects</h2>
-                <p>Project 1<Button sx={{ m: 1 }} variant="contained" >Delete</Button></p>
-                <p>Project 2<Button sx={{ m: 1 }} variant="contained" >Delete</Button></p>
-                <p>Project 3<Button sx={{ m: 1 }} variant="contained" >Delete</Button></p>
+                <h2>Projectgrams</h2>
+                  {data.map(project => (
+                      <h3 className="project" key={project.id} onClick={() => navigate(`/Program/${project.id}`)}>{project.name} Next Due Date: {project.end_date}</h3>
+                  ))}
               </div>
             </CardContent>
           </Card>

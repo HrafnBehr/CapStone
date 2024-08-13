@@ -39,7 +39,7 @@ router.patch('/:id', async (req, res) => {
   const { id } = req.params
 
   const project = await Editprojs(id, req.body)
-  
+
   return res.status(200).json({project})
 })
 

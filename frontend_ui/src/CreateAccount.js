@@ -18,6 +18,10 @@ import {
 
 export default function CreateAccount(){
   const navigate = useNavigate();
+  let [fname, setFname]= useState('');
+  let [lname, setLname]= useState('');
+  let [username, seUsername]= useState('');
+  let [password, setPassword]= useState('');
 
 
     return (

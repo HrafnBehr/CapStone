@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Container,
     Paper,
@@ -20,10 +20,17 @@ import dayjs from 'dayjs';
 import "./SingleProgram.css";
 
 
-
-
 export default function SingleProgram(){
   const navigate = useNavigate();
+  const [ program, setProgram ] = useState(null)
+  const { id } = useParams();
+
+  useEffect(()  => {
+    fetch(`http://localhost:8080/api/v1/projects/${id}`)
+    .then((res) => res.json())
+    .then(data => console.log(data.project))
+  }, []);
+//itemName
 
   return(
     <>
