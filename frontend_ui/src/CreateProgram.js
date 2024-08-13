@@ -59,7 +59,7 @@ export default function CreateProgram(){
                     </LocalizationProvider>
 
                     <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={() => navigate("/Home")}>Create</Button>
-                    <Button sx={{ mt: 1 }} variant="outlined" type="submit" onClick={() => navigate("/Home")}>Cancel</Button>
+                    <Button sx={{ mt: 1 }} variant="outlined" type="submit" onClick={() => navigate("/Home")}>Back</Button>
                   </Stack>
                 </form>
               </CardContent>

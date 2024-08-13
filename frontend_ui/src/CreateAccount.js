@@ -33,7 +33,6 @@ export default function CreateAccount(){
                         id="outlined-basic"
                         label="First Name"
                         variant="outlined"
-                        value="First Name"
                       />
                     </FormControl>
                     <FormControl sx={{ mt: 1 }}>
@@ -41,7 +40,6 @@ export default function CreateAccount(){
                         id="outlined-basic"
                         label="Last Name"
                         variant="outlined"
-                        value="Last Name"
                       />
                     </FormControl>
                     <FormControl sx={{ mt: 1 }}>
@@ -49,7 +47,6 @@ export default function CreateAccount(){
                         id="outlined-basic"
                         label="Username"
                         variant="outlined"
-                        value="Username"
                       />
                     </FormControl>
                     <FormControl sx={{ mt: 1 }}>
@@ -57,7 +54,6 @@ export default function CreateAccount(){
                         id="outlined-basic"
                         label="Password"
                         variant="outlined"
-                        value="Password"
                       />
                     </FormControl>
                     <FormControlLabel control={<Checkbox defaultChecked />} label="Are you a program manager?" />
