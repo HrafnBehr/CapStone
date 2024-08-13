@@ -1,7 +1,15 @@
 const express = require('express');
 const { listAllProjects, getProjectbyid, addNewProject, Editprojs, deleteproject}= require('./projects.service')
+const risksRouter = require('./risks/risks.routes')
+const milestonesRouter = require('./milestones/milestones.routes')
 
 const router = express.Router();
+
+// Nested routes
+router.use('/:projectId/risks', risksRouter)
+router.use('/:projectId/milestones', milestonesRouter)
+// router.use('/:id/tasks', tasksRouter)
+// router.use('/:id/stakeholders', stakeholdersRouter)
 
 router.get('/', async (_req, res) => {
   const projects = await listAllProjects();
