@@ -1,31 +1,47 @@
 const express = require('express');
-const { listAllProjects, getProjectbyid, addNewProject, Editprojs}= require('./projects.service')
+const { listAllProjects, getProjectbyid, addNewProject, Editprojs, deleteproject}= require('./projects.service')
 
 const router = express.Router();
 
 router.get('/', async (_req, res) => {
-
-  const proj = await listAllProjects();
-  return res.status(200).json({ hello: 'world'})
+  const projects = await listAllProjects();
+  return res.status(200).json({projects})
 })
 
 router.get('/:id', async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
 
-    const proj = await getProjectbyid(id);
-    return res.status(200).json(proj)
+    const project = await getProjectbyid(id);
+    return res.status(200).json({project})
 })
 
 router.post('/', async (req, res) => {
-    const newProj = await addNewProject(req.body)
+    const project = await addNewProject(req.body)
 
-    return res.status(200).json(newProj)
+    return res.status(200).json({project})
 })
 
-// router.put('/', async (req, res) => {
-//     const Editproj = await Editprojs(req.body)
+router.put('/:id', async (req, res) => {
+  const { id } = req.params
+  const project = await Editprojs(id, req.body)
+  return res.status(200).json({project})
+})
 
-//     return res.status(200).json(Editproj)
-// })
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+
+  const project = await deleteproject(id)
+
+  return res.status(200).json({project})
+})
+
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params
+
+  const project = await Editprojs(id, req.body)
+  
+  return res.status(200).json({project})
+})
+
 
 module.exports = router
