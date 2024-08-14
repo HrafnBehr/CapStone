@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import { useAuth } from '../src/AuthMaker.js'
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -17,9 +18,33 @@ import {
 
 
 export default function Login(){
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   let [username, seUsername]= useState('');
   let [password, setPassword]= useState('');
+  // const { login } = useAuth();
+
+  const handleLogin = async(e) => {
+    e.preventDefault();
+
+    try{
+      const response = await fetch(`http://localhost:8080/login`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'},
+          body:JSON.stringify({username, password}),
+        })
+
+        if (!response.ok){
+          throw new Error('Invalid login credentials');
+        }
+
+        const data = await response.json()
+        // login(data.token, { username: data.username});
+        navigate('/Home')
+      } catch (error){
+        console.erro("Unable to log you in...")
+      }
+    }
 
     return (
         <>

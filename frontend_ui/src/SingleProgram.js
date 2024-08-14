@@ -22,13 +22,13 @@ import "./SingleProgram.css";
 
 export default function SingleProgram(){
   const navigate = useNavigate();
-  const [ program, setProgram ] = useState(null)
+  const [ project, setProject ] = useState(null)
   const { id } = useParams();
 
   useEffect(()  => {
     fetch(`http://localhost:8080/api/v1/projects/${id}`)
     .then((res) => res.json())
-    .then(data => console.log(data.project))
+    .then(data => setProject(data.project))
   }, []);
 //itemName
 

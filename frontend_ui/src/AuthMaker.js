@@ -5,10 +5,11 @@ const AuthContext= createContext();
 export function Authority(){
 
   return (
-    <AuthContext.Provider value={{auth, login, logout}}>
-      {children}
-    </AuthContext.Provider>
-  );
+    // <AuthContext.Provider value={{auth, login, logout}}>
+    //   {children}
+    // </AuthContext.Provider>
+    <h1>?</h1>
+  )
 }
 
 export function useAuth(){

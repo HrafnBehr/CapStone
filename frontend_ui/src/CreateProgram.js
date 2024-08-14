@@ -28,6 +28,8 @@ export default function CreateProgram(){
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  const [projectDetails, setProjectDetails] = useState({name: "", description: "", start_date: "", end_date: ""})
+
   // our async addProgram which handles adding a program to the ui by fetching the endpoint data
   const addProgram = async (e) => {
     // prevents default action from being taken unless explicitly done so
@@ -66,11 +68,27 @@ export default function CreateProgram(){
       navigate("/Home")
 
       // catch hook for our above try
-    } catch(error) {
+    } catch (error) {
 
       // error message for us to quickly identify where our code is skitzing out
       console.error("Error upon adding program: check lines 42-60", error);
     }
+  }
+
+  function updateInfo(e) {
+    if(e.target.id === "project-name") {
+      setProjectDetails({ ...projectDetails, name: e.target.value})
+    }
+    else if(e.target.id === "project-description") {
+      setProjectDetails({ ...projectDetails, description: e.target.value})
+    }
+    else if(e.target.id === "start_date") {
+      setProjectDetails({ ...projectDetails, start_date: e.target.value})
+    }
+    else {
+      setProjectDetails({ ...projectDetails, end_date: e.target.value})
+    }
+    console.log(projectDetails);
   }
 
   return (
@@ -78,30 +96,32 @@ export default function CreateProgram(){
       <Container fixed maxWidth="sm">
             <Card>
               <CardContent>
-                <h1>Create A Program</h1>
+                <h1>Create A Project</h1>
 
                 <form>
                   <Stack>
                     <FormControl>
                       <TextField sx={{ m: 1 }}
-                        id="outlined-basic"
-                        label="Program Name"
+                        id="project-name"
+                        label="Project Name"
                         variant="outlined"
+                        onChange={updateInfo}
                       />
                     </FormControl>
 
                     <FormControl>
                       <TextField sx={{ m: 1 }}
-                        id="outlined-basic"
-                        label="Program Description"
+                        id="project-description"
+                        label="Project Description"
                         variant="outlined"
                         multiline
                         rows={5}
+                        onChange={updateInfo}
                       />
                     </FormControl>
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker sx={{ m: 1 }} label = "Start Date" />
+                    <LocalizationProvider dateAdapter={AdapterDayjs} >
+                      <DatePicker sx={{ m: 1 }} label = "Start Date" id="start_date" onChange={updateInfo}/>
                     </LocalizationProvider>
 
                     <LocalizationProvider  dateAdapter={AdapterDayjs}>
