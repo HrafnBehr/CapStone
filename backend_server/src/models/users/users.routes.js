@@ -4,6 +4,15 @@ const { getUserById } = require('./users.service')
 
 const router = express.Router()
 
+router.get('/', async (_req, res) => {
+  try {
+    const users = await getUsers()
+    return res.status(200).json({ users })
+  } catch (err) {
+    return res.status(500).json({ error: err.message })
+  }
+})
+
 router.get('/getUserInfo', async (req, res) => {
   const token = req.cookies.jwt
   if (!token) {

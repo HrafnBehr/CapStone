@@ -1,4 +1,4 @@
-import './App.css';
+import './LoginPage.css';
 import { useState } from 'react';
 import { useAuth } from '../src/AuthMaker.js'
 import { useNavigate } from 'react-router-dom';
@@ -12,10 +12,18 @@ import {
   Stack,
   FormControl,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  Typography,
+  Divider,
 } from "@mui/material";
 
+export default function Login() {
+  const navigate = useNavigate();
+  let [username, setUsername] = useState('');
+  let [password, setPassword] = useState('');
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
 export default function Login(){
   const navigate = useNavigate();
