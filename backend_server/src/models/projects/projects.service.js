@@ -16,21 +16,28 @@ async function getProjectbyid(id) {
         .where({ 'projects.id': id }).first();
 }
 
-async function addNewProject({ name, start_date, end_date, description }) {
-    const [project] = await db.insert({ description, name, start_date, end_date }).into('projects').returning('*');
+async function addNewProject({ name, start_date, end_date, description, project_manager_id }) {
+    const [project] = await db.insert({ 
+        description, 
+        name, 
+        start_date: new Date(start_date), 
+        end_date: new Date(end_date),
+        project_manager_id
+    }).into('projects').returning('*');
     return project;
 }
 
-async function Editprojs(id, { name, start_date, end_date, description }) {
+async function Editprojs(id, { name, start_date, end_date, description, project_manager_id }) {
     const project = await db('projects').select('*').where({ id }).first()
 
     const [updatedproj] = await db('projects')
         .where({ id })
         .update({
             name: name || project.name,
-            start_date: start_date || project.start_date,
-            end_date: end_date || project.end_date,
-            description: description || project.description
+            start_date: start_date ? new Date(start_date) : project.start_date,
+            end_date: end_date ? new Date(end_date) : project.end_date,
+            description: description || project.description,
+            project_manager_id: project_manager_id || project.project_manager_id
         })
         .returning('*');
 

@@ -12,8 +12,7 @@ exports.up = async function(knex) {
     table.string('first_name').notNullable();
     table.string('last_name').notNullable();
 
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.timestamps(true, true);
   })
 
   /**
@@ -22,11 +21,11 @@ exports.up = async function(knex) {
   await knex.schema.createTable('passwords', (table) => {
     table.increments('id').primary();
     table.string('password').notNullable();
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
 
     table.integer('user_id').unsigned().notNullable();
     table.foreign('user_id').references('users.id').onDelete('CASCADE');
+
+    table.timestamps(true, true);
   });
 
   /**
@@ -39,11 +38,10 @@ exports.up = async function(knex) {
     table.timestamp('start_date').notNullable();
     table.timestamp('end_date').notNullable();
 
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-
     table.integer('project_manager_id').unsigned().notNullable();
     table.foreign('project_manager_id').references('id').inTable('users');
+
+    table.timestamps(true, true);
   })
 
   /**
@@ -56,11 +54,10 @@ exports.up = async function(knex) {
     table.boolean('completed').notNullable().defaultTo(false);
     table.timestamp('due_date');
 
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-
     table.integer('project_id').unsigned()
     table.foreign('project_id').references('projects.id').onDelete('CASCADE');
+
+    table.timestamps(true, true);
   })
 
   /**
@@ -73,14 +70,13 @@ exports.up = async function(knex) {
     table.timestamp('start_date');
     table.timestamp('due_date');
 
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-
     table.integer('project_id').unsigned().notNullable();
     table.foreign('project_id').references('projects.id').onDelete('CASCADE');
 
     table.integer('milestone_id').unsigned();
     table.foreign('milestone_id').references('milestones.id').onDelete('CASCADE');
+
+    table.timestamps(true, true);
   })
 
   /**
@@ -93,12 +89,11 @@ exports.up = async function(knex) {
     table.string('role').notNullable();
     table.string('email').notNullable();
     table.string('phone').notNullable();
-
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
     
     table.integer('project_id').unsigned().notNullable();
     table.foreign('project_id').references('projects.id').onDelete('CASCADE');
+
+    table.timestamps(true, true);
   })
 
   /**
@@ -112,11 +107,28 @@ exports.up = async function(knex) {
     table.string('mitigation_plan');
     table.string('status').notNullable().defaultTo('open');
 
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.integer('project_id').unsigned().notNullable();
+    table.foreign('project_id').references('projects.id').onDelete('CASCADE');
+
+    table.timestamps(true, true);
+  })
+
+  /**
+   * Table: lessons_learned
+   */
+  await knex.schema.createTable('lessons_learned', (table) => {
+    table.increments().primary();
+    table.string('description').notNullable();
+    table.string('recommendation')
+    table.string('impact').notNullable().defaultTo('low');
 
     table.integer('project_id').unsigned().notNullable();
     table.foreign('project_id').references('projects.id').onDelete('CASCADE');
+
+    table.integer('milestone_id').unsigned();
+    table.foreign('milestone_id').references('milestones.id').onDelete('CASCADE');
+
+    table.timestamps(true, true);
   })
 
   return Promise.resolve(knex);
@@ -127,6 +139,12 @@ exports.up = async function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function(knex) {
+
+  // Drop lessons_learned table
+  await knex.table('lessons_learned', (table) => {
+    table.dropForeign('project_id');
+    table.dropForeign('milestone_id');
+  }).then(() => knex.schema.dropTableIfExists('lessons_learned'));
 
   // Drop risks table
   await knex.schema.alterTable('risks', (table) => {
