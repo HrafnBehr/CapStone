@@ -38,7 +38,7 @@ exports.up = async function(knex) {
     table.timestamp('start_date').notNullable();
     table.timestamp('end_date').notNullable();
 
-    table.integer('project_manager_id').unsigned().notNullable();
+    table.integer('project_manager_id').unsigned();
     table.foreign('project_manager_id').references('id').inTable('users');
 
     table.timestamps(true, true);
