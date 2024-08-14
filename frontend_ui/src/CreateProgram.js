@@ -35,9 +35,6 @@ export default function CreateProgram(){
     // prevents default action from being taken unless explicitly done so
     e.preventDefault()
 
-    // variable defining the program data
-    //const programToBeMade ={ name, description, sDate, eDate }
-
     // try hook that leads into our fetch
     try {
 
@@ -125,7 +122,7 @@ export default function CreateProgram(){
                     </LocalizationProvider>
 
                     <LocalizationProvider  dateAdapter={AdapterDayjs}>
-                      <DatePicker sx={{ m: 1 }} label = "End Date" />
+                      <DatePicker sx={{ m: 1 }} label = "End Date" id="end_date" onChange={updateInfo}/>
                     </LocalizationProvider>
 
                     <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={() => navigate("/Home")}>Create</Button>

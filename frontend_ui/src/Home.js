@@ -19,12 +19,13 @@ export default function YourHome(){
   const navigate = useNavigate();
 
   const [ data, setData ] = useState([]);
+  const [deleteFlag, setDeleteFlag] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/v1/projects/")
     .then(res => res.json())
     .then(data => setData(data.projects));
-  }, [data])
+  }, [deleteFlag])
 
   const deleteItem = async (projectID) => {
 
@@ -40,12 +41,13 @@ export default function YourHome(){
         throw new Error('Could not be deleted!');
       }
 
+      setDeleteFlag(!deleteFlag)
+
       alert('Item removed!')
     } catch(error) {
       console.error('Could not remove project', error);
     }
   }
-
 
   return (
     <>
@@ -61,10 +63,10 @@ export default function YourHome(){
               <div>
                 <h2>Projectagrams</h2>
                   {data.map(project => (
-                    <>
-                      <h3 className="project" key={project.id} onClick={() => navigate(`/Program/${project.id}`)}>{project.name} Next Due Date: {project.end_date}</h3>
+                    <div key={project.id}>
+                      <h3 className="project" onClick={() => navigate(`/Program/${project.id}`)}>{project.name} Next Due Date: {project.end_date}</h3>
                       <Button sx={{ m: 1 }} variant="contained" onClick={()=> deleteItem(project.id)}>Remove</Button>
-                    </>
+                    </div>
                   ))}
               </div>
             </CardContent>

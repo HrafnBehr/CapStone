@@ -19,7 +19,7 @@ import {
 
 export default function Login(){
   const navigate = useNavigate();
-  let [username, seUsername]= useState('');
+  let [username, setUsername]= useState('');
   let [password, setPassword]= useState('');
   // const { login } = useAuth();
 
@@ -27,7 +27,7 @@ export default function Login(){
     e.preventDefault();
 
     try{
-      const response = await fetch(`http://localhost:8080/login`, {
+      const response = await fetch(`http://localhost:8080/api/v1/auth/login`, {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'},
@@ -37,14 +37,26 @@ export default function Login(){
         if (!response.ok){
           throw new Error('Invalid login credentials');
         }
+        else {
+          navigate('/Home')
+        }
 
-        const data = await response.json()
-        // login(data.token, { username: data.username});
-        navigate('/Home')
       } catch (error){
-        console.erro("Unable to log you in...")
+        console.log(error)
+        console.error("Unable to log you in...")
       }
     }
+
+    // function updateLogin(e) {
+    //   if(e.target.id === "username-login") {
+    //     setUsername(e.target.value);
+    //   }
+    //   else if(e.target.id === "username-password") {
+    //     setPassword(e.target.value);
+    //   }
+    //   console.log(username, password);
+
+    // }
 
     return (
         <>
@@ -56,20 +68,23 @@ export default function Login(){
                   <Stack>
                     <FormControl>
                     <TextField sx={{ m: 1 }}
-                        id="outlined-basic"
+                        id="username-login"
                         label="Username"
                         variant="outlined"
+                        onChange={(e) => setUsername(e.target.value)}
                       />
                     </FormControl>
                     <FormControl>
                     <TextField sx={{ m: 1 }}
-                        id="outlined-basic"
+                        id="username-password"
+                        type="password"
                         label="Password"
                         variant="outlined"
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </FormControl>
                     <FormControlLabel control={<Checkbox defaultChecked />} label="Remember Me" />
-                    <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={() => navigate("/Home")}>Login</Button>
+                    <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={handleLogin}>Login</Button>
                     <Button sx={{ mt: 1 }} variant="outlined" type="submit" onClick={() => navigate("/CreateAccount")}>Create Account</Button>
                   </Stack>
                 </form>
