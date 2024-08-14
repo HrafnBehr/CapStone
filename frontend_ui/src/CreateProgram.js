@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -23,17 +23,18 @@ export default function CreateProgram(){
   // enables navigate
   const navigate = useNavigate();
   // our useState block that helps us define our data
-  const [programName, setProgramName] = useState('');
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  // const [programName, setProgramName] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [startDate, setStartDate] = useState(0);
+  // const [endDate, setEndDate] = useState(0);
 
-  const [projectDetails, setProjectDetails] = useState({name: "", description: "", start_date: "", end_date: ""})
+  const [projectDetails, setProjectDetails] = useState({name: "", start_date: null, end_date: null, description: ""})
 
   // our async addProgram which handles adding a program to the ui by fetching the endpoint data
   const addProgram = async (e) => {
     // prevents default action from being taken unless explicitly done so
     e.preventDefault()
+    console.log("add program");
 
     // try hook that leads into our fetch
     try {
@@ -46,22 +47,19 @@ export default function CreateProgram(){
         },
 
         // turning the data of programToBeMade into string data for the database
-        body:JSON.stringify()
+        body:JSON.stringify(projectDetails)
 
-      });
+      })
 
       if(!response.ok){
         throw new Error('failed to fulfill your request');
       }
 
+      console.log(response)
+
       const result = await response.json();
 
-      // Lines 62-67 contain an alert for successful adding of a program and reset the useStates
       alert('New program added to listing')
-      setProgramName('')
-      setDescription('')
-      setStartDate('')
-      setEndDate('')
       navigate("/Home")
 
       // catch hook for our above try
@@ -72,21 +70,19 @@ export default function CreateProgram(){
     }
   }
 
-  function updateInfo(e) {
-    if(e.target.id === "project-name") {
-      setProjectDetails({ ...projectDetails, name: e.target.value})
-    }
-    else if(e.target.id === "project-description") {
-      setProjectDetails({ ...projectDetails, description: e.target.value})
-    }
-    else if(e.target.id === "start_date") {
-      setProjectDetails({ ...projectDetails, start_date: e.target.value})
-    }
-    else {
-      setProjectDetails({ ...projectDetails, end_date: e.target.value})
-    }
-    console.log(projectDetails);
-  }
+  // useEffect(() => {
+  //   // console.log("New details: ", projectDetails);
+  //   // console.log("data type of the start date: ", typeof projectDetails.start_date)
+  //   // console.log("data type of the end date: ", typeof projectDetails.end_date)
+  // }, [projectDetails])
+
+  // useEffect(() => {
+  //   //console.log("second effect")
+  //   fetch("http://localhost:8080/api/v1/projects/1")
+  //   .then(res => res.json())
+  //   //.then(data => console.log("testing", typeof data.project.start_date))
+  // }, [])
+
 
   return (
     <>
@@ -95,14 +91,14 @@ export default function CreateProgram(){
               <CardContent>
                 <h1>Create A Project</h1>
 
-                <form>
+                <form onSubmit={addProgram}>
                   <Stack>
                     <FormControl>
                       <TextField sx={{ m: 1 }}
                         id="project-name"
                         label="Project Name"
                         variant="outlined"
-                        onChange={updateInfo}
+                        onChange={e => setProjectDetails({ ...projectDetails, name: e.target.value})}
                       />
                     </FormControl>
 
@@ -113,20 +109,20 @@ export default function CreateProgram(){
                         variant="outlined"
                         multiline
                         rows={5}
-                        onChange={updateInfo}
+                        onChange={e => setProjectDetails({ ...projectDetails, description: e.target.value})}
                       />
                     </FormControl>
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                      <DatePicker sx={{ m: 1 }} label = "Start Date" id="start_date" onChange={updateInfo}/>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker sx={{ m: 1 }} label = "Start Date" id="start_date" defaultValue={projectDetails.start_date} onChange={e => setProjectDetails({ ...projectDetails, start_date: dayjs(e).unix()})}/>
                     </LocalizationProvider>
 
                     <LocalizationProvider  dateAdapter={AdapterDayjs}>
-                      <DatePicker sx={{ m: 1 }} label = "End Date" id="end_date" onChange={updateInfo}/>
+                      <DatePicker sx={{ m: 1 }} label = "End Date" id="end_date" defaultValue={projectDetails.end_date} onChange={e => setProjectDetails({ ...projectDetails, end_date: dayjs(e).unix()})}/>
                     </LocalizationProvider>
 
-                    <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={() => navigate("/Home")}>Create</Button>
-                    <Button sx={{ mt: 1 }} variant="outlined" type="submit" onClick={() => navigate("/Home")}>Back</Button>
+                    <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={() => addProgram}>Create</Button>
+                    <Button sx={{ mt: 1 }} variant="outlined" type="button" onClick={() => navigate("/Home")}>Back</Button>
                   </Stack>
                 </form>
               </CardContent>
