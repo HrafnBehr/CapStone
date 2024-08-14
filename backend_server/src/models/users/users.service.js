@@ -1,9 +1,11 @@
 const db = require('../../db')
 
-async function getAllUsers() {
-    const users = await db('users')
-
-    return users
+async function getAllUsers(filters) {
+    if (filters.length === 0) {
+        return await db('users')
+    } else {
+        return await db('users').where(filters)
+    }
 }
 
 async function getUserById(id) {
