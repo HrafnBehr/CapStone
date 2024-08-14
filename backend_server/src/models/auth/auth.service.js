@@ -2,26 +2,31 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../../db')
 
-async function register({ first_name, last_name, is_pm = false, username, password }) {
+async function register({ first_name, last_name, username, password }) {
   const hashedPassword = await bcrypt.hash(password, 12)
-  const [data] = await db('users').insert({ username, password: hashedPassword, first_name, last_name, is_pm }, ['id'])
+  const [user] = await db('users').insert({ username, first_name, last_name }, ['id'])
+  await db('passwords').insert({ user_id: user.id, password: hashedPassword })
 
   return {
-    id: data.id,
+    id: user.id,
     first_name,
-    last_name,
-    is_pm
+    last_name
   }
 }
 
 async function login({ username, password }) {
   const user = await db('users').where({ username }).first()
-  const isPasswordValid = await bcrypt.compare(password, user.password)
-  if (!isPasswordValid) {
+  
+  if (!user) {
     throw new Error('invalid username or password')
   }
 
-  console.log(process.env.JWT_SECRET)
+  const userPassword = await db('passwords').where({ user_id: user.id }).first()
+
+  const isPasswordValid = await bcrypt.compare(password, userPassword.password)
+  if (!isPasswordValid) {
+    throw new Error('invalid username or password')
+  }
 
   const token = jwt.sign({ sub: user.id.toString() }, process.env.JWT_SECRET, {
     expiresIn: '24h',
