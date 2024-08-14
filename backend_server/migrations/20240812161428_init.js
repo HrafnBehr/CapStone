@@ -11,6 +11,7 @@ exports.up = async function(knex) {
     table.string('username').unique().notNullable();
     table.string('first_name').notNullable();
     table.string('last_name').notNullable();
+    table.boolean('is_pm').notNullable().defaultTo(false);
 
     table.timestamps(true, true);
   })
