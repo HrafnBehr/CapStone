@@ -1,16 +1,14 @@
 const express = require('express');
-const { getAllstones, getStonesbyid, CreateStone, deleteStone, updatedStones} = require('./milestones.service')
-const tasksRouter = require('./tasks/tasks.routes');
+const { getAllstakes, getStakesbyid, CreateStake, deleteStake, updateStake } = require('./stakeholders.service')
 
 const router = express.Router({ mergeParams: true });
-router.use('/:milestoneId/tasks', tasksRouter);
 
 router.get('/', async (req, res) => {
   const { projectId } = req.params;
 
     try {
-        const stones = await getAllstones(projectId);
-        res.status(200).json({stones})
+        const stakes = await getAllstakes(projectId);
+        res.status(200).json({stakes})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
@@ -20,19 +18,19 @@ router.get('/:id', async (req, res) => {
     const {id} = req.params;
     
     try {
-        const stones = await getStonesbyid(id);
-        res.status(200).json({stones})
+        const stakes = await getStakesbyid(id);
+        res.status(200).json({stakes})
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 })
 
 router.post('/', async (req, res) => {
-    const { stones } = req.body;
+    const { stakes } = req.body;
     
     try {
-        const newStones = await CreateStone(stones);
-        res.status(200).json({ stones: newStones });
+        const newStakes = await CreateStake(stakes);
+        res.status(200).json({ stakes: newStakes });
     } catch (err) {
         res.status(500).jsom({ message: err.message })
     }
@@ -42,8 +40,8 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const stones = await deleteStone(id);
-        res.status(200).json({stones})
+        const stakes = await deleteStake(id);
+        res.status(200).json({stakes})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
@@ -51,11 +49,11 @@ router.delete('/:id', async (req, res) => {
 
 router.patch('/:id', async (req, res ) => {
     const { id } = req.params;
-    const {stones} = req.body;
+    const {stakes} = req.body;
     
     try{
-        const updatedStones = await updatestone(id, stones);
-         res.status(200).json({ stones: updatedStones });
+        const updatedStakes = await updatestake(id, stakes);
+         res.status(200).json({ stakes: updatedStakes });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

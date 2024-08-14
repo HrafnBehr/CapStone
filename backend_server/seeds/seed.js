@@ -116,6 +116,33 @@ await knex('risks').insert([
     },
   ]);
 
+  await knex('lessons_learned').insert([
+    {
+      project_id: 1,
+      description: 'Initial project scoping underestimated the time required for stakeholder approval.',
+      recommendation: 'Include more time in the project schedule for stakeholder review and approval.',
+      impact: 'high',
+    },
+    {
+      project_id: 2,
+      description: 'Project team members were not adequately trained on new software tools.',
+      recommendation: 'Provide training and support for new software tools before project start.',
+      impact: 'low',
+    },
+    {
+      project_id: 3,
+      description: 'Lack of communication between project team members led to duplication of effort.',
+      recommendation: 'Implement regular team meetings and communication channels to share project updates.',
+      impact: 'medium',
+    },
+    {
+      project_id: 4,
+      description: 'Project scope changes were not properly documented and approved by stakeholders.',
+      recommendation: 'Establish a formal change control process to document and approve scope changes.',
+      impact: 'high',
+    }
+  ])
+
   // Deletes ALL existing entries and resets id sequence
   tables.forEach(async (table) => {
     await knex.raw(`ALTER SEQUENCE ${table}_id_seq RESTART WITH 1`);

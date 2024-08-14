@@ -47,6 +47,17 @@ export default function Login(){
       }
     }
 
+    // function updateLogin(e) {
+    //   if(e.target.id === "username-login") {
+    //     setUsername(e.target.value);
+    //   }
+    //   else if(e.target.id === "username-password") {
+    //     setPassword(e.target.value);
+    //   }
+    //   console.log(username, password);
+
+    // }
+
     return (
         <>
           <Container fixed maxWidth="sm">
