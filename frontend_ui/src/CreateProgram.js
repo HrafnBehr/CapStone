@@ -22,11 +22,6 @@ import dayjs from 'dayjs';
 export default function CreateProgram(){
   // enables navigate
   const navigate = useNavigate();
-  // our useState block that helps us define our data
-  // const [programName, setProgramName] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [startDate, setStartDate] = useState(0);
-  // const [endDate, setEndDate] = useState(0);
 
   const [projectDetails, setProjectDetails] = useState({name: "", start_date: null, end_date: null, description: ""})
 
@@ -70,20 +65,6 @@ export default function CreateProgram(){
     }
   }
 
-  // useEffect(() => {
-  //   // console.log("New details: ", projectDetails);
-  //   // console.log("data type of the start date: ", typeof projectDetails.start_date)
-  //   // console.log("data type of the end date: ", typeof projectDetails.end_date)
-  // }, [projectDetails])
-
-  // useEffect(() => {
-  //   //console.log("second effect")
-  //   fetch("http://localhost:8080/api/v1/projects/1")
-  //   .then(res => res.json())
-  //   //.then(data => console.log("testing", typeof data.project.start_date))
-  // }, [])
-
-
   return (
     <>
       <Container fixed maxWidth="sm">
@@ -114,11 +95,11 @@ export default function CreateProgram(){
                     </FormControl>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker sx={{ m: 1 }} label = "Start Date" id="start_date" defaultValue={projectDetails.start_date} onChange={e => setProjectDetails({ ...projectDetails, start_date: dayjs(e).unix()})}/>
+                      <DatePicker sx={{ m: 1 }} label = "Start Date" id="start_date" defaultValue={projectDetails.start_date} onChange={e => setProjectDetails({ ...projectDetails, start_date: dayjs(e).valueOf()})}/>
                     </LocalizationProvider>
 
                     <LocalizationProvider  dateAdapter={AdapterDayjs}>
-                      <DatePicker sx={{ m: 1 }} label = "End Date" id="end_date" defaultValue={projectDetails.end_date} onChange={e => setProjectDetails({ ...projectDetails, end_date: dayjs(e).unix()})}/>
+                      <DatePicker sx={{ m: 1 }} label = "End Date" id="end_date" defaultValue={projectDetails.end_date} onChange={e => setProjectDetails({ ...projectDetails, end_date: dayjs(e).valueOf()})}/>
                     </LocalizationProvider>
 
                     <Button sx={{ mt: 1 }} variant="contained" type="submit" onClick={() => addProgram}>Create</Button>

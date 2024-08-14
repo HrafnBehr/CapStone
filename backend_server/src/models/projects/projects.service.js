@@ -17,10 +17,10 @@ async function getProjectbyid(id) {
 }
 
 async function addNewProject({ name, start_date, end_date, description, project_manager_id }) {
-    const [project] = await db.insert({ 
-        description, 
-        name, 
-        start_date: new Date(start_date), 
+    const [project] = await db.insert({
+        description,
+        name,
+        start_date: new Date(start_date),
         end_date: new Date(end_date),
         project_manager_id
     }).into('projects').returning('*');

@@ -17,14 +17,6 @@ import {
   Divider,
 } from "@mui/material";
 
-export default function Login() {
-  const navigate = useNavigate();
-  let [username, setUsername] = useState('');
-  let [password, setPassword] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
 export default function Login(){
   const navigate = useNavigate();
   let [username, setUsername]= useState('');
@@ -54,17 +46,6 @@ export default function Login(){
         console.error("Unable to log you in...")
       }
     }
-
-    // function updateLogin(e) {
-    //   if(e.target.id === "username-login") {
-    //     setUsername(e.target.value);
-    //   }
-    //   else if(e.target.id === "username-password") {
-    //     setPassword(e.target.value);
-    //   }
-    //   console.log(username, password);
-
-    // }
 
     return (
         <>

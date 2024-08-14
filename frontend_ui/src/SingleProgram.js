@@ -11,7 +11,8 @@ import {
     FormControl,
     FormControlLabel,
     Checkbox,
-    Box
+    Box,
+    Input
   } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -22,7 +23,7 @@ import "./SingleProgram.css";
 
 export default function SingleProgram(){
   const navigate = useNavigate();
-  const [ project, setProject ] = useState(null)
+  const [ project, setProject ] = useState()
   const { id } = useParams();
 
   useEffect(()  => {
@@ -32,18 +33,21 @@ export default function SingleProgram(){
   }, []);
 //itemName
 
+if (!project) return "Loading..."
+
   return(
     <>
       <Container>
             <Card>
                 <CardContent>
-                  <h1>Editing ITEM NAME HERE use object literal</h1>
+                  <h1>Editing {project.name}</h1>
                   <form>
                     <Stack>
                     <FormControl>
                     <TextField sx={{ m: 1 }}
                         id="outlined-basic"
                         label="Program Name"
+                        defaultValue={project.name}
                         variant="outlined"
                       />
                     </FormControl>
@@ -51,6 +55,7 @@ export default function SingleProgram(){
                     <TextField sx={{ m: 1 }}
                         id="outlined-basic"
                         label="Program Description"
+                        defaultValue={project.description}
                         variant="outlined"
                         multiline
                         rows={5}
@@ -58,11 +63,11 @@ export default function SingleProgram(){
                     </FormControl>
                     <Box display= "flex" justifyContent="space-around">
                       <LocalizationProvider dateAdapter={AdapterDayjs} >
-                        <DatePicker sx={{ m: 1 }} label = "Start Date"/>
+                        <DatePicker sx={{ m: 1 }} defaultValue={dayjs(project.start_date)} label = "Start Date"/>
                       </LocalizationProvider>
 
                       <LocalizationProvider  dateAdapter={AdapterDayjs}>
-                        <DatePicker sx={{ m: 1 }} label = "End Date"/>
+                        <DatePicker sx={{ m: 1 }} defaultValue={dayjs(project.end_date)} label = "End Date"/>
                       </LocalizationProvider>
                     </Box>
                     <Button sx={{ mt: 1 }} variant="contained" onClick={() => navigate("/Home")}>Update</Button>
