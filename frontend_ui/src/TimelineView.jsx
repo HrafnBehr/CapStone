@@ -23,8 +23,8 @@ export default function TimelineView() {
     leftLabel: 'TaskName',
   }
 
-  const projectStartDate = new Date('03/25/2019')
-  const projectEndDate = new Date('07/28/2019')
+  const projectStartDate = new Date('03/24/2024')
+  const projectEndDate = new Date('07/06/2024')
 
   return (
     <div className='control-pane'>
@@ -35,7 +35,7 @@ export default function TimelineView() {
           treeColumnIndex={1}
           taskFields={fields}
           labelSettings={labelSettings}
-          height='100%'
+          height='1000px'
           projectStartDate={projectStartDate}
           projectEndDate={projectEndDate}
         >
