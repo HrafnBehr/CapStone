@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "dayjs": "^1.11.12",
+    "gantt-schedule-timeline-calendar": "^3.37.5",
     "material-ui-snackbar-provider": "^2.0.0",
     "nodemon": "^3.1.4",
     "react": "^18.3.1",
