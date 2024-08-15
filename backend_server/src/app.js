@@ -27,7 +27,7 @@ app.use('/api/v1/projects', projectsRouter)
 
 // Catch 404 and forward to error handler
 app.use((_req, _res, next) => {
-    next(createError(404))
+  next(createError(404))
 })
 
 // Error handler

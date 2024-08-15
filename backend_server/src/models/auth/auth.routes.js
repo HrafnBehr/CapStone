@@ -39,12 +39,12 @@ router.get('/verify', async (req, res) => {
   if (!token) {
     return res.clearCookie('jwt').status(401).send()
   }
-  
+
   jwt.verify(token, process.env.JWT_SECRET, (err) => {
     if (err) {
       return res.clearCookie('jwt').status(401).send()
     }
-  
+
     return res.status(200).send()
   })
 })

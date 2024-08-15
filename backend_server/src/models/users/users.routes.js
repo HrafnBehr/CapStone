@@ -5,7 +5,7 @@ const { getUserById, getAllUsers } = require('./users.service')
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const filters = req.query;
+  const filters = req.query
 
   try {
     const users = await getAllUsers(filters)
@@ -16,10 +16,9 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/getProjectManagers', async (_req, res) => {
-
   try {
     const users = await getAllUsers()
-    return res.status(200).json({ users: users.filter((u) => u.is_pm )})
+    return res.status(200).json({ users: users.filter((u) => u.is_pm) })
   } catch (err) {
     return res.status(500).json({ error: err.message })
   }
@@ -32,7 +31,7 @@ router.get('/getUserInfo', async (req, res) => {
   }
 
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
     const user = await getUserById(parseInt(decodedToken.sub))
     return res.status(200).json({ user })
   } catch (err) {

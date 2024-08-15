@@ -2,8 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = function(knex) {
-/*     return knex.schema.createTable('tasks', function(table) {
+exports.up = function (knex) {
+  /*     return knex.schema.createTable('tasks', function(table) {
         table.increments('id').primary();
         table.string('title').notNullable();
         table.boolean('completed').notNullable().defaultTo(false);
@@ -19,15 +19,15 @@ exports.up = function(knex) {
         table.integer('milestone_id').unsigned();
         table.foreign('milestone_id').references('milestones.id').onDelete('CASCADE');
     }) */
-};
+}
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function(knex) {
-/*     return knex.schema.table('tasks', function(table){
+exports.down = function (knex) {
+  /*     return knex.schema.table('tasks', function(table){
         table.dropForeign('project_id');
         table.dropForeign('milestone_id');
     }).dropTableIfExists('tasks'); */
-};
+}

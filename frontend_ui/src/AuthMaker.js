@@ -1,9 +1,8 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react'
 
-const AuthContext= createContext();
+const AuthContext = createContext()
 
-export function Authority(){
-
+export function Authority() {
   return (
     // <AuthContext.Provider value={{auth, login, logout}}>
     //   {children}
@@ -12,6 +11,6 @@ export function Authority(){
   )
 }
 
-export function useAuth(){
-  return useContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext)
 }

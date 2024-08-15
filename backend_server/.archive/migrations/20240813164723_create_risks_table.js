@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-/*   return knex.schema.createTable('risks', function (table) {
+  /*   return knex.schema.createTable('risks', function (table) {
     table.increments().primary()
     table.string('description').notNullable()
     table.string('probability').notNullable().defaultTo('low')
@@ -21,7 +21,7 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-/*   return knex.schema.alterTable('risks', function (table) {
+  /*   return knex.schema.alterTable('risks', function (table) {
     table.dropForeign('project_id')
     table.dropColumn('project_id')
   }).then(() => knex.schema.dropTableIfExists('risks')) */

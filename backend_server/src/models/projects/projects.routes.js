@@ -1,10 +1,16 @@
-const express = require('express');
-const { listAllProjects, getProjectbyid, addNewProject, Editprojs, deleteproject}= require('./projects.service')
+const express = require('express')
+const {
+  listAllProjects,
+  getProjectbyid,
+  addNewProject,
+  Editprojs,
+  deleteproject,
+} = require('./projects.service')
 const risksRouter = require('./risks/risks.routes')
 const milestonesRouter = require('./milestones/milestones.routes')
 const tasksRouter = require('./tasks/tasks.routes')
 
-const router = express.Router();
+const router = express.Router()
 
 // Nested routes
 router.use('/:projectId/risks', risksRouter)
@@ -13,27 +19,27 @@ router.use('/:projectId/tasks', tasksRouter)
 // router.use('/:id/stakeholders', stakeholdersRouter)
 
 router.get('/', async (_req, res) => {
-  const projects = await listAllProjects();
-  return res.status(200).json({projects})
+  const projects = await listAllProjects()
+  return res.status(200).json({ projects })
 })
 
 router.get('/:id', async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params
 
-    const project = await getProjectbyid(id);
-    return res.status(200).json({project})
+  const project = await getProjectbyid(id)
+  return res.status(200).json({ project })
 })
 
 router.post('/', async (req, res) => {
-    const project = await addNewProject(req.body)
+  const project = await addNewProject(req.body)
 
-    return res.status(200).json({project})
+  return res.status(200).json({ project })
 })
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const project = await Editprojs(id, req.body)
-  return res.status(200).json({project})
+  return res.status(200).json({ project })
 })
 
 router.delete('/:id', async (req, res) => {
@@ -41,7 +47,7 @@ router.delete('/:id', async (req, res) => {
 
   const project = await deleteproject(id)
 
-  return res.status(200).json({project})
+  return res.status(200).json({ project })
 })
 
 router.patch('/:id', async (req, res) => {
@@ -49,8 +55,7 @@ router.patch('/:id', async (req, res) => {
 
   const project = await Editprojs(id, req.body)
 
-  return res.status(200).json({project})
+  return res.status(200).json({ project })
 })
-
 
 module.exports = router
