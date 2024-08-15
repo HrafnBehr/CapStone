@@ -57,6 +57,7 @@ export default function Login() {
                     label='Username'
                     variant='outlined'
                     onChange={(e) => setUsername(e.target.value)}
+                    autoComplete='username'
                   />
                 </FormControl>
                 <FormControl>
@@ -67,6 +68,7 @@ export default function Login() {
                     label='Password'
                     variant='outlined'
                     onChange={(e) => setPassword(e.target.value)}
+                    autoComplete='current-password'
                   />
                 </FormControl>
                 <FormControlLabel
