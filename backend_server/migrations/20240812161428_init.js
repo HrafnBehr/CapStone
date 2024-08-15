@@ -50,7 +50,7 @@ exports.up = async function (knex) {
    */
   await knex.schema.createTable('milestones', (table) => {
     table.increments('id').primary()
-    table.string('title').notNullable()
+    table.string('name').notNullable()
     table.string('description').nullable()
     table.boolean('completed').notNullable().defaultTo(false)
     table.timestamp('due_date')

@@ -15,6 +15,7 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries and resets id sequence
   tables.forEach(async (table) => {
     await knex(table).del()
+    await knex.raw(`ALTER SEQUENCE ${table}_id_seq RESTART WITH 1`)
   })
 
   /**
@@ -109,140 +110,140 @@ exports.seed = async function (knex) {
       project_id: 1,
       name: 'Milestone A',
       description: 'Technology Maturation & Risk Reduction Decision',
-      date: '2025-03-15',
+      due_date: '2025-03-15',
     },
     {
       id: 2,
       project_id: 1,
       name: 'Milestone B',
       description: 'Engineering and Manufacturing Development Decision',
-      date: '2027-06-22',
+      due_date: '2027-06-22',
     },
     {
       id: 3,
       project_id: 1,
       name: 'Milestone C',
       description: 'Production Decision',
-      date: '2029-09-10',
+      due_date: '2029-09-10',
     },
     {
       id: 4,
       project_id: 1,
       name: 'Milestone FRP',
       description: 'Full-Rate Production Decision',
-      date: '2030-11-01',
+      due_date: '2030-11-01',
     },
     {
       id: 5,
       project_id: 2,
       name: 'Milestone A',
       description: 'Technology Maturation & Risk Reduction Decision',
-      date: '2024-01-10',
+      due_date: '2024-01-10',
     },
     {
       id: 6,
       project_id: 2,
       name: 'Milestone B',
       description: 'Engineering and Manufacturing Development Decision',
-      date: '2025-06-30',
+      due_date: '2025-06-30',
     },
     {
       id: 7,
       project_id: 2,
       name: 'Milestone C',
       description: 'Production Decision',
-      date: '2026-11-05',
+      due_date: '2026-11-05',
     },
     {
       id: 8,
       project_id: 2,
       name: 'Milestone FRP',
       description: 'Full-Rate Production Decision',
-      date: '2028-07-20',
+      due_date: '2028-07-20',
     },
     {
       id: 9,
       project_id: 3,
       name: 'Milestone A',
       description: 'Technology Maturation & Risk Reduction Decision',
-      date: '2023-12-15',
+      due_date: '2023-12-15',
     },
     {
       id: 10,
       project_id: 3,
       name: 'Milestone B',
       description: 'Engineering and Manufacturing Development Decision',
-      date: '2024-09-17',
+      due_date: '2024-09-17',
     },
     {
       id: 11,
       project_id: 3,
       name: 'Milestone C',
       description: 'Production Decision',
-      date: '2025-12-20',
+      due_date: '2025-12-20',
     },
     {
       id: 12,
       project_id: 3,
       name: 'Milestone FRP',
       description: 'Full-Rate Production Decision',
-      date: '2026-10-05',
+      due_date: '2026-10-05',
     },
     {
       id: 13,
       project_id: 4,
       name: 'Milestone A',
       description: 'Technology Maturation & Risk Reduction Decision',
-      date: '2025-05-01',
+      due_date: '2025-05-01',
     },
     {
       id: 14,
       project_id: 4,
       name: 'Milestone B',
       description: 'Engineering and Manufacturing Development Decision',
-      date: '2027-08-25',
+      due_date: '2027-08-25',
     },
     {
       id: 15,
       project_id: 4,
       name: 'Milestone C',
       description: 'Production Decision',
-      date: '2028-01-12',
+      due_date: '2028-01-12',
     },
     {
       id: 16,
       project_id: 4,
       name: 'Milestone FRP',
       description: 'Full-Rate Production Decision',
-      date: '2030-03-18',
+      due_date: '2030-03-18',
     },
     {
       id: 17,
       project_id: 5,
       name: 'Milestone A',
       description: 'Technology Maturation & Risk Reduction Decision',
-      date: '2024-02-20',
+      due_date: '2024-02-20',
     },
     {
       id: 18,
       project_id: 5,
       name: 'Milestone B',
       description: 'Engineering and Manufacturing Development Decision',
-      date: '2025-09-12',
+      due_date: '2025-09-12',
     },
     {
       id: 19,
       project_id: 5,
       name: 'Milestone C',
       description: 'Production Decision',
-      date: '2026-11-30',
+      due_date: '2026-11-30',
     },
     {
       id: 20,
       project_id: 5,
       name: 'Milestone FRP',
       description: 'Full-Rate Production Decision',
-      date: '2027-10-15',
+      due_date: '2027-10-15',
     },
   ])
 
@@ -462,11 +463,6 @@ exports.seed = async function (knex) {
       impact: 'high',
     },
   ])
-
-  // Deletes ALL existing entries and resets id sequence
-  tables.forEach(async (table) => {
-    await knex.raw(`ALTER SEQUENCE ${table}_id_seq RESTART WITH 1`)
-  })
 
   console.log('Seeding complete')
 
