@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write .",
-    "lint": "prettier --check ."
+    "lint": "prettier --check .",
+    "install": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend_server && npm install",
+    "install:frontend": "cd frontend_ui && npm install"
   },
   "keywords": [],
   "author": "",
