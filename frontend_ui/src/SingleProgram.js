@@ -19,6 +19,7 @@ import './SingleProgram.css'
 export default function SingleProgram() {
   const navigate = useNavigate()
   const [project, setProject] = useState()
+  const [flag, setFlag] = useState(false)
   const { id } = useParams()
 
   useEffect(() => {
@@ -26,9 +27,22 @@ export default function SingleProgram() {
       .then((res) => res.json())
       .then((data) => setProject(data.project))
   }, [id])
-  //itemName
 
   if (!project) return 'Loading...'
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    await fetch(`http://localhost:8080/api/v1/projects/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(project),
+    });
+    setFlag(!flag);
+    // After update, send user back to home page
+    navigate("/Home")
+  };
 
   return (
     <>
@@ -36,7 +50,7 @@ export default function SingleProgram() {
         <Card>
           <CardContent>
             <h1>Editing {project.name}</h1>
-            <form>
+            <form onSubmit={handleUpdate}>
               <Stack>
                 <FormControl>
                   <TextField
@@ -45,6 +59,11 @@ export default function SingleProgram() {
                     label='Program Name'
                     defaultValue={project.name}
                     variant='outlined'
+                    onChange={(e) =>
+                      setProject({
+                        ...project,
+                        name: e.target.value,
+                      })}
                   />
                 </FormControl>
                 <FormControl>
@@ -56,6 +75,11 @@ export default function SingleProgram() {
                     variant='outlined'
                     multiline
                     rows={5}
+                    onChange={(e) =>
+                      setProject({
+                        ...project,
+                        description: e.target.value,
+                      })}
                   />
                 </FormControl>
                 <Box display='flex' justifyContent='space-around'>
@@ -64,6 +88,12 @@ export default function SingleProgram() {
                       sx={{ m: 1 }}
                       defaultValue={dayjs(project.start_date)}
                       label='Start Date'
+                      onChange={(e) =>
+                        setProject({
+                          ...project,
+                          start_date: dayjs(e).valueOf(),
+                        })
+                      }
                     />
                   </LocalizationProvider>
 
@@ -72,20 +102,28 @@ export default function SingleProgram() {
                       sx={{ m: 1 }}
                       defaultValue={dayjs(project.end_date)}
                       label='End Date'
+                      onChange={(e) =>
+                        setProject({
+                          ...project,
+                          end_date: dayjs(e).valueOf(),
+                        })
+                      }
                     />
                   </LocalizationProvider>
                 </Box>
                 <Button
                   sx={{ mt: 1 }}
                   variant='contained'
-                  onClick={() => navigate('/Home')}
+                  type="submit"
                 >
                   Update
                 </Button>
                 <Button
                   sx={{ mt: 1 }}
                   variant='outlined'
-                  onClick={() => navigate('/Home')}
+                  onClick={() =>
+                    navigate('/Home')
+                  }
                 >
                   Back
                 </Button>

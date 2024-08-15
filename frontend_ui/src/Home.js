@@ -1,10 +1,15 @@
 import './App.css'
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { Container, Card, Button, CardContent } from '@mui/material'
+import UserContext from "./AuthMaker"
 
 export default function YourHome() {
-  const Username = 'Gabagool'
+
+  const { user, logout } = useContext(UserContext);
+
+  console.log("USER: ", user)
+
   const navigate = useNavigate()
 
   const [data, setData] = useState([])
@@ -40,12 +45,19 @@ export default function YourHome() {
     }
   }
 
+  const handleLogout = () => {
+    logout();
+    console.log("USER LOGOUT: ", user)
+    navigate("/");
+  }
+
   return (
     <>
+    {user ? (
       <Container fixed maxWidth='lg'>
         <Card>
           <CardContent>
-            <h1> Welcome, {Username}! These are your available projects.</h1>
+            <h1> Welcome, {user.username}! These are your available projects.</h1>
             <Button
               sx={{ m: 1 }}
               variant='contained'
@@ -58,7 +70,7 @@ export default function YourHome() {
               sx={{ m: 1 }}
               variant='contained'
               type='submit'
-              onClick={() => navigate('/')}
+              onClick={() => handleLogout()}
             >
               Logout
             </Button>
@@ -89,6 +101,7 @@ export default function YourHome() {
           </Card>
         </Card>
       </Container>
+    ) : (<p>Please <Link to="/">Login</Link> to view your account</p>)}
     </>
   )
 }

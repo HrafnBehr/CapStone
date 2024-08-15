@@ -1,6 +1,8 @@
 // import './LoginPage.css'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import UserContext from "./AuthMaker";
 import { useNavigate } from 'react-router-dom'
+import cookie from 'cookie';
 import {
   Container,
   Card,
@@ -19,8 +21,12 @@ export default function Login() {
   let [password, setPassword] = useState('')
   // const { login } = useAuth();
 
+  const { user, login, logout } = useContext(UserContext);
+
   const handleLogin = async (e) => {
     e.preventDefault()
+
+    const userData = {username: username}
 
     try {
       const response = await fetch(`http://localhost:8080/api/v1/auth/login`, {
@@ -34,6 +40,8 @@ export default function Login() {
       if (!response.ok) {
         throw new Error('Invalid login credentials')
       } else {
+        document.cookie=`username=${username}`;
+        login(userData)
         navigate('/Home')
       }
     } catch (error) {
@@ -42,8 +50,32 @@ export default function Login() {
     }
   }
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  }
+
   return (
     <>
+      {user ? (
+        <Container fixed maxWidth="sm">
+          <Card>
+            <CardContent>
+              <Stack>
+                <h3>You are already logged in</h3>
+                <Button
+                  sx={{ m: 1 }}
+                  variant='contained'
+                  type='submit'
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </Button>
+              </Stack>
+            </CardContent>
+          </Card>
+        </Container>
+      ) : (
       <Container fixed maxWidth='sm'>
         <Card>
           <CardContent>
@@ -96,6 +128,7 @@ export default function Login() {
           </CardContent>
         </Card>
       </Container>
+      )}
     </>
   )
 }

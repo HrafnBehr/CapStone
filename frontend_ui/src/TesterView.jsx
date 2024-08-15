@@ -7,7 +7,7 @@ import {
 } from '@syncfusion/ej2-react-gantt'
 import { tasks } from './data/tasks'
 
-export default function TimelineView() {
+export default function TesterView() {
   const fields = {
     id: 'TaskID',
     name: 'TaskName',
