@@ -4,6 +4,7 @@ import Home from '../src/Home.js'
 import CreateAccount from '../src/CreateAccount.js'
 import CreateProgram from '../src/CreateProgram.js'
 import SingleProgram from '../src/SingleProgram.js'
+import TimelineView from './TimelineView.jsx'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/CreateAccount' element={<CreateAccount />} />
         <Route path='/CreateProgram' element={<CreateProgram />} />
         <Route path='/Program/:id' element={<SingleProgram />} />
+        <Route path='/project/:id/timeline' element={<TimelineView />} />
       </Routes>
     </Router>
   )
