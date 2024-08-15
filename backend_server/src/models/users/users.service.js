@@ -14,4 +14,10 @@ async function getUserById(id) {
   return user
 }
 
-module.exports = { getUserById, getAllUsers }
+async function getUserByUsername(username) {
+  const user = await db('users').where({ username }).first()
+
+  return user
+}
+
+module.exports = { getUserById, getUserByUsername, getAllUsers }

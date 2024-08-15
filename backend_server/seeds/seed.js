@@ -23,7 +23,7 @@ exports.seed = async function (knex) {
    */
   await knex('users').insert([
     { username: 'jrodriguez', first_name: 'J', last_name: 'Rod', is_pm: true },
-    { username: 'tavande', first_name: 'T', last_name: 'Avande' },
+    { username: 'tavende', first_name: 'T', last_name: 'Avende' },
     { username: 'ferazo', first_name: 'F', last_name: 'Erazo' },
     { username: 'j-bullard', first_name: 'J', last_name: 'Bullard' },
   ])

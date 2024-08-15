@@ -25,6 +25,7 @@ router.get('/getProjectManagers', async (_req, res) => {
 })
 
 router.get('/getUserInfo', async (req, res) => {
+
   const token = req.cookies.jwt
   if (!token) {
     return res.clearCookie('jwt').status(401).send()
