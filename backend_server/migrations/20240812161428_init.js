@@ -67,9 +67,10 @@ exports.up = async function (knex) {
   await knex.schema.createTable('tasks', (table) => {
     table.increments('id').primary()
     table.string('title').notNullable()
-    table.boolean('completed').notNullable().defaultTo(false)
+    table.string('description')
     table.timestamp('start_date')
     table.timestamp('due_date')
+    table.string('status').notNullable().defaultTo('Open')
 
     table.integer('project_id').unsigned().notNullable()
     table.foreign('project_id').references('projects.id').onDelete('CASCADE')
