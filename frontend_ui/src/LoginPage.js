@@ -1,10 +1,8 @@
-import './LoginPage.css'
+// import './LoginPage.css'
 import { useState } from 'react'
-import { useAuth } from '../src/AuthMaker.js'
 import { useNavigate } from 'react-router-dom'
 import {
   Container,
-  Paper,
   Card,
   TextField,
   Button,
@@ -13,8 +11,6 @@ import {
   FormControl,
   FormControlLabel,
   Checkbox,
-  Typography,
-  Divider,
 } from '@mui/material'
 
 export default function Login() {

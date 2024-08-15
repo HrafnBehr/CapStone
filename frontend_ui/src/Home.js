@@ -1,17 +1,11 @@
 import './App.css'
 import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   Container,
-  Paper,
   Card,
-  TextField,
   Button,
   CardContent,
-  Stack,
-  FormControl,
-  FormControlLabel,
-  Checkbox,
 } from '@mui/material'
 
 export default function YourHome() {

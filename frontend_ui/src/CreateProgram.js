@@ -1,17 +1,14 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Container,
-  Paper,
   Card,
   TextField,
   Button,
   CardContent,
   Stack,
   FormControl,
-  FormControlLabel,
-  Checkbox,
 } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
