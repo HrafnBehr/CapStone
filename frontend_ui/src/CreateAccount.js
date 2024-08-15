@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Container,
@@ -15,10 +15,10 @@ import {
 
 export default function CreateAccount() {
   const navigate = useNavigate()
-  let [fname, setFname] = useState('')
-  let [lname, setLname] = useState('')
-  let [username, seUsername] = useState('')
-  let [password, setPassword] = useState('')
+  // let [fname, setFname] = useState('')
+  // let [lname, setLname] = useState('')
+  // let [username, seUsername] = useState('')
+  // let [password, setPassword] = useState('')
 
   return (
     <>

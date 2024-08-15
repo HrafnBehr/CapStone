@@ -49,10 +49,6 @@ export default function CreateProgram() {
         throw new Error('failed to fulfill your request')
       }
 
-      console.log(response)
-
-      const result = await response.json()
-
       alert('New program added to listing')
       navigate('/Home')
 

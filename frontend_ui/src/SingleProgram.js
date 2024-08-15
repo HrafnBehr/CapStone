@@ -25,7 +25,7 @@ export default function SingleProgram() {
     fetch(`http://localhost:8080/api/v1/projects/${id}`)
       .then((res) => res.json())
       .then((data) => setProject(data.project))
-  }, [])
+  }, [id])
   //itemName
 
   if (!project) return 'Loading...'
