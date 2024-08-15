@@ -1,12 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  Container,
-  Card,
-  Button,
-  CardContent,
-} from '@mui/material'
+import { Container, Card, Button, CardContent } from '@mui/material'
 
 export default function YourHome() {
   const Username = 'Gabagool'

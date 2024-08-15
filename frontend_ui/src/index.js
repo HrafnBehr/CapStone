@@ -8,5 +8,5 @@ root.render(
   <Fragment>
     <CssBaseline />
     <App />
-  </Fragment>
+  </Fragment>,
 )
