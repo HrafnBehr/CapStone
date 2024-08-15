@@ -7,14 +7,6 @@ const tables = [
   'risks',
 ]
 
-const today = new Date().toISOString().split('T')[0]
-
-const addDays = (date, days) => {
-  const result = new Date(date)
-  result.setDate(result.getDate() + days)
-  return result.toISOString().split('T')[0]
-}
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -62,32 +54,49 @@ exports.seed = async function (knex) {
    */
   await knex('projects').insert([
     {
-      name: 'project 1',
-      description: 'project description',
-      start_date: '04/08/12',
-      end_date: '12/12/2024',
-      project_manager_id: 1,
-    },
-    {
-      name: 'project 2',
-      description: 'project description',
-      start_date: '05/06/12',
-      end_date: '12/12/2024',
+      id: 1,
+      name: 'Next-Generation Fighter Aircraft',
+      description:
+        'Development of a new fighter aircraft to replace the current fleet.',
+      start_date: '2024-01-01',
+      end_date: '2030-12-31',
       project_manager_id: 2,
     },
     {
-      name: 'project 3',
-      description: 'project description',
-      start_date: '06/01/12',
-      end_date: '12/12/2024',
+      id: 2,
+      name: 'Advanced Tactical Missile System',
+      description:
+        'Development of a long-range, precision-guided missile system.',
+      start_date: '2023-06-15',
+      end_date: '2028-09-30',
       project_manager_id: 3,
     },
     {
-      name: 'project 4',
-      description: 'project description',
-      start_date: '07/03/12',
-      end_date: '12/12/2024',
+      id: 3,
+      name: 'Cybersecurity Operations Platform',
+      description:
+        'Creation of an integrated cybersecurity operations platform for real-time threat detection.',
+      start_date: '2024-03-01',
+      end_date: '2026-12-31',
+      project_manager_id: 1,
+    },
+    {
+      id: 4,
+      name: 'Future Combat Systems',
+      description:
+        'Development of an integrated system of manned and unmanned ground vehicles.',
+      start_date: '2025-02-01',
+      end_date: '2032-06-30',
       project_manager_id: 4,
+    },
+    {
+      id: 5,
+      name: 'Satellite Communication Network',
+      description:
+        'Deployment of a global satellite communication network for secure military communication.',
+      start_date: '2023-08-01',
+      end_date: '2027-11-15',
+      project_manager_id: 3,
     },
   ])
 
@@ -95,9 +104,146 @@ exports.seed = async function (knex) {
    * Table: Milestones
    */
   await knex('milestones').insert([
-    { title: 'milestone1', project_id: 1 },
-    { title: 'milestone2', project_id: 2 },
-    { title: 'milestone3', project_id: 3 },
+    {
+      id: 1,
+      project_id: 1,
+      name: 'Milestone A',
+      description: 'Technology Maturation & Risk Reduction Decision',
+      date: '2025-03-15',
+    },
+    {
+      id: 2,
+      project_id: 1,
+      name: 'Milestone B',
+      description: 'Engineering and Manufacturing Development Decision',
+      date: '2027-06-22',
+    },
+    {
+      id: 3,
+      project_id: 1,
+      name: 'Milestone C',
+      description: 'Production Decision',
+      date: '2029-09-10',
+    },
+    {
+      id: 4,
+      project_id: 1,
+      name: 'Milestone FRP',
+      description: 'Full-Rate Production Decision',
+      date: '2030-11-01',
+    },
+    {
+      id: 5,
+      project_id: 2,
+      name: 'Milestone A',
+      description: 'Technology Maturation & Risk Reduction Decision',
+      date: '2024-01-10',
+    },
+    {
+      id: 6,
+      project_id: 2,
+      name: 'Milestone B',
+      description: 'Engineering and Manufacturing Development Decision',
+      date: '2025-06-30',
+    },
+    {
+      id: 7,
+      project_id: 2,
+      name: 'Milestone C',
+      description: 'Production Decision',
+      date: '2026-11-05',
+    },
+    {
+      id: 8,
+      project_id: 2,
+      name: 'Milestone FRP',
+      description: 'Full-Rate Production Decision',
+      date: '2028-07-20',
+    },
+    {
+      id: 9,
+      project_id: 3,
+      name: 'Milestone A',
+      description: 'Technology Maturation & Risk Reduction Decision',
+      date: '2023-12-15',
+    },
+    {
+      id: 10,
+      project_id: 3,
+      name: 'Milestone B',
+      description: 'Engineering and Manufacturing Development Decision',
+      date: '2024-09-17',
+    },
+    {
+      id: 11,
+      project_id: 3,
+      name: 'Milestone C',
+      description: 'Production Decision',
+      date: '2025-12-20',
+    },
+    {
+      id: 12,
+      project_id: 3,
+      name: 'Milestone FRP',
+      description: 'Full-Rate Production Decision',
+      date: '2026-10-05',
+    },
+    {
+      id: 13,
+      project_id: 4,
+      name: 'Milestone A',
+      description: 'Technology Maturation & Risk Reduction Decision',
+      date: '2025-05-01',
+    },
+    {
+      id: 14,
+      project_id: 4,
+      name: 'Milestone B',
+      description: 'Engineering and Manufacturing Development Decision',
+      date: '2027-08-25',
+    },
+    {
+      id: 15,
+      project_id: 4,
+      name: 'Milestone C',
+      description: 'Production Decision',
+      date: '2028-01-12',
+    },
+    {
+      id: 16,
+      project_id: 4,
+      name: 'Milestone FRP',
+      description: 'Full-Rate Production Decision',
+      date: '2030-03-18',
+    },
+    {
+      id: 17,
+      project_id: 5,
+      name: 'Milestone A',
+      description: 'Technology Maturation & Risk Reduction Decision',
+      date: '2024-02-20',
+    },
+    {
+      id: 18,
+      project_id: 5,
+      name: 'Milestone B',
+      description: 'Engineering and Manufacturing Development Decision',
+      date: '2025-09-12',
+    },
+    {
+      id: 19,
+      project_id: 5,
+      name: 'Milestone C',
+      description: 'Production Decision',
+      date: '2026-11-30',
+    },
+    {
+      id: 20,
+      project_id: 5,
+      name: 'Milestone FRP',
+      description: 'Full-Rate Production Decision',
+      date: '2027-10-15',
+    },
   ])
 
   /**
@@ -105,32 +251,111 @@ exports.seed = async function (knex) {
    */
   await knex('tasks').insert([
     {
-      title: 'Task 1',
-      completed: false,
-      start_date: today,
-      due_date: addDays(today, 10),
+      id: 1,
       project_id: 1,
+      milestone_id: 1,
+      title: 'Technology Development',
+      description:
+        'Develop and validate the technology to be used in the new fighter aircraft.',
+      start_date: '2024-01-15',
+      due_date: '2025-06-01',
+      status: 'In Progress',
     },
     {
-      title: 'Task 2',
-      completed: true,
-      start_date: today,
-      due_date: addDays(today, -5),
+      id: 2,
       project_id: 1,
+      milestone_id: 1,
+      title: 'DOT&E',
+      description:
+        'Director, Operational Test and Evaluation - Initial testing of technology prototypes.',
+      start_date: '2025-06-01',
+      due_date: '2025-06-15',
+      status: 'Pending',
     },
     {
-      title: 'Task 3',
-      completed: false,
-      start_date: today,
-      due_date: addDays(today, 1),
+      id: 3,
       project_id: 1,
+      milestone_id: 2,
+      title: 'Engineering & Manufacturing Development',
+      description: 'Design and prototype the new fighter aircraft.',
+      start_date: '2026-01-10',
+      due_date: '2027-10-10',
+      status: 'Pending',
     },
     {
-      title: 'Task 4',
-      completed: false,
-      start_date: today,
-      due_date: addDays(today, 3),
+      id: 4,
       project_id: 1,
+      milestone_id: 2,
+      title: 'IOT&E',
+      description:
+        'Initial Operational Test & Evaluation - Assess the operational effectiveness of the fighter aircraft.',
+      start_date: '2027-10-10',
+      due_date: '2027-11-30',
+      status: 'Pending',
+    },
+    {
+      id: 5,
+      project_id: 2,
+      milestone_id: 3,
+      title: 'Low-Rate Initial Production',
+      description: 'Begin production of the first set of tactical missiles.',
+      start_date: '2026-01-01',
+      due_date: '2026-11-05',
+      status: 'Completed',
+    },
+    {
+      id: 6,
+      project_id: 2,
+      milestone_id: 3,
+      title: 'FOT&E',
+      description:
+        'Follow-on Operational Test & Evaluation - Further testing after initial production.',
+      start_date: '2027-01-15',
+      due_date: '2028-03-15',
+      status: 'Pending',
+    },
+    {
+      id: 7,
+      project_id: 3,
+      milestone_id: 4,
+      title: 'Software Development',
+      description:
+        'Develop core functionalities for the cybersecurity platform.',
+      start_date: '2024-04-01',
+      due_date: '2025-12-02',
+      status: 'In Progress',
+    },
+    {
+      id: 8,
+      project_id: 3,
+      milestone_id: 4,
+      title: 'Cyber Penetration Testing',
+      description:
+        'Simulated cyber-attacks to assess the security of the platform.',
+      start_date: '2025-12-02',
+      due_date: '2025-12-15',
+      status: 'Pending',
+    },
+    {
+      id: 9,
+      project_id: 4,
+      milestone_id: 5,
+      title: 'System Integration',
+      description:
+        'Integrate all subsystems of Future Combat Systems into a cohesive unit.',
+      start_date: '2026-01-01',
+      due_date: '2028-01-12',
+      status: 'Pending',
+    },
+    {
+      id: 10,
+      project_id: 4,
+      milestone_id: 5,
+      title: 'Live Fire Testing',
+      description: 'Testing the combat systems under live fire conditions.',
+      start_date: '2028-05-01',
+      due_date: '2028-05-22',
+      status: 'Pending',
     },
   ])
 
