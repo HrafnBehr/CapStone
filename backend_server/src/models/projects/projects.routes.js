@@ -7,13 +7,11 @@ const {
   deleteproject,
 } = require('./projects.service')
 const risksRouter = require('./risks/risks.routes')
-const tasksRouter = require('./tasks/tasks.routes')
 
 const router = express.Router()
 
 // Nested routes
 router.use('/:projectId/risks', risksRouter)
-router.use('/:projectId/tasks', tasksRouter)
 
 router.get('/', async (_req, res) => {
   const projects = await listAllProjects()

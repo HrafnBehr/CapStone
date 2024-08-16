@@ -121,10 +121,10 @@ exports.up = async function (knex) {
       table.string('role').notNullable()
       table.string('email').notNullable()
       table.string('phone').notNullable()
-  
+
       table.integer('project_id').unsigned().notNullable()
       table.foreign('project_id').references('projects.id').onDelete('CASCADE')
-  
+
       table.timestamps(true, true)
     }) */
 
@@ -138,10 +138,10 @@ exports.up = async function (knex) {
       table.string('impact').notNullable().defaultTo('low')
       table.string('mitigation_plan')
       table.string('status').notNullable().defaultTo('open')
-  
+
       table.integer('project_id').unsigned().notNullable()
       table.foreign('project_id').references('projects.id').onDelete('CASCADE')
-  
+
       table.timestamps(true, true)
     }) */
 
@@ -153,16 +153,16 @@ exports.up = async function (knex) {
       table.string('description').notNullable()
       table.string('recommendation')
       table.string('impact').notNullable().defaultTo('low')
-  
+
       table.integer('project_id').unsigned().notNullable()
       table.foreign('project_id').references('projects.id').onDelete('CASCADE')
-  
+
       table.integer('milestone_id').unsigned()
       table
         .foreign('milestone_id')
         .references('milestones.id')
         .onDelete('CASCADE')
-  
+
       table.timestamps(true, true)
     }) */
 
@@ -200,6 +200,8 @@ exports.down = async function (knex) {
   await knex.schema
     .alterTable('project_tasks', (table) => {
       table.dropForeign('project_id')
+      table.dropForeign('pathway_id')
+      table.dropForeign('milestone_id')
       table.dropForeign('activity_id')
     })
     .then(() => knex.schema.dropTableIfExists('project_tasks'))
@@ -208,6 +210,7 @@ exports.down = async function (knex) {
   await knex.schema
     .alterTable('pathway_activities', (table) => {
       table.dropForeign('milestone_id')
+      table.dropForeign('pathway_id')
     })
     .then(() => knex.schema.dropTableIfExists('pathway_activities'))
 
