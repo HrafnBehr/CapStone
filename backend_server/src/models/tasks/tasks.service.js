@@ -1,7 +1,7 @@
-const db = require('../../../db')
+const db = require('../../db')
 
-async function getAllTasks(project_id) {
-  const tasks = await db('project_tasks').where({ project_id })
+async function getAllTasks(filter) {
+  const tasks = await db('project_tasks').where(filter)
   return tasks
 }
 
@@ -13,17 +13,21 @@ async function getTaskById(id) {
 async function createTask({
   title,
   start_date,
-  end_date, 
-  activity_id,
+  end_date,
   project_id,
+  pathway_id,
+  milestone_id,
+  activity_id,
 }) {
   const [newTask] = await db('project_tasks')
     .insert({
       title,
       start_date: new Date(start_date),
       end_date: new Date(end_date),
-      activity_id,
       project_id,
+      pathway_id,
+      milestone_id,
+      activity_id,
     })
     .returning('*')
   return newTask

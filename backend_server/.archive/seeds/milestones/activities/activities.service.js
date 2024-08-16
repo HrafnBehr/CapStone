@@ -1,4 +1,4 @@
-const db = require('../../../../db')
+const db = require('../../../../src/db')
 
 async function getAllActivities(milestone_id) {
   return await db('pathway_activities').select('*').where({ milestone_id })

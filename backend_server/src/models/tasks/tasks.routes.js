@@ -1,20 +1,13 @@
 const express = require('express')
-const {
-  getAllTasks,
-  getTaskById,
-  createTask,
-  deleteTask,
-  updateTask,
-} = require('./tasks.service')
+const { getAllTasks, getTaskById, createTask, deleteTask, updateTask, } = require('./tasks.service')
 
-const router = express.Router({ mergeParams: true })
+const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const { projectId } = req.params
-  console.log(req.params)
+  const filters = req.query
 
   try {
-    const tasks = await getAllTasks(projectId)
+    const tasks = await getAllTasks(filters)
     res.status(200).json({ tasks })
   } catch (err) {
     res.status(500).json({ message: err.message })
