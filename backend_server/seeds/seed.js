@@ -76,14 +76,14 @@ exports.seed = async function (knex) {
    * Table: pathway_activities
    */
   await knex('pathway_activities').insert([
-    { /* id: 1 */ milestone_id: 1, name: 'Develop Requirements' },
-    { /* id: 2 */ milestone_id: 1, name: 'Analysis of Alternatives' },
-    { /* id: 3 */ milestone_id: 2, name: 'Prototypes' },
-    { /* id: 4 */ milestone_id: 2, name: 'Design System' },
-    { /* id: 5 */ milestone_id: 2, name: 'Develop System' },
-    { /* id: 6 */ milestone_id: 2, name: 'Test and Evaluate System' },
-    { /* id: 7 */ milestone_id: 3, name: 'Produce System' },
-    { /* id: 8 */ milestone_id: 3, name: 'Sustain System' },
+    { /* id: 1 */ milestone_id: 1, pathway_id: 3, name: 'Develop Requirements' },
+    { /* id: 2 */ milestone_id: 1, pathway_id: 3, name: 'Analysis of Alternatives' },
+    { /* id: 3 */ milestone_id: 2, pathway_id: 3, name: 'Prototypes' },
+    { /* id: 4 */ milestone_id: 2, pathway_id: 3, name: 'Design System' },
+    { /* id: 5 */ milestone_id: 2, pathway_id: 3, name: 'Develop System' },
+    { /* id: 6 */ milestone_id: 2, pathway_id: 3, name: 'Test and Evaluate System' },
+    { /* id: 7 */ milestone_id: 3, pathway_id: 3, name: 'Produce System' },
+    { /* id: 8 */ milestone_id: 3, pathway_id: 3, name: 'Sustain System' },
   ]);
 
   /**
@@ -151,6 +151,8 @@ exports.seed = async function (knex) {
       title: 'DOT&E',
       start_date: '2025-06-01',
       end_date: '2025-06-15',
+      pathway_id: 3,
+      milestone_id: 2,
       activity_id: 6
     },
     {
@@ -158,6 +160,8 @@ exports.seed = async function (knex) {
       title: 'IOT&E',
       start_date: '2025-06-01',
       end_date: '2025-06-15',
+      pathway_id: 3,
+      milestone_id: 2,
       activity_id: 6
     },
     {
@@ -165,6 +169,8 @@ exports.seed = async function (knex) {
       title: 'FOT&E',
       start_date: '2025-06-01',
       end_date: '2025-06-15',
+      pathway_id: 3,
+      milestone_id: 2,
       activity_id: 6
     },
   ])
