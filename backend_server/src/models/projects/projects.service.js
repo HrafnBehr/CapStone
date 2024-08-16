@@ -9,7 +9,7 @@ async function listAllProjects() {
       ),
     )
     .from('projects')
-    .leftJoin('users', 'projects.project_manager_id', 'users.id', 'pathway', 'pathway.id')
+    .leftJoin('users', 'projects.project_manager_id', 'users.id')
     .orderBy('name')
 }
 
@@ -22,7 +22,7 @@ async function getProjectbyid(id) {
       ),
     )
     .from('projects')
-    .leftJoin('users', 'pathway', 'projects.project_manager_id', 'users.id', 'pathway.id')
+    .leftJoin('users', 'pathway', 'projects.project_manager_id', 'users.id')
     .where({ 'projects.id': id })
     .first()
 }
@@ -69,10 +69,9 @@ async function Editprojs(
 async function deleteproject(id) {
   const [delprojs] = await db('projects')
   .where({ id })
-  .dropForeign('pathway_id', 'user_id', 'project_manager_id')
   .delete()
   .returning('*')
-  
+
   return delprojs
 }
 
