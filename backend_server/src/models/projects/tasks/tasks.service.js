@@ -1,28 +1,28 @@
 const db = require('../../../db')
 
 async function getAllTasks(project_id) {
-  const tasks = await db('tasks').where({ project_id })
+  const tasks = await db('project_tasks').where({ project_id })
   return tasks
 }
 
 async function getTaskById(id) {
-  const task = await db('tasks').where({ id }).first()
+  const task = await db('project_tasks').where({ id }).first()
   return task
 }
 
 async function createTask({
   title,
-  completed,
   start_date,
-  due_date,
+  end_date, 
+  activity_id,
   project_id,
 }) {
-  const [newTask] = await db('tasks')
+  const [newTask] = await db('project_tasks')
     .insert({
       title,
-      completed,
       start_date: new Date(start_date),
-      due_date: new Date(due_date),
+      end_date: new Date(end_date),
+      activity_id,
       project_id,
     })
     .returning('*')
@@ -30,22 +30,21 @@ async function createTask({
 }
 
 async function deleteTask(id) {
-  const deletedTask = await db('tasks').where({ id }).del().returning('*')
+  const deletedTask = await db('project_tasks').where({ id }).del().returning('*')
   return deletedTask
 }
 
-async function updateTask(id, { title, completed, start_date, due_date }) {
-  const taskToUpdate = await db('tasks').where({ id }).first()
+async function updateTask(id, { title, start_date, end_date }) {
+  const taskToUpdate = await db('project_tasks').where({ id }).first()
 
-  const [updatedTask] = await db('tasks')
+  const [updatedTask] = await db('project_tasks')
     .where({ id })
     .update({
       ...taskToUpdate,
       ...{
         title,
-        completed,
         start_date: new Date(start_date),
-        due_date: new Date(due_date),
+        end_date: new Date(end_date),
       },
     })
     .returning('*')
