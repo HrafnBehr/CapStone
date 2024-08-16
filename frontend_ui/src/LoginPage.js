@@ -1,6 +1,5 @@
 // import './LoginPage.css'
 import { useState, useContext } from 'react'
-import UserContext from "./AuthMaker";
 import { useNavigate } from 'react-router-dom'
 import cookie from 'cookie';
 import {
@@ -14,14 +13,17 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material'
+// import UserContext from "./AuthMaker"
+import { useAuth } from './hooks/useAuth'
 
 export default function Login() {
   const navigate = useNavigate()
   let [username, setUsername] = useState('')
   let [password, setPassword] = useState('')
-  // const { login } = useAuth();
+  const [flag, setFlag] = useState(false)
+  const { setIsAuthenticated } = useAuth()
 
-  const { user, login, logout } = useContext(UserContext);
+  // const { user, login, logout } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -35,14 +37,16 @@ export default function Login() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
+        credentials: 'include'
       })
 
       if (!response.ok) {
         throw new Error('Invalid login credentials')
       } else {
-        document.cookie=`username=${username}`;
-        login(userData)
-        navigate('/Home')
+        setIsAuthenticated(true)
+        // document.cookie=`username=${username}`;
+        // login(userData)
+        navigate('/')
       }
     } catch (error) {
       console.log(error)
@@ -51,31 +55,12 @@ export default function Login() {
   }
 
   const handleLogout = () => {
-    logout();
-    navigate("/");
+    // logout();
+    setFlag(!flag)
   }
 
   return (
     <>
-      {user ? (
-        <Container fixed maxWidth="sm">
-          <Card>
-            <CardContent>
-              <Stack>
-                <h3>You are already logged in</h3>
-                <Button
-                  sx={{ m: 1 }}
-                  variant='contained'
-                  type='submit'
-                  onClick={() => handleLogout()}
-                >
-                  Logout
-                </Button>
-              </Stack>
-            </CardContent>
-          </Card>
-        </Container>
-      ) : (
       <Container fixed maxWidth='sm'>
         <Card>
           <CardContent>
@@ -128,7 +113,6 @@ export default function Login() {
           </CardContent>
         </Card>
       </Container>
-      )}
     </>
   )
 }

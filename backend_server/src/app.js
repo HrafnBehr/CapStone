@@ -12,6 +12,7 @@ const activitiesRouter = require('./models/activities/activities.routes')
 const milestonesRouter = require('./models/milestones/milestones.routes')
 const tasksRouter = require('./models/tasks/tasks.routes')
 const { jwt } = require('./middleware/jwt')
+const { queryParser } = require('express-query-parser')
 
 const app = express()
 
@@ -21,6 +22,13 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 app.use(logger('dev'))
 app.use(cookieParser())
+app.use(queryParser({
+  parseNull: true,
+  parseBoolean: true,
+  parseNumber: true,
+  parseString: true,
+  parseUndefined: true
+}))
 
 // Routes
 app.use('/api/v1/auth', authRouter)

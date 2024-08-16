@@ -161,7 +161,7 @@ exports.seed = async function (knex) {
       start_date: '2025-06-01',
       end_date: '2025-06-15',
       pathway_id: 3,
-      milestone_id: 2,
+      milestone_id: 3,
       activity_id: 6
     },
     {
@@ -170,7 +170,7 @@ exports.seed = async function (knex) {
       start_date: '2025-06-01',
       end_date: '2025-06-15',
       pathway_id: 3,
-      milestone_id: 2,
+      milestone_id: 3,
       activity_id: 6
     },
   ])

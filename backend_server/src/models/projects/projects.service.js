@@ -22,7 +22,7 @@ async function getProjectbyid(id) {
       ),
     )
     .from('projects')
-    .leftJoin('users', 'pathway', 'projects.project_manager_id', 'users.id')
+    .leftJoin('users', 'projects.project_manager_id', 'users.id')
     .where({ 'projects.id': id })
     .first()
 }
@@ -31,12 +31,14 @@ async function addNewProject({
   name,
   start_date,
   end_date,
+  description,
   project_manager_id,
   pathway_id
 }) {
   const [project] = await db
     .insert({
       name,
+      description,
       start_date: new Date(start_date),
       end_date: new Date(end_date),
       project_manager_id,
@@ -49,7 +51,7 @@ async function addNewProject({
 
 async function Editprojs(
   id,
-  { name, start_date, end_date, project_manager_id },
+  { name, description, start_date, end_date, project_manager_id },
 ) {
   const project = await db('projects').select('*').where({ id }).first()
 
@@ -57,6 +59,7 @@ async function Editprojs(
     .where({ id })
     .update({
       name: name || project.name,
+      description: description || project.description,
       start_date: start_date ? new Date(start_date) : project.start_date,
       end_date: end_date ? new Date(end_date) : project.end_date,
       project_manager_id: project_manager_id || project.project_manager_id,

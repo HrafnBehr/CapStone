@@ -14,6 +14,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
+import { PathwaySelect } from './components/PathwaySelect'
+import { ProjectManagerSelect } from './components/ProjectManagerSelect'
 
 export default function CreateProgram() {
   // enables navigate
@@ -21,16 +23,17 @@ export default function CreateProgram() {
 
   const [projectDetails, setProjectDetails] = useState({
     name: '',
-    start_date: null,
-    end_date: null,
+    start_date: new Date(),
+    end_date: new Date(),
     description: '',
+    pathway_id: null,
+    project_manager_id: null,
   })
 
   // our async addProgram which handles adding a program to the ui by fetching the endpoint data
   const addProgram = async (e) => {
     // prevents default action from being taken unless explicitly done so
     e.preventDefault()
-    console.log('add program')
 
     // try hook that leads into our fetch
     try {
@@ -54,6 +57,7 @@ export default function CreateProgram() {
 
       // catch hook for our above try
     } catch (error) {
+
       // error message for us to quickly identify where our code is skitzing out
       console.error('Error upon adding program: check lines 42-60', error)
     }
@@ -67,10 +71,9 @@ export default function CreateProgram() {
             <h1>Create A Project</h1>
 
             <form onSubmit={addProgram}>
-              <Stack>
+              <Stack gap={2}>
                 <FormControl>
                   <TextField
-                    sx={{ m: 1 }}
                     id='project-name'
                     label='Project Name'
                     variant='outlined'
@@ -85,7 +88,6 @@ export default function CreateProgram() {
 
                 <FormControl>
                   <TextField
-                    sx={{ m: 1 }}
                     id='project-description'
                     label='Project Description'
                     variant='outlined'
@@ -102,10 +104,9 @@ export default function CreateProgram() {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    sx={{ m: 1 }}
                     label='Start Date'
                     id='start_date'
-                    defaultValue={projectDetails.start_date}
+                    defaultValue={dayjs(projectDetails.start_date)}
                     onChange={(e) =>
                       setProjectDetails({
                         ...projectDetails,
@@ -117,10 +118,9 @@ export default function CreateProgram() {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    sx={{ m: 1 }}
                     label='End Date'
                     id='end_date'
-                    defaultValue={projectDetails.end_date}
+                    defaultValue={dayjs(projectDetails.end_date)}
                     onChange={(e) =>
                       setProjectDetails({
                         ...projectDetails,
@@ -130,8 +130,21 @@ export default function CreateProgram() {
                   />
                 </LocalizationProvider>
 
+                <PathwaySelect pathwayId={projectDetails.pathway_id} setPathway={(e) => {
+                  setProjectDetails({
+                    ...projectDetails,
+                    pathway_id: e.target.value
+                  })
+                }} />
+
+                <ProjectManagerSelect projectManagerId={projectDetails.project_manager_id} setProjectManager={(e) => {
+                  setProjectDetails({
+                    ...projectDetails,
+                    project_manager_id: e.target.value
+                  })
+                }} />
+
                 <Button
-                  sx={{ mt: 1 }}
                   variant='contained'
                   type='submit'
                   onClick={() => addProgram}
@@ -139,7 +152,6 @@ export default function CreateProgram() {
                   Create
                 </Button>
                 <Button
-                  sx={{ mt: 1 }}
                   variant='outlined'
                   type='button'
                   onClick={() => navigate('/Home')}
