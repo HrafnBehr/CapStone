@@ -1,7 +1,5 @@
-// import './LoginPage.css'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import cookie from 'cookie';
 import {
   Container,
   Card,
@@ -9,109 +7,108 @@ import {
   Button,
   CardContent,
   Stack,
-  FormControl,
   FormControlLabel,
   Checkbox,
+  Box,
+  CardHeader,
+  Typography,
 } from '@mui/material'
-// import UserContext from "./AuthMaker"
 import { useAuth } from './hooks/useAuth'
+import { login } from './api/users'
+import { useToast } from './hooks/useToast'
 
 export default function Login() {
-  const navigate = useNavigate()
-  let [username, setUsername] = useState('')
-  let [password, setPassword] = useState('')
-  const [flag, setFlag] = useState(false)
-  const { setIsAuthenticated } = useAuth()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  // const { user, login, logout } = useContext(UserContext);
+  const toast = useToast()
+  const navigate = useNavigate()
+  const { setIsAuthenticated } = useAuth()
 
   const handleLogin = async (e) => {
     e.preventDefault()
-
-    const userData = {username: username}
+    setLoading(true)
 
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-        credentials: 'include'
-      })
-
-      if (!response.ok) {
+      const isLoggedIn = await login({ username, password })
+      if (!isLoggedIn) {
         throw new Error('Invalid login credentials')
-      } else {
-        setIsAuthenticated(true)
-        // document.cookie=`username=${username}`;
-        // login(userData)
-        navigate('/')
       }
-    } catch (error) {
-      console.log(error)
-      console.error('Unable to log you in...')
-    }
-  }
 
-  const handleLogout = () => {
-    // logout();
-    setFlag(!flag)
+      setIsAuthenticated(true)
+      navigate('/')
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <>
-      <Container fixed maxWidth='sm'>
-        <Card>
-          <CardContent>
-            <h1>Login</h1>
-            <form>
-              <Stack>
-                <FormControl>
-                  <TextField
-                    sx={{ m: 1 }}
-                    id='username-login'
-                    label='Username'
-                    variant='outlined'
-                    onChange={(e) => setUsername(e.target.value)}
-                    autoComplete='username'
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    sx={{ m: 1 }}
-                    id='username-password'
-                    type='password'
-                    label='Password'
-                    variant='outlined'
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete='current-password'
-                  />
-                </FormControl>
+      <Container maxWidth='sm'>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+          as='form'
+        >
+          <Card variant='outlined' sx={{ width: '100%' }}>
+            <CardHeader
+              title={
+                <Typography
+                  variant='h4'
+                  component='h1'
+                  sx={{ textAlign: 'center' }}
+                >
+                  Login
+                </Typography>
+              }
+            />
+
+            <CardContent>
+              <Stack gap={2}>
+                <TextField
+                  id='username-login'
+                  label='Username'
+                  variant='outlined'
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete='username'
+                  fullWidth
+                />
+
+                <TextField
+                  id='username-password'
+                  type='password'
+                  label='Password'
+                  variant='outlined'
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete='current-password'
+                  fullWidth
+                />
+
                 <FormControlLabel
                   control={<Checkbox defaultChecked />}
                   label='Remember Me'
+                  sx={{ width: 'fit-content' }}
                 />
+
                 <Button
-                  sx={{ mt: 1 }}
                   variant='contained'
                   type='submit'
                   onClick={handleLogin}
+                  disabled={loading}
                 >
-                  Login
-                </Button>
-                <Button
-                  sx={{ mt: 1 }}
-                  variant='outlined'
-                  type='submit'
-                  onClick={() => navigate('/CreateAccount')}
-                >
-                  Create Account
+                  {loading ? 'Logging in...' : 'Login'}
                 </Button>
               </Stack>
-            </form>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Box>
       </Container>
     </>
   )

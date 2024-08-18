@@ -28,3 +28,12 @@ export const signup = async ({ username, password }) => {
 
   return res.ok
 }
+
+export const logout = async () => {
+  const res = await fetch('http://localhost:8080/api/v1/auth/logout', {
+    method: 'POST',
+    credentials: 'include',
+  })
+
+  return res.ok
+}

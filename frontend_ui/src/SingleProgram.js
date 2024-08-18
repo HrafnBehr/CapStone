@@ -14,12 +14,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
-import './SingleProgram.css'
 
 export default function SingleProgram() {
-  const navigate = useNavigate()
   const [project, setProject] = useState()
   const [flag, setFlag] = useState(false)
+
+  const navigate = useNavigate()
   const { id } = useParams()
 
   useEffect(() => {
@@ -31,18 +31,18 @@ export default function SingleProgram() {
   if (!project) return 'Loading...'
 
   const handleUpdate = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     await fetch(`http://localhost:8080/api/v1/projects/${id}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(project),
-    });
-    setFlag(!flag);
+    })
+    setFlag(!flag)
     // After update, send user back to home page
-    navigate("/Home")
-  };
+    navigate('/Home')
+  }
 
   return (
     <>
@@ -63,7 +63,8 @@ export default function SingleProgram() {
                       setProject({
                         ...project,
                         name: e.target.value,
-                      })}
+                      })
+                    }
                   />
                 </FormControl>
                 <FormControl>
@@ -79,7 +80,8 @@ export default function SingleProgram() {
                       setProject({
                         ...project,
                         description: e.target.value,
-                      })}
+                      })
+                    }
                   />
                 </FormControl>
                 <Box display='flex' justifyContent='space-around'>
@@ -111,19 +113,13 @@ export default function SingleProgram() {
                     />
                   </LocalizationProvider>
                 </Box>
-                <Button
-                  sx={{ mt: 1 }}
-                  variant='contained'
-                  type="submit"
-                >
+                <Button sx={{ mt: 1 }} variant='contained' type='submit'>
                   Update
                 </Button>
                 <Button
                   sx={{ mt: 1 }}
                   variant='outlined'
-                  onClick={() =>
-                    navigate('/Home')
-                  }
+                  onClick={() => navigate('/Home')}
                 >
                   Back
                 </Button>
