@@ -2,26 +2,50 @@ const db = require('../../db')
 
 async function getAllTasks(filters) {
   const tasks = await db
-    .select('project_tasks.*',
-      db.raw(`json_build_object('id', projects.id, 'name', projects.name) as project`),
-      db.raw(`json_build_object('id', pathways.id, 'name', pathways.name) as pathway`),
+    .select(
+      'project_tasks.*',
+      db.raw(
+        `json_build_object('id', projects.id, 'name', projects.name) as project`,
+      ),
+      db.raw(
+        `json_build_object('id', pathways.id, 'name', pathways.name) as pathway`,
+      ),
       db.raw(`json_build_object('id', pm.id, 'name', pm.name) as milestone`),
-      db.raw(`json_build_object('id', pa.id, 'name', pa.name) as activity`)
+      db.raw(`json_build_object('id', pa.id, 'name', pa.name) as activity`),
     )
     .from('project_tasks')
     .leftJoin('projects', 'project_tasks.project_id', 'projects.id')
     .leftJoin('pathways', 'project_tasks.pathway_id', 'pathways.id')
     .leftJoin('pathway_milestones as pm', 'project_tasks.milestone_id', 'pm.id')
     .leftJoin('pathway_activities as pa', 'project_tasks.activity_id', 'pa.id')
-  .where((builder) => {
-    Object.entries(filters).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        builder.whereIn(`project_tasks.${key}`, value)
-      } else {
-        builder.where(`project_tasks.${key}`, value)
+    .where((builder) => {
+      const { start_date, end_date, ...rest } = filters
+
+      Object.entries(rest).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          builder.whereIn(`project_tasks.${key}`, value)
+        } else {
+          builder.where(`project_tasks.${key}`, value)
+        }
+      })
+
+      if (start_date && end_date) {
+        builder.where(function () {
+          this.whereBetween('project_tasks.start_date', [start_date, end_date])
+          this.orWhereBetween('project_tasks.end_date', [start_date, end_date])
+        })
+      } else if (start_date) {
+        builder.where(function () {
+          this.where('project_tasks.start_date', '>=', start_date)
+          this.orWhere('project_tasks.end_date', '>=', start_date)
+        })
+      } else if (end_date) {
+        builder.where(function () {
+          this.where('project_tasks.start_date', '<=', end_date)
+          this.orWhere('project_tasks.end_date', '<=', end_date)
+        })
       }
     })
-  })
 
   return tasks
 }
@@ -55,7 +79,10 @@ async function createTask({
 }
 
 async function deleteTask(id) {
-  const deletedTask = await db('project_tasks').where({ id }).del().returning('*')
+  const deletedTask = await db('project_tasks')
+    .where({ id })
+    .del()
+    .returning('*')
   return deletedTask
 }
 

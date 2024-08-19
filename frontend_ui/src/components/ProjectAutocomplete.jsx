@@ -1,54 +1,52 @@
-import { useEffect, useState } from "react";
-import { Autocomplete, TextField, Checkbox } from "@mui/material";
+import { useEffect, useState } from 'react'
+import { Autocomplete, TextField, Checkbox } from '@mui/material'
 
 export function ProjectAutocomplete(props) {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const { setSelectedProjects } = props;
+  const { setSelectedProjects, selectedProjects } = props
 
   useEffect(() => {
     async function fetchProjects() {
-      const response = await fetch(`http://localhost:8080/api/v1/projects`);
-      const data = await response.json();
-      setProjects(data.projects);
-      setLoading(false);
+      const response = await fetch(`http://localhost:8080/api/v1/projects`)
+      const data = await response.json()
+      setProjects(data.projects)
+      setLoading(false)
     }
-    fetchProjects();
-  }, []);
+    fetchProjects()
+  }, [])
 
   return (
     <Autocomplete
       multiple
-      id="project"
+      id='project'
       options={projects}
       disableCloseOnSelect
       disabled={loading}
+      clearOnBlur={false}
+      value={selectedProjects}
       getOptionLabel={(option) => option.name}
       onChange={(_event, newValue) => {
-        setSelectedProjects(newValue);
+        setSelectedProjects(newValue)
       }}
       renderOption={(props, option, { selected }) => {
-        const { key, ...optionProps } = props;
+        const { key, ...optionProps } = props
         return (
           <li key={key} {...optionProps}>
-            <Checkbox
-              style={{ marginRight: 8 }}
-              checked={selected}
-            />
+            <Checkbox style={{ marginRight: 8 }} checked={selected} />
             {option.name}
           </li>
-        );
-      }
-      }
+        )
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
-          variant="outlined"
-          label={loading ? "Loading projects..." : "Project"}
-          placeholder="Select projects"
+          variant='outlined'
+          label={loading ? 'Loading projects...' : 'Project'}
+          placeholder='Select projects'
         />
       )}
     />
-  );
+  )
 }

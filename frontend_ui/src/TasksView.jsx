@@ -1,13 +1,5 @@
-import { ProjectAutocomplete } from './components/ProjectAutocomplete'
-import { PathwayAutocomplete } from './components/PathwayAutocomplete'
-import { MilestoneAutocomplete } from './components/MilestoneAutocomplete'
-import { ActivityAutocomplete } from './components/ActivityAutocomplete'
 import {
-  Card,
-  CardContent,
   Container,
-  Button,
-  Grid,
   Paper,
   TableContainer,
   Table,
@@ -16,54 +8,55 @@ import {
   TableCell,
   Checkbox,
   TableBody,
+  Stack,
+  Typography,
+  Box,
 } from '@mui/material'
-import { useState, useEffect } from 'react'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { useState } from 'react'
 import dayjs from 'dayjs'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import { FilterTasksDrawer } from './components/FilterTasksDrawer'
 
 export default function TasksView() {
   const [selectedPathways, setSelectedPathways] = useState([])
   const [selectedMilestones, setSelectedMilestones] = useState([])
   const [selectedActivities, setSelectedActivities] = useState([])
   const [selectedProjects, setSelectedProjects] = useState([])
-  const [startDate, setStartDate] = useState(dayjs())
-  const [endDate, setEndDate] = useState(dayjs().add(1, 'month'))
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [tasks, setTasks] = useState([])
 
-  useEffect(() => {
-    const fetchCurrentMonthTasks = async () => {
-      const res = await fetch(`http://localhost:8080/api/v1/tasks`)
-      const data = await res.json()
-
-      setTasks(data.tasks)
-      setLoading(false)
-    }
-
-    fetchCurrentMonthTasks()
-  }, [])
-
-  const handleFilter = async (e) => {
-    e.preventDefault()
-
+  const handleFilter = async () => {
     setLoading(true)
+    setTasks([])
 
     const queryParams = new URLSearchParams()
+
     selectedProjects.forEach((project) =>
       queryParams.append('project_id', project.id),
     )
+
     selectedPathways.forEach((pathway) =>
       queryParams.append('pathway_id', parseInt(pathway.id)),
     )
+
     selectedMilestones.forEach((milestone) =>
       queryParams.append('milestone_id', milestone.id),
     )
+
     selectedActivities.forEach((activity) =>
       queryParams.append('activity_id', activity.id),
     )
+
+    if (startDate) {
+      queryParams.append('start_date', dayjs(startDate).toISOString())
+    }
+
+    if (endDate) {
+      queryParams.append('end_date', dayjs(endDate).toISOString())
+    }
 
     const search = queryParams.toString()
 
@@ -74,11 +67,50 @@ export default function TasksView() {
     setLoading(false)
   }
 
+  const handleClear = () => {
+    setSelectedProjects([])
+    setSelectedPathways([])
+    setSelectedMilestones([])
+    setSelectedActivities([])
+    setStartDate(null)
+    setEndDate(null)
+    setTasks([])
+  }
+
   return (
     <Container>
-      <h1>Filter View</h1>
+      <Typography variant='h4' gutterBottom>
+        Common Operating Picture
+      </Typography>
 
       <Paper>
+        <Stack direction='row' sx={{ p: 2 }} gap={2}>
+          {/* <TextField
+            size='small'
+            fullWidth
+            autoComplete='off'
+            placeholder='Search'
+          /> */}
+          <Box sx={{ flexGrow: 1 }} />
+
+          <FilterTasksDrawer
+            selectedProjects={selectedProjects}
+            setSelectedProjects={setSelectedProjects}
+            selectedPathways={selectedPathways}
+            setSelectedPathways={setSelectedPathways}
+            selectedMilestones={selectedMilestones}
+            setSelectedMilestones={setSelectedMilestones}
+            selectedActivities={selectedActivities}
+            setSelectedActivities={setSelectedActivities}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            handleFilter={handleFilter}
+            handleClear={handleClear}
+          />
+        </Stack>
+
         <TableContainer>
           <Table>
             <TableHead>
@@ -89,99 +121,63 @@ export default function TasksView() {
                 <TableCell>Task</TableCell>
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
+                <TableCell>Program</TableCell>
+                <TableCell>Pathway</TableCell>
+                <TableCell>Milestone</TableCell>
+                <TableCell>Activity</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tasks.map((task) => (
-                <TableRow key={task.id} hover>
-                  <TableCell padding='checkbox'>
-                    <Checkbox color='primary' />
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={8}>
+                    <Stack
+                      direction='row'
+                      gap={0.5}
+                      alignItems='center'
+                      justifyContent='center'
+                    >
+                      Loading...
+                    </Stack>
                   </TableCell>
-                  <TableCell>{task.title}</TableCell>
-                  <TableCell>{task.start_date}</TableCell>
-                  <TableCell>{task.end_date}</TableCell>
                 </TableRow>
-              ))}
+              ) : tasks.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8}>
+                    <Stack
+                      direction='row'
+                      gap={0.5}
+                      alignItems='center'
+                      justifyContent='center'
+                    >
+                      Click the <FilterListIcon /> to filter tasks.
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                tasks.map((task) => (
+                  <TableRow key={task.id} hover>
+                    <TableCell padding='checkbox'>
+                      <Checkbox color='primary' />
+                    </TableCell>
+                    <TableCell>{task.title}</TableCell>
+                    <TableCell>
+                      {dayjs(task.start_date).format('MM-DD-YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      {dayjs(task.end_date).format('MM-DD-YYYY')}
+                    </TableCell>
+                    <TableCell>{task.project.name}</TableCell>
+                    <TableCell>{task.pathway.name}</TableCell>
+                    <TableCell>{task.milestone.name}</TableCell>
+                    <TableCell>{task.activity.name}</TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-
-      <Card variant='outlined'>
-        <CardContent>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <ProjectAutocomplete setSelectedProjects={setSelectedProjects} />
-            </Grid>
-
-            <Grid item xs={6}>
-              <PathwayAutocomplete setSelectedPathways={setSelectedPathways} />
-            </Grid>
-
-            <Grid item xs={6}>
-              <MilestoneAutocomplete
-                setSelectedMilestones={setSelectedMilestones}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <ActivityAutocomplete
-                setSelectedActivities={setSelectedActivities}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label='Start date'
-                  value={startDate}
-                  onChange={(v) => {
-                    if (dayjs(v).isAfter(endDate)) {
-                      setEndDate(dayjs(v).add(1, 'month'))
-                    }
-
-                    setStartDate(dayjs(v))
-                  }}
-                />
-              </LocalizationProvider>
-            </Grid>
-
-            <Grid item xs={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label='End date'
-                  value={endDate}
-                  onChange={(v) => {
-                    if (dayjs(v).isBefore(startDate)) {
-                      alert('End date should be after start date')
-                    } else {
-                      setEndDate(dayjs(v))
-                    }
-                  }}
-                />
-              </LocalizationProvider>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Button variant='contained' onClick={handleFilter} fullWidth>
-                Search
-              </Button>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-
-      {loading && <p>Loading...</p>}
-
-      {tasks.length > 0 ? (
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>{task.title}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No tasks found</p>
-      )}
     </Container>
   )
 }
