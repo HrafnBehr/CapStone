@@ -19,6 +19,7 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { logout } from './api/users'
 import { useToast } from './hooks/useToast'
+import { useAuth } from './hooks/useAuth'
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: DashboardIcon },
@@ -31,6 +32,7 @@ export default function Layout() {
   const isMd = (theme) => theme.breakpoints.up('md')
   const navigate = useNavigate()
   const toast = useToast()
+  const { setIsAuthenticated, setUser } = useAuth()
 
   const handleNavItemClick = (path) => {
     navigate(path)
@@ -41,6 +43,8 @@ export default function Layout() {
       const ok = await logout()
       if (ok) {
         navigate('/login')
+        setIsAuthenticated(false)
+        setUser({});
       } else {
         throw new Error('Failed to logout')
       }

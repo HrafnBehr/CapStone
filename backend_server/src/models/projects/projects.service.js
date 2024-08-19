@@ -1,16 +1,30 @@
 const db = require('../../db')
 
-async function listAllProjects() {
-  return await db
+async function listAllProjects(filters) {
+  if(filters.length === 0) {
+    return await db
+      .select(
+        'projects.*',
+        db.raw(
+          "json_build_object('id', users.id, 'first_name', users.first_name, 'last_name', users.last_name) as project_manager",
+        ),
+      )
+      .from('projects')
+      .leftJoin('users', 'projects.project_manager_id', 'users.id')
+      .orderBy('name')
+  } else {
+    return await db
     .select(
       'projects.*',
       db.raw(
         "json_build_object('id', users.id, 'first_name', users.first_name, 'last_name', users.last_name) as project_manager",
       ),
     )
+    .where(filters)
     .from('projects')
     .leftJoin('users', 'projects.project_manager_id', 'users.id')
     .orderBy('name')
+  }
 }
 
 async function getProjectbyid(id) {

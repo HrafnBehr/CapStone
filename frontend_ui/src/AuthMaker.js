@@ -1,27 +1,3 @@
-// import { createContext, useContext, useState } from 'react' **
-
-// const AuthContext = createContext()
-
-// export function Authority() {
-
-// const UserContext = createContext(); **
-
-// return (
-// <AuthContext.Provider value={{auth, login, logout}}>
-//   {children}
-// </AuthContext.Provider>
-// <h1>?</h1>
-//   )
-// }
-
-// export function useAuth() {
-//   return useContext(AuthContext)
-// }
-
-// export default UserContext **
-
-// Auth example from Jason so probably way better:
-
 import { createContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { checkAuth } from './api/users'
@@ -39,17 +15,17 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     checkAuth().then(async (ok) => {
-      if (ok) {
-        const res = await fetch(
-          `http://localhost:8080/api/v1/users/getUserInfo`,
-          {
-            credentials: 'include',
-          },
-        )
+      // if (ok) {
+      //   const res = await fetch(
+      //     `http://localhost:8080/api/v1/users/getUserInfo`,
+      //     {
+      //       credentials: 'include',
+      //     },
+      //   )
 
-        const data = await res.json()
-        setUser(data.user)
-      }
+      //   const data = await res.json()
+      //   setUser(data.user)
+      // }
       setIsAuthenticated(ok)
       setLoading(false)
     })

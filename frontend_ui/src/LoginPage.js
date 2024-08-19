@@ -24,7 +24,7 @@ export default function Login() {
 
   const toast = useToast()
   const navigate = useNavigate()
-  const { setIsAuthenticated, setUser, user } = useAuth()
+  const { setIsAuthenticated, setUser } = useAuth()
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -36,6 +36,15 @@ export default function Login() {
         throw new Error('Invalid login credentials')
       }
 
+      const res = await fetch(
+        `http://localhost:8080/api/v1/users/getUserInfo`,
+        {
+          credentials: 'include',
+        },
+      )
+
+      const data = await res.json()
+      setUser(data.user)
       setIsAuthenticated(true)
       navigate('/')
     } catch (error) {
