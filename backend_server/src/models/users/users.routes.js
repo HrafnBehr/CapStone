@@ -39,7 +39,7 @@ router.get('/getUserInfo', async (req, res) => {
     const user = await getUserById(parseInt(decodedToken.sub))
     return res.status(200).json({ user })
   } catch (err) {
-    return res.clearCookie('jwt').status(500).json({ error: err.message })
+    return res.status(500).json({ error: err.message })
   }
 })
 

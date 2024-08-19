@@ -27,6 +27,7 @@ export function ActivityAutocomplete(props) {
       onChange={(_event, value) => setSelectedActivities(value)}
       getOptionLabel={(option) => option.name}
       clearOnBlur={false}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       value={selectedActivities}
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props

@@ -27,6 +27,7 @@ export function MilestoneAutocomplete(props) {
       clearOnBlur={false}
       value={selectedMilestones}
       getOptionLabel={(option) => option.name}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={(_event, value) => {
         setSelectedMilestones(value)
       }}

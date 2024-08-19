@@ -27,6 +27,7 @@ export function PathwayAutocomplete(props) {
       clearOnBlur={false}
       value={selectedPathways}
       onChange={(_event, value) => setSelectedPathways(value)}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       getOptionLabel={(option) => option.name}
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props

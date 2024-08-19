@@ -30,10 +30,11 @@ export function ProjectAutocomplete(props) {
       onChange={(_event, newValue) => {
         setSelectedProjects(newValue)
       }}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props
         return (
-          <li key={key} {...optionProps}>
+          <li key={key} {...optionProps} data-option={JSON.stringify(option)}>
             <Checkbox style={{ marginRight: 8 }} checked={selected} />
             {option.name}
           </li>
