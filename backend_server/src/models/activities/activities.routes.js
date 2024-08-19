@@ -1,28 +1,28 @@
-const express = require('express');
-const { getAllActivities, getActivityById } = require('./activities.service');
+const express = require('express')
+const { getAllActivities, getActivityById } = require('./activities.service')
 
-const router = express.Router();
+const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const filters = req.query;
+  const filters = req.query
 
   try {
-    const activities = await getAllActivities(filters);
-    res.json({ activities });
+    const activities = await getAllActivities(filters)
+    res.json({ activities })
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
 })
 
 router.get('/:id', async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id
 
   try {
-    const activity = await getActivityById(id);
-    res.json({ activity });
+    const activity = await getActivityById(id)
+    res.json({ activity })
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
 })
 
-module.exports = router;
+module.exports = router

@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { useEffect, useState } from 'react'
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
 export function PathwaySelect(props) {
-  const { pathwayId, setPathway } = props;
-  const [pathways, setPathways] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { pathwayId, setPathway } = props
+  const [pathways, setPathways] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchPathways() {
-      const response = await fetch(`http://localhost:8080/api/v1/pathways`);
-      const data = await response.json();
-      setPathways(data.pathways);
-      setLoading(false);
+      const response = await fetch(`http://localhost:8080/api/v1/pathways`)
+      const data = await response.json()
+      setPathways(data.pathways)
+      setLoading(false)
     }
-    fetchPathways();
-  }, []);
+    fetchPathways()
+  }, [])
 
   return (
     <FormControl fullWidth>
-      <InputLabel htmlFor="pathway">Pathway</InputLabel>
+      <InputLabel htmlFor='pathway'>Pathway</InputLabel>
       <Select
-        id="pathway"
+        id='pathway'
         value={pathwayId}
         onChange={(e) => {
           setPathway(e)
@@ -37,5 +37,5 @@ export function PathwaySelect(props) {
         )}
       </Select>
     </FormControl>
-  );
+  )
 }

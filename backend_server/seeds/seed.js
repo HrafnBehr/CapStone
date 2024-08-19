@@ -61,7 +61,7 @@ exports.seed = async function (knex) {
     { /* id: 4 */ name: 'Software Acquisition' },
     { /* id: 5 */ name: 'Defense Business Systems' },
     { /* id: 6 */ name: 'Acquisition of Services' },
-  ]);
+  ])
 
   /**
    * Table: pathway_milestones
@@ -70,28 +70,40 @@ exports.seed = async function (knex) {
     { /* id: 1 */ pathway_id: 3, name: 'Milestone A' },
     { /* id: 2 */ pathway_id: 3, name: 'Milestone B' },
     { /* id: 3 */ pathway_id: 3, name: 'Milestone C' },
-  ]);
+  ])
 
   /**
    * Table: pathway_activities
    */
   await knex('pathway_activities').insert([
-    { /* id: 1 */ milestone_id: 1, pathway_id: 3, name: 'Develop Requirements' },
-    { /* id: 2 */ milestone_id: 1, pathway_id: 3, name: 'Analysis of Alternatives' },
+    {
+      /* id: 1 */ milestone_id: 1,
+      pathway_id: 3,
+      name: 'Develop Requirements',
+    },
+    {
+      /* id: 2 */ milestone_id: 1,
+      pathway_id: 3,
+      name: 'Analysis of Alternatives',
+    },
     { /* id: 3 */ milestone_id: 2, pathway_id: 3, name: 'Prototypes' },
     { /* id: 4 */ milestone_id: 2, pathway_id: 3, name: 'Design System' },
     { /* id: 5 */ milestone_id: 2, pathway_id: 3, name: 'Develop System' },
-    { /* id: 6 */ milestone_id: 2, pathway_id: 3, name: 'Test and Evaluate System' },
+    {
+      /* id: 6 */ milestone_id: 2,
+      pathway_id: 3,
+      name: 'Test and Evaluate System',
+    },
     { /* id: 7 */ milestone_id: 3, pathway_id: 3, name: 'Produce System' },
     { /* id: 8 */ milestone_id: 3, pathway_id: 3, name: 'Sustain System' },
-  ]);
+  ])
 
   /**
    * Table: Projects
    */
   await knex('projects').insert([
     {
-       /* id: 1 */
+      /* id: 1 */
       name: 'Next-Generation Fighter Aircraft',
       description:
         'Development of a new fighter aircraft to replace the current fleet.',
@@ -101,7 +113,7 @@ exports.seed = async function (knex) {
       pathway_id: 3,
     },
     {
-       /* id: 2 */
+      /* id: 2 */
       name: 'Advanced Tactical Missile System',
       description:
         'Development of a long-range, precision-guided missile system.',
@@ -111,7 +123,7 @@ exports.seed = async function (knex) {
       pathway_id: 3,
     },
     {
-       /* id: 3 */
+      /* id: 3 */
       name: 'Cybersecurity Operations Platform',
       description:
         'Creation of an integrated cybersecurity operations platform for real-time threat detection.',
@@ -121,7 +133,7 @@ exports.seed = async function (knex) {
       pathway_id: 3,
     },
     {
-       /* id: 4 */
+      /* id: 4 */
       name: 'Future Combat Systems',
       description:
         'Development of an integrated system of manned and unmanned ground vehicles.',
@@ -131,7 +143,7 @@ exports.seed = async function (knex) {
       pathway_id: 3,
     },
     {
-       /* id: 5 */
+      /* id: 5 */
       name: 'Satellite Communication Network',
       description:
         'Deployment of a global satellite communication network for secure military communication.',
@@ -153,7 +165,7 @@ exports.seed = async function (knex) {
       end_date: '2025-06-15',
       pathway_id: 3,
       milestone_id: 2,
-      activity_id: 6
+      activity_id: 6,
     },
     {
       project_id: 1,
@@ -162,7 +174,7 @@ exports.seed = async function (knex) {
       end_date: '2025-06-15',
       pathway_id: 3,
       milestone_id: 3,
-      activity_id: 6
+      activity_id: 6,
     },
     {
       project_id: 1,
@@ -171,7 +183,7 @@ exports.seed = async function (knex) {
       end_date: '2025-06-15',
       pathway_id: 3,
       milestone_id: 3,
-      activity_id: 6
+      activity_id: 6,
     },
   ])
 

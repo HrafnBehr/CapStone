@@ -1,10 +1,11 @@
 const db = require('../../db')
 
 async function getAllPathways(filters) {
-  const pathways = await db('pathways').select(
-    'pathways.id',
-    'pathways.name',
-    db.raw(`
+  const pathways = await db('pathways')
+    .select(
+      'pathways.id',
+      'pathways.name',
+      db.raw(`
       json_agg(
         json_build_object(
           'id', pathway_milestones.id,
@@ -24,21 +25,26 @@ async function getAllPathways(filters) {
           )
         )
       ) as milestones
-    `)
-  )
-  .leftJoin('pathway_milestones', 'pathways.id', 'pathway_milestones.pathway_id')
-  .where(filters)
-  .orderBy('pathways.id')
-  .groupBy('pathways.id')
+    `),
+    )
+    .leftJoin(
+      'pathway_milestones',
+      'pathways.id',
+      'pathway_milestones.pathway_id',
+    )
+    .where(filters)
+    .orderBy('pathways.id')
+    .groupBy('pathways.id')
 
-    return pathways
+  return pathways
 }
 
 async function getPathwayById(id) {
-  const pathway = await db('pathways').select(
-    'pathways.id',
-    'pathways.name',
-    db.raw(`
+  const pathway = await db('pathways')
+    .select(
+      'pathways.id',
+      'pathways.name',
+      db.raw(`
       json_agg(
         json_build_object(
           'id', pathway_milestones.id,
@@ -58,14 +64,18 @@ async function getPathwayById(id) {
           )
         )
       ) as milestones
-    `)
-  )
-    .leftJoin('pathway_milestones', 'pathways.id', 'pathway_milestones.pathway_id')
+    `),
+    )
+    .leftJoin(
+      'pathway_milestones',
+      'pathways.id',
+      'pathway_milestones.pathway_id',
+    )
     .where('pathways.id', id)
     .groupBy('pathways.id')
     .first()
-  
-    return pathway
+
+  return pathway
 }
 
 module.exports = { getAllPathways, getPathwayById }

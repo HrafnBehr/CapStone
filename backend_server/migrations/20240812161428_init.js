@@ -63,7 +63,10 @@ exports.up = async function (knex) {
     table.foreign('pathway_id').references('pathways.id').onDelete('CASCADE')
 
     table.integer('milestone_id').unsigned().notNullable()
-    table.foreign('milestone_id').references('pathway_milestones.id').onDelete('CASCADE')
+    table
+      .foreign('milestone_id')
+      .references('pathway_milestones.id')
+      .onDelete('CASCADE')
 
     table.timestamps(true, true)
   })
@@ -103,10 +106,16 @@ exports.up = async function (knex) {
     table.foreign('pathway_id').references('pathways.id').onDelete('CASCADE')
 
     table.integer('milestone_id').unsigned().notNullable()
-    table.foreign('milestone_id').references('pathway_milestones.id').onDelete('CASCADE')
+    table
+      .foreign('milestone_id')
+      .references('pathway_milestones.id')
+      .onDelete('CASCADE')
 
     table.integer('activity_id').unsigned()
-    table.foreign('activity_id').references('pathway_activities.id').onDelete('CASCADE')
+    table
+      .foreign('activity_id')
+      .references('pathway_activities.id')
+      .onDelete('CASCADE')
 
     table.timestamps(true, true)
   })

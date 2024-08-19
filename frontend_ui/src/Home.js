@@ -13,12 +13,11 @@ export default function YourHome() {
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/v1/projects?project_manager_id=${user.id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setData(data.projects)
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data.projects)
+      })
   }, [deleteFlag])
-
 
   if (!data) return 'Loading...'
 
@@ -51,7 +50,10 @@ export default function YourHome() {
       <Container maxWidth='lg'>
         <Card>
           <CardContent>
-            <h1> Welcome, {user.username}! These are your available projects.</h1>
+            <h1>
+              {' '}
+              Welcome, {user.username}! These are your available projects.
+            </h1>
             <Button
               sx={{ m: 1 }}
               variant='contained'
@@ -65,7 +67,9 @@ export default function YourHome() {
             <CardContent>
               <div>
                 <h2>Projectagrams</h2>
-                {data.length === 0 ? <h3>You have no projects</h3> : (
+                {data.length === 0 ? (
+                  <h3>You have no projects</h3>
+                ) : (
                   data.map((project) => (
                     <div key={project.id}>
                       <h3

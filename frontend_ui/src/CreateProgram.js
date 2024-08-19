@@ -57,7 +57,6 @@ export default function CreateProgram() {
 
       // catch hook for our above try
     } catch (error) {
-
       // error message for us to quickly identify where our code is skitzing out
       console.error('Error upon adding program: check lines 42-60', error)
     }
@@ -130,19 +129,25 @@ export default function CreateProgram() {
                   />
                 </LocalizationProvider>
 
-                <PathwaySelect pathwayId={projectDetails.pathway_id} setPathway={(e) => {
-                  setProjectDetails({
-                    ...projectDetails,
-                    pathway_id: e.target.value
-                  })
-                }} />
+                <PathwaySelect
+                  pathwayId={projectDetails.pathway_id}
+                  setPathway={(e) => {
+                    setProjectDetails({
+                      ...projectDetails,
+                      pathway_id: e.target.value,
+                    })
+                  }}
+                />
 
-                <ProjectManagerSelect projectManagerId={projectDetails.project_manager_id} setProjectManager={(e) => {
-                  setProjectDetails({
-                    ...projectDetails,
-                    project_manager_id: e.target.value
-                  })
-                }} />
+                <ProjectManagerSelect
+                  projectManagerId={projectDetails.project_manager_id}
+                  setProjectManager={(e) => {
+                    setProjectDetails({
+                      ...projectDetails,
+                      project_manager_id: e.target.value,
+                    })
+                  }}
+                />
 
                 <Button
                   variant='contained'

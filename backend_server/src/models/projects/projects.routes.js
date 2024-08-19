@@ -18,15 +18,12 @@ router.get('/', async (_req, res) => {
   // const projects = await listAllProjects()
   // return res.status(200).json({ projects })
 
-
   try {
     const projects = await listAllProjects(filters)
     return res.status(200).json({ projects })
   } catch (err) {
     return res.status(500).json({ error: err.message })
   }
-
-
 })
 
 router.get('/:id', async (req, res) => {

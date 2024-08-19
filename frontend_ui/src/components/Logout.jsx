@@ -9,7 +9,7 @@ export function Logout() {
   return (
     <Button
       sx={{ m: 1 }}
-      variant="contained"
+      variant='contained'
       type='button'
       onClick={async () => {
         const res = await fetch('http://localhost:8080/api/v1/auth/logout', {

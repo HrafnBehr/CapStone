@@ -1,7 +1,7 @@
 const db = require('../../db')
 
 async function listAllProjects(filters) {
-  if(filters.length === 0) {
+  if (filters.length === 0) {
     return await db
       .select(
         'projects.*',
@@ -14,16 +14,16 @@ async function listAllProjects(filters) {
       .orderBy('name')
   } else {
     return await db
-    .select(
-      'projects.*',
-      db.raw(
-        "json_build_object('id', users.id, 'first_name', users.first_name, 'last_name', users.last_name) as project_manager",
-      ),
-    )
-    .where(filters)
-    .from('projects')
-    .leftJoin('users', 'projects.project_manager_id', 'users.id')
-    .orderBy('name')
+      .select(
+        'projects.*',
+        db.raw(
+          "json_build_object('id', users.id, 'first_name', users.first_name, 'last_name', users.last_name) as project_manager",
+        ),
+      )
+      .where(filters)
+      .from('projects')
+      .leftJoin('users', 'projects.project_manager_id', 'users.id')
+      .orderBy('name')
   }
 }
 
@@ -47,7 +47,7 @@ async function addNewProject({
   end_date,
   description,
   project_manager_id,
-  pathway_id
+  pathway_id,
 }) {
   const [project] = await db
     .insert({
@@ -56,7 +56,7 @@ async function addNewProject({
       start_date: new Date(start_date),
       end_date: new Date(end_date),
       project_manager_id,
-      pathway_id
+      pathway_id,
     })
     .into('projects')
     .returning('*')
@@ -84,10 +84,7 @@ async function Editprojs(
 }
 
 async function deleteproject(id) {
-  const [delprojs] = await db('projects')
-  .where({ id })
-  .delete()
-  .returning('*')
+  const [delprojs] = await db('projects').where({ id }).delete().returning('*')
 
   return delprojs
 }

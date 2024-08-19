@@ -44,7 +44,7 @@ export default function Layout() {
       if (ok) {
         navigate('/login')
         setIsAuthenticated(false)
-        setUser({});
+        setUser({})
       } else {
         throw new Error('Failed to logout')
       }

@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { useEffect, useState } from 'react'
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
 export function ProjectManagerSelect(props) {
-  const { projectManagerId, setProjectManager } = props;
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { projectManagerId, setProjectManager } = props
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchPathways() {
-      const response = await fetch(`http://localhost:8080/api/v1/users?is_pm=true`);
-      const data = await response.json();
-      setUsers(data.users);
-      setLoading(false);
+      const response = await fetch(
+        `http://localhost:8080/api/v1/users?is_pm=true`,
+      )
+      const data = await response.json()
+      setUsers(data.users)
+      setLoading(false)
     }
-    fetchPathways();
-  }, []);
+    fetchPathways()
+  }, [])
 
   return (
     <FormControl fullWidth>
-      <InputLabel htmlFor="pathway">Project Manager</InputLabel>
+      <InputLabel htmlFor='pathway'>Project Manager</InputLabel>
       <Select
-        id="project_manager"
+        id='project_manager'
         value={projectManagerId || ''}
         onChange={(e) => setProjectManager(e)}
       >
@@ -35,5 +37,5 @@ export function ProjectManagerSelect(props) {
         )}
       </Select>
     </FormControl>
-  );
+  )
 }
