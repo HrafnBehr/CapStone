@@ -34,7 +34,6 @@ export default function SingleProgram() {
       .then((res) => res.json())
       .then((data) => {
         setMilestone(data)
-        console.log(data)
       })
   }, [id])
 
