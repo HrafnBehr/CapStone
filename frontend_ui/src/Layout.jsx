@@ -119,7 +119,7 @@ export default function Layout() {
       </Drawer>
 
       <Box component='main' sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
-        <Toolbar variant='dense' />
+        <Toolbar />
         <Outlet />
       </Box>
     </Box>
