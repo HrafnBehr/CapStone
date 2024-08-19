@@ -7,21 +7,20 @@ import { useAuth } from './hooks/useAuth'
 export default function YourHome() {
   const [data, setData] = useState([])
   const [deleteFlag, setDeleteFlag] = useState(false)
-  const [firstLoad, setFirstLoad] = useState(true)
 
   const { user } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/projects/')
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data.projects)
-        //console.log(data)
-      })
+    fetch(`http://localhost:8080/api/v1/projects?project_manager_id=${user.id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setData(data.projects)
+    })
   }, [deleteFlag])
 
-  console.log('USER: ', user)
+
+  if (!data) return 'Loading...'
 
   const deleteItem = async (projectID) => {
     try {
@@ -49,11 +48,10 @@ export default function YourHome() {
 
   return (
     <>
-      {/* {user ? ( */}
       <Container maxWidth='lg'>
         <Card>
           <CardContent>
-            <h1> Welcome, Gabagool! These are your available projects.</h1>
+            <h1> Welcome, {user.username}! These are your available projects.</h1>
             <Button
               sx={{ m: 1 }}
               variant='contained'
@@ -67,29 +65,30 @@ export default function YourHome() {
             <CardContent>
               <div>
                 <h2>Projectagrams</h2>
-                {data.map((project) => (
-                  <div key={project.id}>
-                    <h3
-                      className='project'
-                      onClick={() => navigate(`/Program/${project.id}`)}
-                    >
-                      {project.name} Next Due Date: {project.end_date}
-                    </h3>
-                    <Button
-                      sx={{ m: 1 }}
-                      variant='contained'
-                      onClick={() => deleteItem(project.id)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
+                {data.length === 0 ? <h3>You have no projects</h3> : (
+                  data.map((project) => (
+                    <div key={project.id}>
+                      <h3
+                        className='project'
+                        onClick={() => navigate(`/Program/${project.id}`)}
+                      >
+                        {project.name} Next Due Date: {project.end_date}
+                      </h3>
+                      <Button
+                        sx={{ m: 1 }}
+                        variant='contained'
+                        onClick={() => deleteItem(project.id)}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ))
+                )}
               </div>
             </CardContent>
           </Card>
         </Card>
       </Container>
-      {/* ) : (<p>Please <Link to="/">Login</Link> to view your account</p>)} */}
     </>
   )
 }

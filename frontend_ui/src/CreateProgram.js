@@ -53,7 +53,7 @@ export default function CreateProgram() {
       }
 
       alert('New program added to listing')
-      navigate('/Home')
+      navigate('/')
 
       // catch hook for our above try
     } catch (error) {

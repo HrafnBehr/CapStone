@@ -14,8 +14,19 @@ const router = express.Router()
 router.use('/:projectId/risks', risksRouter)
 
 router.get('/', async (_req, res) => {
-  const projects = await listAllProjects()
-  return res.status(200).json({ projects })
+  const filters = _req.query
+  // const projects = await listAllProjects()
+  // return res.status(200).json({ projects })
+
+
+  try {
+    const projects = await listAllProjects(filters)
+    return res.status(200).json({ projects })
+  } catch (err) {
+    return res.status(500).json({ error: err.message })
+  }
+
+
 })
 
 router.get('/:id', async (req, res) => {
