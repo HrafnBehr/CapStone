@@ -19,14 +19,22 @@ function App() {
             <Route element={<AuthGuard redirectTo='/login' />}>
               <Route element={<Layout />}>
                 <Route path='/' element={<Home />} />
-                <Route path='CreateAccount' element={<CreateAccount />} />
                 <Route path='CreateProgram' element={<CreateProgram />} />
                 <Route path='Program/:id' element={<SingleProgram />} />
+                <Route
+                  path='Program/:id/activities'
+                  element={<singleprogramactivities />}
+                />
+                <Route
+                  path='Program/:id/activities/tasks'
+                  element={<singleprogramtasks />}
+                />
                 <Route path='tasks' element={<TasksView />} />
               </Route>
             </Route>
 
             <Route path='login' element={<Login />} />
+            <Route path='register' element={<CreateAccount />} />
           </Routes>
         </Router>
       </AuthContextProvider>

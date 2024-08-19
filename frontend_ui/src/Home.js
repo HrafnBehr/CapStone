@@ -2,18 +2,26 @@ import './App.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Card, Button, CardContent } from '@mui/material'
+import { useAuth } from './hooks/useAuth'
 
 export default function YourHome() {
   const [data, setData] = useState([])
   const [deleteFlag, setDeleteFlag] = useState(false)
+  const [firstLoad, setFirstLoad] = useState(true)
 
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/projects/')
       .then((res) => res.json())
-      .then((data) => setData(data.projects))
+      .then((data) => {
+        setData(data.projects)
+        //console.log(data)
+      })
   }, [deleteFlag])
+
+  console.log('USER: ', user)
 
   const deleteItem = async (projectID) => {
     try {

@@ -24,7 +24,7 @@ export default function Login() {
 
   const toast = useToast()
   const navigate = useNavigate()
-  const { setIsAuthenticated } = useAuth()
+  const { setIsAuthenticated, setUser, user } = useAuth()
 
   const handleLogin = async (e) => {
     e.preventDefault()

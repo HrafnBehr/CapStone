@@ -17,6 +17,7 @@ import dayjs from 'dayjs'
 
 export default function SingleProgram() {
   const [project, setProject] = useState()
+  const [milestone, setMilestone] = useState()
   const [flag, setFlag] = useState(false)
 
   const navigate = useNavigate()
@@ -26,6 +27,15 @@ export default function SingleProgram() {
     fetch(`http://localhost:8080/api/v1/projects/${id}`)
       .then((res) => res.json())
       .then((data) => setProject(data.project))
+  }, [id])
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/v1/tasks?project_id=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMilestone(data)
+        console.log(data)
+      })
   }, [id])
 
   if (!project) return 'Loading...'
@@ -83,6 +93,19 @@ export default function SingleProgram() {
                       })
                     }
                   />
+                </FormControl>
+                <FormControl>
+                  <Box display='flex' justifyContent='space-around'>
+                    <Button sx={{ m: 1 }} variant='contained'>
+                      Milestone A
+                    </Button>
+                    <Button sx={{ m: 1 }} variant='contained'>
+                      Milestone B
+                    </Button>
+                    <Button sx={{ m: 1 }} variant='contained'>
+                      Milestone C
+                    </Button>
+                  </Box>
                 </FormControl>
                 <Box display='flex' justifyContent='space-around'>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
