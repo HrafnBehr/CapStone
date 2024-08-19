@@ -90,16 +90,16 @@ async function updateTask(id, { title, start_date, end_date }) {
   const taskToUpdate = await db('project_tasks').where({ id }).first()
 
   const [updatedTask] = await db('project_tasks')
-    .where({ id })
+    .where('id', taskToUpdate.id)
     .update({
       ...taskToUpdate,
-      ...{
-        title,
-        start_date: new Date(start_date),
-        end_date: new Date(end_date),
-      },
+      title: title || taskToUpdate.title,
+      start_date: new Date(start_date) || taskToUpdate.start_date,
+      end_date: new Date(end_date) || taskToUpdate.end_date,
     })
     .returning('*')
+
+  console.log(updatedTask)
 
   return updatedTask
 }

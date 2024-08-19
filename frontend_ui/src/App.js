@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Login from '../src/LoginPage.js'
-import Home from '../src/Home.js'
-import CreateAccount from '../src/CreateAccount.js'
-import CreateProgram from '../src/CreateProgram.js'
-import SingleProgram from '../src/SingleProgram.js'
-import TasksView from './TasksView.jsx'
+import Login from '../src/LoginPage'
+import Home from '../src/Home'
+import CreateAccount from './CreateAccount'
+import CreateProgram from './CreateProgram'
+import SingleProgram from './SingleProgram'
+import TasksView from './TasksView'
 import { AuthContextProvider } from './AuthMaker'
 import { AuthGuard } from './components/AuthGuard'
 import { SnackbarProvider } from 'notistack'
-import Layout from './Layout.jsx'
+import Layout from './Layout'
 
 function App() {
   return (
@@ -21,14 +21,6 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='CreateProgram' element={<CreateProgram />} />
                 <Route path='Program/:id' element={<SingleProgram />} />
-                <Route
-                  path='Program/:id/activities'
-                  element={<singleprogramactivities />}
-                />
-                <Route
-                  path='Program/:id/activities/tasks'
-                  element={<singleprogramtasks />}
-                />
                 <Route path='tasks' element={<TasksView />} />
               </Route>
             </Route>

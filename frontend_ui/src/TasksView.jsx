@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import dayjs from 'dayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { FilterTasksDrawer } from './components/FilterTasksDrawer'
 
@@ -85,12 +86,6 @@ export default function TasksView() {
 
       <Paper>
         <Stack direction='row' sx={{ p: 2 }} gap={2}>
-          {/* <TextField
-            size='small'
-            fullWidth
-            autoComplete='off'
-            placeholder='Search'
-          /> */}
           <Box sx={{ flexGrow: 1 }} />
 
           <FilterTasksDrawer
@@ -162,10 +157,14 @@ export default function TasksView() {
                     </TableCell>
                     <TableCell>{task.title}</TableCell>
                     <TableCell>
-                      {dayjs(task.start_date).format('MM-DD-YYYY')}
+                      <DatePicker>
+                        {dayjs(task.start_date).format('MM-DD-YYYY')}
+                      </DatePicker>
                     </TableCell>
                     <TableCell>
-                      {dayjs(task.end_date).format('MM-DD-YYYY')}
+                      <DatePicker>
+                        {dayjs(task.start_date).format('MM-DD-YYYY')}
+                      </DatePicker>
                     </TableCell>
                     <TableCell>{task.project.name}</TableCell>
                     <TableCell>{task.pathway.name}</TableCell>

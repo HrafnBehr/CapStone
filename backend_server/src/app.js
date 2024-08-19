@@ -22,13 +22,15 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 app.use(logger('dev'))
 app.use(cookieParser())
-app.use(queryParser({
-  parseNull: true,
-  parseBoolean: true,
-  parseNumber: true,
-  parseString: true,
-  parseUndefined: true
-}))
+app.use(
+  queryParser({
+    parseNull: true,
+    parseBoolean: true,
+    parseNumber: true,
+    parseString: true,
+    parseUndefined: true,
+  }),
+)
 
 // Routes
 app.use('/api/v1/auth', authRouter)
