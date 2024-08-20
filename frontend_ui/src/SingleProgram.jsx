@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import {
   Container,
   Card,
@@ -32,7 +32,6 @@ export default function SingleProgram() {
 
   const { id } = useParams()
   const { user } = useAuth()
-  const navigate = useNavigate()
   const toast = useToast()
 
   useEffect(() => {
