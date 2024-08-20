@@ -1,5 +1,4 @@
 import './App.css'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Container,
@@ -11,22 +10,13 @@ import {
 } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
-import { PathwaySelect } from './components/PathwaySelect'
-import { ProjectManagerSelect } from './components/ProjectManagerSelect'
 import { useToast } from './hooks/useToast'
+import { PathwayPicker } from './components/PathwayPicker'
+import { UserPicker } from './components/UserPicker'
 
 export default function CreateProgram() {
   const navigate = useNavigate()
   const toast = useToast()
-
-  const [projectDetails, setProjectDetails] = useState({
-    name: '',
-    start_date: dayjs(),
-    end_date: dayjs(),
-    description: '',
-    pathway_id: null,
-    project_manager_id: null,
-  })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -44,6 +34,7 @@ export default function CreateProgram() {
     try {
       const response = await fetch('http://localhost:8080/api/v1/projects', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -94,29 +85,14 @@ export default function CreateProgram() {
                   defaultValue={dayjs()}
                 />
 
-                <PathwaySelect
-                  pathwayId={projectDetails.pathway_id}
-                  setPathway={(e) => {
-                    setProjectDetails({
-                      ...projectDetails,
-                      pathway_id: e.target.value,
-                    })
-                  }}
-                />
+                <PathwayPicker />
 
-                <ProjectManagerSelect
-                  projectManagerId={projectDetails.project_manager_id}
-                  setProjectManager={(e) => {
-                    setProjectDetails({
-                      ...projectDetails,
-                      project_manager_id: e.target.value,
-                    })
-                  }}
-                />
+                <UserPicker label='Project Manager' is_pm={true} />
 
                 <Button variant='contained' type='submit'>
                   Create
                 </Button>
+
                 <Button
                   variant='outlined'
                   type='button'
