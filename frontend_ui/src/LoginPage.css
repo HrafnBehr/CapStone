@@ -1,93 +1,100 @@
-.container {
+body {
+  background-color: #040f16;
+}
+
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f4;
 }
 
-.card-container {
+.login-form {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  max-width: 900px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .left-section {
   flex: 1;
-  padding: 40px;
-  background-color: #fff;
+  padding: 60px 40px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dark-mode .left-section {
+  background-color: #333333;
 }
 
 .right-section {
   flex: 1;
-  background-color: #c26f6f;
+  background-color: #005e7c;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 60px 40px;
 }
 
-h1 {
+.login-title {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #ca7070;
+  color: #005e7c;
 }
 
-h2 {
+.dark-mode-toggle {
+  margin-bottom: 20px;
+}
+
+.login-input label {
+  color: #005e7c;
+}
+
+.login-input input {
+  color: #005e7c;
+}
+
+.login-checkbox {
+  color: #005e7c;
+}
+
+.login-button {
+  background-color: #005e7c;
+  color: #ffffff;
+}
+
+.login-button:hover {
+  background-color: #004c63;
+}
+
+.signup-title {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  color: #ffffff;
 }
 
-p {
+.signup-subtitle {
   font-size: 1rem;
   margin-bottom: 20px;
+  color: #ffffff;
 }
 
-.button {
-  margin-top: 20px;
-  width: 100%;
-  background-color: #a85757 !important;
-  color: white !important;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
+.signup-button {
+  background-color: white;
+  color: #005e7c;
+  border: 2px solid #005e7c;
 }
 
-.button:hover {
-  background-color: #8c4747 !important;
+.signup-button:hover {
+  background-color: #f4f4f4;
+  color: #004c63;
 }
 
-.outlined-button {
-  margin-top: 20px;
-  width: 100%;
-  background-color: white !important;
-  color: #020000 !important;
-  padding: 10px 20px;
-  border: 2px solid #0093e9 !important;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.outlined-button:hover {
-  background-color: #f4f4f4 !important;
-  color: #8c4747 !important;
-  border-color: #8c4747 !important;
-}
-
-.input-field {
-  margin-bottom: 15px;
-}
-
-.checkbox-label {
-  margin-bottom: 20px;
-}
-
-.divider {
-  margin: 20px 0;
-  color: #bbb;
+.dark-mode-text {
+  color: #005e7c;
 }
