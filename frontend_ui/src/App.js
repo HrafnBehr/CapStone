@@ -11,6 +11,7 @@ import { SnackbarProvider } from 'notistack'
 import Layout from './Layout'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import ProfilePage from './ProfilePage'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                   <Route path='CreateProgram' element={<CreateProgram />} />
                   <Route path='Program/:id' element={<SingleProgram />} />
                   <Route path='tasks' element={<TasksView />} />
+                  <Route path='profile' element={<ProfilePage />} />
                 </Route>
               </Route>
 
