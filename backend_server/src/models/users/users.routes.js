@@ -1,10 +1,6 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
-const {
-  getUserById,
-  getAllUsers,
-  getUserByUsername,
-} = require('./users.service')
+const { getUserById, getAllUsers, updateUser } = require('./users.service')
 
 const router = express.Router()
 
@@ -39,6 +35,18 @@ router.get('/getUserInfo', async (req, res) => {
     const user = await getUserById(parseInt(decodedToken.sub))
     return res.status(200).json({ user })
   } catch (err) {
+    return res.status(500).json({ error: err.message })
+  }
+})
+
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params
+
+  try {
+    await updateUser(id, req.body)
+    return res.status(204).send()
+  } catch (err) {
+    console.log(err.message)
     return res.status(500).json({ error: err.message })
   }
 })

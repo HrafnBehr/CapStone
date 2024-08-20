@@ -20,4 +20,8 @@ async function getUserByUsername(username) {
   return user
 }
 
-module.exports = { getUserById, getUserByUsername, getAllUsers }
+async function updateUser(id, user) {
+  return await db('users').where({ id }).update(user)
+}
+
+module.exports = { getUserById, getUserByUsername, getAllUsers, updateUser }
