@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material'
-import { createContext, useMemo, useState } from 'react'
+import { createContext, useMemo } from 'react'
 import { theme as baseTheme } from '../theme'
 import { useLocalStorage } from '@uidotdev/usehooks'
 
