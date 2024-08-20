@@ -34,12 +34,12 @@ app.use(
 
 // Routes
 app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/users', usersRouter)
-app.use('/api/v1/projects', projectsRouter)
-app.use('/api/v1/pathways', pathwaysRouter)
-app.use('/api/v1/activities', activitiesRouter)
-app.use('/api/v1/milestones', milestonesRouter)
-app.use('/api/v1/tasks', tasksRouter)
+app.use('/api/v1/users', jwt, usersRouter)
+app.use('/api/v1/projects', jwt, projectsRouter)
+app.use('/api/v1/pathways', jwt, pathwaysRouter)
+app.use('/api/v1/activities', jwt, activitiesRouter)
+app.use('/api/v1/milestones', jwt, milestonesRouter)
+app.use('/api/v1/tasks', jwt, tasksRouter)
 // app.use('/api/v1/users', jwt, usersRouter)
 // app.use('/api/v1/projects', jwt, projectsRouter)
 
