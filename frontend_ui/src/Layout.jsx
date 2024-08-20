@@ -20,6 +20,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import { logout } from './api/users'
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
+import { DarkModeToggle } from './components/DarkModeToggle'
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: DashboardIcon },
@@ -102,6 +103,7 @@ export default function Layout() {
       >
         <Toolbar variant='dense'>
           <Box sx={{ flexGrow: 1 }} />
+          <DarkModeToggle />
           <UserProfileMenu />
         </Toolbar>
       </AppBar>
