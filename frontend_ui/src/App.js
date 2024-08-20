@@ -9,27 +9,31 @@ import { AuthContextProvider } from './AuthMaker'
 import { AuthGuard } from './components/AuthGuard'
 import { SnackbarProvider } from 'notistack'
 import Layout from './Layout'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 function App() {
   return (
     <SnackbarProvider maxSnack={3} disableWindowBlurListener preventDuplicate>
-      <AuthContextProvider>
-        <Router>
-          <Routes>
-            <Route element={<AuthGuard redirectTo='/login' />}>
-              <Route element={<Layout />}>
-                <Route path='/' element={<Home />} />
-                <Route path='CreateProgram' element={<CreateProgram />} />
-                <Route path='Program/:id' element={<SingleProgram />} />
-                <Route path='tasks' element={<TasksView />} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <AuthContextProvider>
+          <Router>
+            <Routes>
+              <Route element={<AuthGuard redirectTo='/login' />}>
+                <Route element={<Layout />}>
+                  <Route path='/' element={<Home />} />
+                  <Route path='CreateProgram' element={<CreateProgram />} />
+                  <Route path='Program/:id' element={<SingleProgram />} />
+                  <Route path='tasks' element={<TasksView />} />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path='login' element={<Login />} />
-            <Route path='register' element={<CreateAccount />} />
-          </Routes>
-        </Router>
-      </AuthContextProvider>
+              <Route path='login' element={<Login />} />
+              <Route path='register' element={<CreateAccount />} />
+            </Routes>
+          </Router>
+        </AuthContextProvider>
+      </LocalizationProvider>
     </SnackbarProvider>
   )
 }
