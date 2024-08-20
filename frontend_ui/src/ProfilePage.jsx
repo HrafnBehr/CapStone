@@ -33,6 +33,7 @@ export default function ProfilePage() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(userInfo),
       })
 
@@ -53,48 +54,46 @@ export default function ProfilePage() {
         Profile
       </Typography>
 
-      <Stack spacing={4}>
-        <Card as='form' onSubmit={handleSubmit}>
-          <CardContent>
-            <Stack spacing={4}>
-              <FormControl>
-                <FormLabel>Username</FormLabel>
-                <TextField
-                  fullWidth
-                  defaultValue={user.username}
-                  name='username'
-                  sx={{ mt: 1 }}
-                />
-              </FormControl>
+      <Card as='form' onSubmit={handleSubmit}>
+        <CardContent>
+          <Stack spacing={4}>
+            <FormControl>
+              <FormLabel>Username</FormLabel>
+              <TextField
+                fullWidth
+                defaultValue={user.username}
+                name='username'
+                sx={{ mt: 1 }}
+              />
+            </FormControl>
 
-              <FormControl>
-                <FormLabel>First Name</FormLabel>
-                <TextField
-                  fullWidth
-                  defaultValue={user.first_name}
-                  name='first_name'
-                  sx={{ mt: 1 }}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Last Name</FormLabel>
-                <TextField
-                  fullWidth
-                  defaultValue={user.last_name}
-                  name='last_name'
-                  sx={{ mt: 1 }}
-                />
-              </FormControl>
-            </Stack>
-          </CardContent>
+            <FormControl>
+              <FormLabel>First Name</FormLabel>
+              <TextField
+                fullWidth
+                defaultValue={user.first_name}
+                name='first_name'
+                sx={{ mt: 1 }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Last Name</FormLabel>
+              <TextField
+                fullWidth
+                defaultValue={user.last_name}
+                name='last_name'
+                sx={{ mt: 1 }}
+              />
+            </FormControl>
+          </Stack>
+        </CardContent>
 
-          <CardActions>
-            <Button variant='contained' type='submit'>
-              Save
-            </Button>
-          </CardActions>
-        </Card>
-      </Stack>
+        <CardActions sx={{ justifyContent: 'flex-end' }}>
+          <Button variant='contained' type='submit'>
+            Save
+          </Button>
+        </CardActions>
+      </Card>
     </Container>
   )
 }
