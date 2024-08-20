@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete, TextField, Checkbox } from '@mui/material'
+import {
+  Autocomplete,
+  TextField,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material'
 
 const MILESTONE_API = 'http://localhost:8080/api/v1/milestones'
 
@@ -9,6 +17,38 @@ const fetchMilestones = async () => {
   })
 
   return response.json()
+}
+
+export function MilestonePicker() {
+  const [milestones, setMilestones] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchMilestones()
+      .then((data) => setMilestones(data.milestones))
+      .then(() => setLoading(false))
+  }, [])
+
+  return (
+    <FormControl fullWidth>
+      <InputLabel id='milestone-picker-label'>Milestone</InputLabel>
+      <Select
+        labelId='milestone-picker-label'
+        label='Milestone'
+        name='milestone_id'
+      >
+        {loading ? (
+          <MenuItem>Loading...</MenuItem>
+        ) : (
+          milestones.map((m) => (
+            <MenuItem key={m.id} value={m.id}>
+              {m.name}
+            </MenuItem>
+          ))
+        )}
+      </Select>
+    </FormControl>
+  )
 }
 
 export function MilestonePickerEnhanced(props) {

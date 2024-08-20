@@ -1,22 +1,66 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete, TextField, Checkbox } from '@mui/material'
+import {
+  Autocomplete,
+  TextField,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material'
 
-export function ActivityPicker(props) {
+const ACTIVITY_API = 'http://localhost:8080/api/v1/activities'
+
+const fetchActivities = async () => {
+  const response = await fetch(ACTIVITY_API, {
+    credentials: 'include',
+  })
+
+  return response.json()
+}
+
+export function ActivityPicker() {
+  const [activities, setActivites] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchActivities()
+      .then((data) => setActivites(data.activities))
+      .then(() => setLoading(false))
+  }, [])
+
+  return (
+    <FormControl fullWidth>
+      <InputLabel id='activity-picker-label'>Activity</InputLabel>
+      <Select
+        labelId='activity-picker-label'
+        label='Activity'
+        name='activity_id'
+      >
+        {loading ? (
+          <MenuItem>Loading...</MenuItem>
+        ) : (
+          activities.map((a) => (
+            <MenuItem key={a.id} value={a.id}>
+              {a.name}
+            </MenuItem>
+          ))
+        )}
+      </Select>
+    </FormControl>
+  )
+}
+
+export function ActivityPickerEnhanced(props) {
   const [activities, setActivites] = useState([])
   const [loading, setLoading] = useState(true)
 
   const { setSelectedActivities, selectedActivities } = props
 
   useEffect(() => {
-    async function fetchActivities() {
-      const response = await fetch(`http://localhost:8080/api/v1/activities`, {
-        credentials: 'include',
-      })
-      const data = await response.json()
-      setActivites(data.activities)
-      setLoading(false)
-    }
     fetchActivities()
+      .then((data) => setActivites(data.activities))
+      .then(() => setLoading(false))
   }, [])
 
   return (

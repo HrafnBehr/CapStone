@@ -10,7 +10,7 @@ import {
 import { DatePicker } from '@mui/x-date-pickers'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { useState } from 'react'
-import { ActivityPicker } from './ActivityPicker'
+import { ActivityPickerEnhanced } from './ActivityPicker'
 import { PathwayPickerEnhanced } from './PathwayPicker'
 import { MilestonePickerEnhanced } from './MilestonePicker'
 import { ProgramPickerEnhanced } from './ProgramPicker'
@@ -92,7 +92,7 @@ export function FilterTasksDrawer(props) {
             <Typography variant='body2' sx={{ mb: 1 }}>
               Activities
             </Typography>
-            <ActivityPicker
+            <ActivityPickerEnhanced
               selectedActivities={selectedActivities}
               setSelectedActivities={setSelectedActivities}
             />
