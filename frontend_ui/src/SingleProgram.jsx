@@ -7,10 +7,7 @@ import {
   Button,
   CardContent,
   Stack,
-  FormControl,
   Box,
-  Typography,
-  Paper,
   Table,
   TableContainer,
   TableCell,
@@ -18,38 +15,32 @@ import {
   TableBody,
   TableRow,
   Checkbox,
+  CardHeader,
+  CardActions,
 } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
 import { CreateTaskModal } from './components/CreateTaskModal'
-
-const fetchTasks = async (project_id) => {
-  return fetch(`http://localhost:8080/api/v1/tasks?project_id=${project_id}`, {
-    credentials: 'include',
-  }).then((res) => res.json())
-}
+import { getProjectById, updateProject } from './api/projects'
+import { getTasksByProjectId } from './api/tasks'
 
 export default function SingleProgram() {
   const [project, setProject] = useState()
   const [tasks, setTasks] = useState([])
-  const { user } = useAuth()
 
+  const { id } = useParams()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const toast = useToast()
-  const { id } = useParams()
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/projects/${id}`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => setProject(data.project))
+    getProjectById(id).then((project) => setProject(project))
   }, [id])
 
   useEffect(() => {
-    fetchTasks(id).then((data) => setTasks(data.tasks))
+    getTasksByProjectId(id).then((tasks) => setTasks(tasks))
   }, [id])
 
   if (!project) {
@@ -59,15 +50,12 @@ export default function SingleProgram() {
   const handleUpdate = async (e) => {
     e.preventDefault()
 
+    const formData = new FormData(e.target)
+    const projectDetails = Object.fromEntries(formData)
+
     try {
-      await fetch(`http://localhost:8080/api/v1/projects/${id}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(project),
-      })
+      const updatedProject = await updateProject(id, projectDetails)
+      setProject(updatedProject)
       toast.success('Project updated successfully')
     } catch (error) {
       toast.error(error.message)
@@ -75,7 +63,7 @@ export default function SingleProgram() {
   }
 
   const handleCreateTaskSuccess = () => {
-    fetchTasks(id).then((data) => setTasks(data.tasks))
+    getTasksByProjectId(id).then((tasks) => setTasks(tasks))
   }
 
   return (
@@ -83,91 +71,62 @@ export default function SingleProgram() {
       <Container>
         <Stack gap={6}>
           <Card>
-            <CardContent>
-              <h1>Editing {project.name}</h1>
-              <form onSubmit={handleUpdate} id='update-program-form'>
+            <form onSubmit={handleUpdate}>
+              <CardHeader title={`Editing ${project.name}`} />
+
+              <CardContent>
                 <Stack>
-                  <FormControl>
-                    <TextField
-                      sx={{ m: 1 }}
-                      id='outlined-basic'
-                      label='Program Name'
-                      defaultValue={project.name}
-                      variant='outlined'
-                      disabled={!user.is_pm}
-                      onChange={(e) =>
-                        setProject({
-                          ...project,
-                          name: e.target.value,
-                        })
-                      }
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <TextField
-                      sx={{ m: 1 }}
-                      id='outlined-basic'
-                      label='Program Description'
-                      defaultValue={project.description}
-                      variant='outlined'
-                      disabled={!user.is_pm}
-                      multiline
-                      rows={5}
-                      onChange={(e) =>
-                        setProject({
-                          ...project,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  </FormControl>
+                  <TextField
+                    sx={{ m: 1 }}
+                    name='name'
+                    label='Program Name'
+                    defaultValue={project.name}
+                    disabled={!user.is_pm}
+                  />
+                  <TextField
+                    sx={{ m: 1 }}
+                    label='Program Description'
+                    defaultValue={project.description}
+                    disabled={!user.is_pm}
+                    name='description'
+                    multiline
+                    rows={5}
+                  />
                   <Box display='flex' justifyContent='space-around'>
                     <DatePicker
                       sx={{ m: 1 }}
                       defaultValue={dayjs(project.start_date)}
                       label='Start Date'
+                      name='start_date'
                       disabled={!user.is_pm}
-                      onChange={(e) =>
-                        setProject({
-                          ...project,
-                          start_date: dayjs(e).valueOf(),
-                        })
-                      }
                     />
                     <DatePicker
                       sx={{ m: 1 }}
                       defaultValue={dayjs(project.end_date)}
                       label='End Date'
+                      name='end_date'
                       disabled={!user.is_pm}
-                      onChange={(e) =>
-                        setProject({
-                          ...project,
-                          end_date: dayjs(e).valueOf(),
-                        })
-                      }
                     />
                   </Box>
-                  {user.is_pm && (
-                    <Button sx={{ mt: 1 }} variant='contained' type='submit'>
-                      Update
-                    </Button>
-                  )}
-
-                  <Button
-                    sx={{ mt: 1 }}
-                    variant='outlined'
-                    onClick={() => navigate('/')}
-                  >
-                    Back
-                  </Button>
                 </Stack>
-              </form>
-            </CardContent>
+              </CardContent>
+
+              <CardActions sx={{ justifyContent: 'end' }}>
+                {user.is_pm && (
+                  <Button sx={{ mt: 1 }} variant='contained' type='submit'>
+                    Save
+                  </Button>
+                )}
+              </CardActions>
+            </form>
           </Card>
 
-          <Paper as='form' id='update-task-form'>
+          <Card>
+            <CardHeader title='Tasks' />
+
             <Stack direction='row' sx={{ p: 2 }} justifyContent='space-between'>
-              <Typography variant='h6'>Tasks</Typography>
+              <Box sx={{ flexGrow: 1 }} />
+
               {user.is_pm && (
                 <CreateTaskModal
                   project_id={project.id}
@@ -282,7 +241,7 @@ export default function SingleProgram() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Paper>
+          </Card>
         </Stack>
       </Container>
     </>
