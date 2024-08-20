@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
-export function ProjectManagerSelect(props) {
-  const { projectManagerId, setProjectManager } = props
+export function UserPicker({ label, is_pm }) {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchPathways() {
+    async function fetchProjects() {
+      const queryParams = new URLSearchParams()
+      if (is_pm) {
+        queryParams.append('is_pm', is_pm)
+      }
+
       const response = await fetch(
-        `http://localhost:8080/api/v1/users?is_pm=true`,
+        `http://localhost:8080/api/v1/users?${queryParams.toString()}`,
         {
           credentials: 'include',
         },
@@ -18,17 +22,13 @@ export function ProjectManagerSelect(props) {
       setUsers(data.users)
       setLoading(false)
     }
-    fetchPathways()
-  }, [])
+    fetchProjects()
+  }, [is_pm])
 
   return (
     <FormControl fullWidth>
-      <InputLabel htmlFor='pathway'>Project Manager</InputLabel>
-      <Select
-        id='project_manager'
-        value={projectManagerId || ''}
-        onChange={(e) => setProjectManager(e)}
-      >
+      <InputLabel id={`user-label-${label}`}>{label}</InputLabel>
+      <Select name='user_id' labelId={`user-label-${label}`} label={label}>
         {loading ? (
           <MenuItem>Loading...</MenuItem>
         ) : (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
-export function ProjectSelect() {
+export function ProgramPicker() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
 
