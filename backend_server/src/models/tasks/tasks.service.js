@@ -99,8 +99,6 @@ async function updateTask(id, { title, start_date, end_date }) {
     })
     .returning('*')
 
-  console.log(updatedTask)
-
   return updatedTask
 }
 
