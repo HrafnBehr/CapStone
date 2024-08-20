@@ -1,7 +1,4 @@
-import './App.css'
-// import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
 import {
   Container,
   Card,
@@ -9,137 +6,95 @@ import {
   Button,
   CardContent,
   Stack,
-  FormControl,
   FormControlLabel,
   Checkbox,
+  Typography,
 } from '@mui/material'
+import { useToast } from './hooks/useToast'
 
 export default function CreateAccount() {
   const navigate = useNavigate()
-  const [accountDetails, setAccountDetails] = useState({
-    first_name: '',
-    last_name: '',
-    username: '',
-    password: '',
-    is_pm: true,
-  })
-  // let [fname, setFname] = useState('')
-  // let [lname, setLname] = useState('')
-  // let [username, seUsername] = useState('')
-  // let [password, setPassword] = useState('')
+  const toast = useToast()
 
-  async function handleCreateAccount() {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.target)
+    const accountDetails = {
+      first_name: formData.get('first_name'),
+      last_name: formData.get('last_name'),
+      username: formData.get('username'),
+      password: formData.get('password'),
+      is_pm: formData.get('is_pm') || false,
+    }
+
     try {
-      let response = await fetch(`http://localhost:8080/api/v1/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:8080/api/v1/auth/register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(accountDetails),
         },
-        body: JSON.stringify(accountDetails),
-      })
+      )
 
-      if (response.ok) {
-        navigate('/')
-      } else {
-        throw new Error('failed to fulfill your request, gohome.')
+      if (!response.ok) {
+        throw new Error('Failed to fulfill your request.')
       }
+
+      navigate('/login')
     } catch (error) {
-      console.log(error)
+      toast.error(error.message)
     }
   }
 
   return (
-    <>
-      <Container fixed maxWidth='sm'>
-        <Card>
-          <CardContent>
-            <h1>Create Account</h1>
-            <form>
-              <Stack>
-                <FormControl>
-                  <TextField
-                    id='outlined-basic'
-                    label='First Name'
-                    variant='outlined'
-                    onChange={(e) =>
-                      setAccountDetails({
-                        ...accountDetails,
-                        first_name: e.target.value,
-                      })
-                    }
-                  />
-                </FormControl>
-                <FormControl sx={{ mt: 1 }}>
-                  <TextField
-                    id='outlined-basic'
-                    label='Last Name'
-                    variant='outlined'
-                    onChange={(e) =>
-                      setAccountDetails({
-                        ...accountDetails,
-                        last_name: e.target.value,
-                      })
-                    }
-                  />
-                </FormControl>
-                <FormControl sx={{ mt: 1 }}>
-                  <TextField
-                    id='outlined-basic'
-                    label='Username'
-                    variant='outlined'
-                    onChange={(e) =>
-                      setAccountDetails({
-                        ...accountDetails,
-                        username: e.target.value,
-                      })
-                    }
-                  />
-                </FormControl>
-                <FormControl sx={{ mt: 1 }}>
-                  <TextField
-                    id='outlined-basic'
-                    label='Password'
-                    type='password'
-                    variant='outlined'
-                    onChange={(e) =>
-                      setAccountDetails({
-                        ...accountDetails,
-                        password: e.target.value,
-                      })
-                    }
-                  />
-                </FormControl>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label='Are you a program manager?'
-                  onChange={(e) =>
-                    setAccountDetails({
-                      ...accountDetails,
-                      is_pm: !accountDetails.is_pm,
-                    })
-                  }
-                />
-                <Button
-                  sx={{ mt: 1 }}
-                  variant='contained'
-                  //type='submit'
-                  onClick={() => handleCreateAccount()}
-                >
-                  Create Account
-                </Button>
-                <Button
-                  sx={{ mt: 1 }}
-                  variant='outlined'
-                  type='submit'
-                  onClick={() => navigate('/')}
-                >
-                  Cancel
-                </Button>
-              </Stack>
-            </form>
-          </CardContent>
-        </Card>
-      </Container>
-    </>
+    <Container
+      maxWidth='sm'
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Card sx={{ flexGrow: 1 }}>
+        <CardContent>
+          <Typography variant='h4' component='h1' sx={{ mb: 3 }}>
+            Create Account
+          </Typography>
+
+          <Stack as='form' onSubmit={handleSubmit} spacing={2}>
+            <TextField label='Username' variant='outlined' name='username' />
+
+            <TextField label='First Name' name='first_name' />
+            <TextField label='Last Name' variant='outlined' name='last_name' />
+            <TextField
+              label='Password'
+              type='password'
+              name='password'
+              autoComplete='new-password'
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked />}
+              label='Are you a program manager?'
+            />
+            <Button sx={{ mt: 2 }} variant='contained' type='submit'>
+              Create Account
+            </Button>
+            <Button
+              sx={{ mt: 1 }}
+              variant='outlined'
+              onClick={() => navigate('/')}
+            >
+              Cancel
+            </Button>
+          </Stack>
+        </CardContent>
+      </Card>
+    </Container>
   )
 }
