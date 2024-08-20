@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
 export function PathwaySelect(props) {
-  const { pathwayId, setPathway } = props
   const [pathways, setPathways] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -19,13 +18,7 @@ export function PathwaySelect(props) {
   return (
     <FormControl fullWidth>
       <InputLabel htmlFor='pathway'>Pathway</InputLabel>
-      <Select
-        id='pathway'
-        value={pathwayId}
-        onChange={(e) => {
-          setPathway(e)
-        }}
-      >
+      <Select id='pathway' name='pathway_id'>
         {loading ? (
           <MenuItem>Loading...</MenuItem>
         ) : (

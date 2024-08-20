@@ -9,7 +9,9 @@ export function ActivityAutocomplete(props) {
 
   useEffect(() => {
     async function fetchActivities() {
-      const response = await fetch(`http://localhost:8080/api/v1/activities`)
+      const response = await fetch(`http://localhost:8080/api/v1/activities`, {
+        credentials: 'include',
+      })
       const data = await response.json()
       setActivites(data.activities)
       setLoading(false)

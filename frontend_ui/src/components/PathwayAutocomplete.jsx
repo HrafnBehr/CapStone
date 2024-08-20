@@ -9,7 +9,9 @@ export function PathwayAutocomplete(props) {
 
   useEffect(() => {
     async function fetchPathways() {
-      const response = await fetch(`http://localhost:8080/api/v1/pathways`)
+      const response = await fetch(`http://localhost:8080/api/v1/pathways`, {
+        credentials: 'include',
+      })
       const data = await response.json()
       setPathways(data.pathways)
       setLoading(false)

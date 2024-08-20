@@ -9,7 +9,9 @@ export function ProjectAutocomplete(props) {
 
   useEffect(() => {
     async function fetchProjects() {
-      const response = await fetch(`http://localhost:8080/api/v1/projects`)
+      const response = await fetch(`http://localhost:8080/api/v1/projects`, {
+        credentials: 'include',
+      })
       const data = await response.json()
       setProjects(data.projects)
       setLoading(false)

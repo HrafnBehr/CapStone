@@ -10,6 +10,9 @@ export function ProjectManagerSelect(props) {
     async function fetchPathways() {
       const response = await fetch(
         `http://localhost:8080/api/v1/users?is_pm=true`,
+        {
+          credentials: 'include',
+        },
       )
       const data = await response.json()
       setUsers(data.users)

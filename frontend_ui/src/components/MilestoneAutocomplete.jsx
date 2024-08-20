@@ -9,7 +9,9 @@ export function MilestoneAutocomplete(props) {
 
   useEffect(() => {
     async function fetchMilestones() {
-      const response = await fetch(`http://localhost:8080/api/v1/milestones`)
+      const response = await fetch(`http://localhost:8080/api/v1/milestones`, {
+        credentials: 'include',
+      })
       const data = await response.json()
       setMilestones(data.milestones)
       setLoading(false)
