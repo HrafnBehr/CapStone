@@ -25,7 +25,7 @@ export default function CreateAccount() {
       last_name: formData.get('last_name'),
       username: formData.get('username'),
       password: formData.get('password'),
-      is_pm: formData.get('is_pm') || false,
+      is_pm: formData.get('is_pm'),
     }
 
     try {
@@ -79,7 +79,7 @@ export default function CreateAccount() {
               autoComplete='new-password'
             />
             <FormControlLabel
-              control={<Checkbox defaultChecked />}
+              control={<Checkbox defaultChecked name='is_pm' />}
               label='Are you a program manager?'
             />
             <Button sx={{ mt: 2 }} variant='contained' type='submit'>
