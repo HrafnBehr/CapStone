@@ -37,7 +37,7 @@ export default function ProfilePage() {
       })
 
       if (res.ok) {
-        setUser(userInfo)
+        setUser((prevUser) => ({ ...prevUser, ...userInfo }))
         toast.success('Profile updated!')
       } else {
         throw new Error('Could not update profile')
