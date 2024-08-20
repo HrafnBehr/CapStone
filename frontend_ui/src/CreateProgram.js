@@ -28,7 +28,7 @@ export default function CreateProgram() {
       end_date: formData.get('end_date'),
       description: formData.get('description'),
       pathway_id: formData.get('pathway_id'),
-      project_manager_id: formData.get('project_manager_id'),
+      project_manager_id: formData.get('user_id'),
     }
 
     try {
