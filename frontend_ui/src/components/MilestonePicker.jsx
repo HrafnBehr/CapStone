@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Autocomplete, TextField, Checkbox } from '@mui/material'
 
-export function MilestoneAutocomplete(props) {
+const MILESTONE_API = 'http://localhost:8080/api/v1/milestones'
+
+const fetchMilestones = async () => {
+  const response = await fetch(MILESTONE_API, {
+    credentials: 'include',
+  })
+
+  return response.json()
+}
+
+export function MilestonePickerEnhanced(props) {
   const [milestones, setMilestones] = useState([])
   const [loading, setLoading] = useState(true)
 
   const { setSelectedMilestones, selectedMilestones } = props
 
   useEffect(() => {
-    async function fetchMilestones() {
-      const response = await fetch(`http://localhost:8080/api/v1/milestones`, {
-        credentials: 'include',
-      })
-      const data = await response.json()
-      setMilestones(data.milestones)
-      setLoading(false)
-    }
     fetchMilestones()
+      .then((data) => setMilestones(data.milestones))
+      .then(() => setLoading(false))
   }, [])
 
   return (

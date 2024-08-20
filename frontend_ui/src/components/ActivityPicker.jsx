@@ -1,36 +1,36 @@
 import { useEffect, useState } from 'react'
 import { Autocomplete, TextField, Checkbox } from '@mui/material'
 
-export function PathwayAutocomplete(props) {
-  const [pathways, setPathways] = useState([])
+export function ActivityPicker(props) {
+  const [activities, setActivites] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const { selectedPathways, setSelectedPathways } = props
+  const { setSelectedActivities, selectedActivities } = props
 
   useEffect(() => {
-    async function fetchPathways() {
-      const response = await fetch(`http://localhost:8080/api/v1/pathways`, {
+    async function fetchActivities() {
+      const response = await fetch(`http://localhost:8080/api/v1/activities`, {
         credentials: 'include',
       })
       const data = await response.json()
-      setPathways(data.pathways)
+      setActivites(data.activities)
       setLoading(false)
     }
-    fetchPathways()
+    fetchActivities()
   }, [])
 
   return (
     <Autocomplete
       multiple
-      id='pathway'
-      options={pathways}
+      id='activity'
+      options={activities}
       disableCloseOnSelect
       disabled={loading}
-      clearOnBlur={false}
-      value={selectedPathways}
-      onChange={(_event, value) => setSelectedPathways(value)}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      onChange={(_event, value) => setSelectedActivities(value)}
       getOptionLabel={(option) => option.name}
+      clearOnBlur={false}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
+      value={selectedActivities}
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props
         return (
@@ -44,8 +44,8 @@ export function PathwayAutocomplete(props) {
         <TextField
           {...params}
           variant='outlined'
-          label={loading ? 'Loading pathways...' : 'Pathway'}
-          placeholder='Select pathways'
+          label={loading ? 'Loading activities...' : 'Activity'}
+          placeholder='Select activities'
         />
       )}
     />

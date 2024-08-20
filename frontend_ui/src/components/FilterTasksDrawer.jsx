@@ -7,14 +7,13 @@ import {
   Button,
   IconButton,
 } from '@mui/material'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DatePicker } from '@mui/x-date-pickers'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { useState } from 'react'
-import { ProjectAutocomplete } from './ProjectAutocomplete'
-import { PathwayAutocomplete } from './PathwayAutocomplete'
-import { MilestoneAutocomplete } from './MilestoneAutocomplete'
-import { ActivityAutocomplete } from './ActivityAutocomplete'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { ActivityPicker } from './ActivityPicker'
+import { PathwayPickerEnhanced } from './PathwayPicker'
+import { MilestonePickerEnhanced } from './MilestonePicker'
+import { ProgramPickerEnhanced } from './ProgramPicker'
 
 export function FilterTasksDrawer(props) {
   const [open, setOpen] = useState(false)
@@ -63,7 +62,7 @@ export function FilterTasksDrawer(props) {
             <Typography variant='body2' sx={{ mb: 1 }}>
               Projects
             </Typography>
-            <ProjectAutocomplete
+            <ProgramPickerEnhanced
               selectedProjects={selectedProjects}
               setSelectedProjects={setSelectedProjects}
             />
@@ -73,7 +72,7 @@ export function FilterTasksDrawer(props) {
             <Typography variant='body2' sx={{ mb: 1 }}>
               Pathways
             </Typography>
-            <PathwayAutocomplete
+            <PathwayPickerEnhanced
               selectedPathways={selectedPathways}
               setSelectedPathways={setSelectedPathways}
             />
@@ -83,7 +82,7 @@ export function FilterTasksDrawer(props) {
             <Typography variant='body2' sx={{ mb: 1 }}>
               Milestones
             </Typography>
-            <MilestoneAutocomplete
+            <MilestonePickerEnhanced
               selectedMilestones={selectedMilestones}
               setSelectedMilestones={setSelectedMilestones}
             />
@@ -93,7 +92,7 @@ export function FilterTasksDrawer(props) {
             <Typography variant='body2' sx={{ mb: 1 }}>
               Activities
             </Typography>
-            <ActivityAutocomplete
+            <ActivityPicker
               selectedActivities={selectedActivities}
               setSelectedActivities={setSelectedActivities}
             />
@@ -103,32 +102,28 @@ export function FilterTasksDrawer(props) {
             <Typography variant='body2' sx={{ mb: 1 }}>
               Start Date
             </Typography>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label='Start date'
-                value={startDate}
-                slotProps={{
-                  field: { clearable: true },
-                }}
-                onChange={setStartDate}
-              />
-            </LocalizationProvider>
+            <DatePicker
+              label='Start date'
+              value={startDate}
+              slotProps={{
+                field: { clearable: true },
+              }}
+              onChange={setStartDate}
+            />
           </Stack>
 
           <Stack>
             <Typography variant='body2' sx={{ mb: 1 }}>
               End Date
             </Typography>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label='End date'
-                value={endDate}
-                slotProps={{
-                  field: { clearable: true },
-                }}
-                onChange={setEndDate}
-              />
-            </LocalizationProvider>
+            <DatePicker
+              label='End date'
+              value={endDate}
+              slotProps={{
+                field: { clearable: true },
+              }}
+              onChange={setEndDate}
+            />
           </Stack>
         </Stack>
 

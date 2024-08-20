@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react'
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Autocomplete,
+  Checkbox,
+  TextField,
+} from '@mui/material'
 
-export function PathwayPicker(prps) {
+const PATHWAY_API = 'http://localhost:8080/api/v1/pathways'
+
+const fetchPathways = async () => {
+  const response = await fetch(PATHWAY_API, {
+    credentials: 'include',
+  })
+
+  return response.json()
+}
+
+export function PathwayPicker() {
   const [pathways, setPathways] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchPathways() {
-      const response = await fetch(`http://localhost:8080/api/v1/pathways`, {
-        credentials: 'include',
-      })
-      const data = await response.json()
-      setPathways(data.pathways)
-      setLoading(false)
-    }
     fetchPathways()
+      .then((data) => setPathways(data.pathways))
+      .then(() => setLoading(false))
   }, [])
 
   return (
@@ -32,5 +44,50 @@ export function PathwayPicker(prps) {
         )}
       </Select>
     </FormControl>
+  )
+}
+
+export function PathwayPickerEnhanced(props) {
+  const [pathways, setPathways] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const { selectedPathways, setSelectedPathways } = props
+
+  useEffect(() => {
+    fetchPathways()
+      .then((data) => setPathways(data.pathways))
+      .then(() => setLoading(false))
+  }, [])
+
+  return (
+    <Autocomplete
+      multiple
+      id='pathway'
+      options={pathways}
+      disableCloseOnSelect
+      disabled={loading}
+      clearOnBlur={false}
+      value={selectedPathways}
+      onChange={(_event, value) => setSelectedPathways(value)}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
+      getOptionLabel={(option) => option.name}
+      renderOption={(props, option, { selected }) => {
+        const { key, ...optionProps } = props
+        return (
+          <li key={key} {...optionProps}>
+            <Checkbox style={{ marginRight: 8 }} checked={selected} />
+            {option.name}
+          </li>
+        )
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          variant='outlined'
+          label={loading ? 'Loading pathways...' : 'Pathway'}
+          placeholder='Select pathways'
+        />
+      )}
+    />
   )
 }
