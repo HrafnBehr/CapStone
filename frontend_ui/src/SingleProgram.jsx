@@ -19,11 +19,17 @@ import {
   TableRow,
   Checkbox,
 } from '@mui/material'
-import FilterListIcon from '@mui/icons-material/FilterList'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
+import { CreateTaskModal } from './components/CreateTaskModal'
+
+const fetchTasks = async (project_id) => {
+  return fetch(`http://localhost:8080/api/v1/tasks?project_id=${project_id}`, {
+    credentials: 'include',
+  }).then((res) => res.json())
+}
 
 export default function SingleProgram() {
   const [project, setProject] = useState()
@@ -43,13 +49,7 @@ export default function SingleProgram() {
   }, [id])
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/tasks?project_id=${id}`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data.tasks)
-      })
+    fetchTasks(id).then((data) => setTasks(data.tasks))
   }, [id])
 
   if (!project) {
@@ -72,6 +72,10 @@ export default function SingleProgram() {
     } catch (error) {
       toast.error(error.message)
     }
+  }
+
+  const handleCreateTaskSuccess = () => {
+    fetchTasks(id).then((data) => setTasks(data.tasks))
   }
 
   return (
@@ -165,7 +169,11 @@ export default function SingleProgram() {
             <Stack direction='row' sx={{ p: 2 }} justifyContent='space-between'>
               <Typography variant='h6'>Tasks</Typography>
               {user.is_pm && (
-                <Button variant='outlined'>Create New Task</Button>
+                <CreateTaskModal
+                  project_id={project.id}
+                  pathway_id={project.pathway_id}
+                  onSuccess={handleCreateTaskSuccess}
+                />
               )}
             </Stack>
 
@@ -195,7 +203,7 @@ export default function SingleProgram() {
                           alignItems='center'
                           justifyContent='center'
                         >
-                          Click the <FilterListIcon /> to filter tasks.
+                          There are no tasks for this project
                         </Stack>
                       </TableCell>
                     </TableRow>
