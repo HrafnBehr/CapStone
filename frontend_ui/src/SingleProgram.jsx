@@ -35,13 +35,17 @@ export default function SingleProgram() {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/projects/${id}`)
+    fetch(`http://localhost:8080/api/v1/projects/${id}`, {
+      credentials: 'include',
+    })
       .then((res) => res.json())
       .then((data) => setProject(data.project))
   }, [id])
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/tasks?project_id=${id}`)
+    fetch(`http://localhost:8080/api/v1/tasks?project_id=${id}`, {
+      credentials: 'include',
+    })
       .then((res) => res.json())
       .then((data) => {
         setTasks(data.tasks)
@@ -58,6 +62,7 @@ export default function SingleProgram() {
     try {
       await fetch(`http://localhost:8080/api/v1/projects/${id}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
