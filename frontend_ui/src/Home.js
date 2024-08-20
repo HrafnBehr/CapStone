@@ -1,4 +1,5 @@
 import './App.css'
+import './Home.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Card, Button, CardContent } from '@mui/material'
@@ -12,12 +13,17 @@ export default function YourHome() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/projects?project_manager_id=${user.id}`)
+    const urlSearchParams = new URLSearchParams()
+    if (user.is_pm) {
+      urlSearchParams.append('project_manager_id', user.id)
+    }
+
+    fetch(`http://localhost:8080/api/v1/projects?${urlSearchParams}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data.projects)
       })
-  }, [deleteFlag])
+  }, [deleteFlag, user])
 
   if (!data) return 'Loading...'
 
@@ -54,14 +60,16 @@ export default function YourHome() {
               {' '}
               Welcome, {user.username}! These are your available projects.
             </h1>
-            <Button
-              sx={{ m: 1 }}
-              variant='contained'
-              type='submit'
-              onClick={() => navigate('/CreateProgram')}
-            >
-              Create Program
-            </Button>
+            {user.is_pm && (
+              <Button
+                sx={{ m: 1 }}
+                variant='contained'
+                type='submit'
+                onClick={() => navigate('/CreateProgram')}
+              >
+                Create Program
+              </Button>
+            )}
           </CardContent>
           <Card>
             <CardContent>
@@ -78,13 +86,15 @@ export default function YourHome() {
                       >
                         {project.name} Next Due Date: {project.end_date}
                       </h3>
-                      <Button
-                        sx={{ m: 1 }}
-                        variant='contained'
-                        onClick={() => deleteItem(project.id)}
-                      >
-                        Remove
-                      </Button>
+                      {user.is_pm && (
+                        <Button
+                          sx={{ m: 1 }}
+                          variant='contained'
+                          onClick={() => deleteItem(project.id)}
+                        >
+                          Remove
+                        </Button>
+                      )}
                     </div>
                   ))
                 )}

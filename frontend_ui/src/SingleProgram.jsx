@@ -21,14 +21,15 @@ import {
 } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import { useToast } from './hooks/useToast'
+import { useAuth } from './hooks/useAuth'
 
 export default function SingleProgram() {
   const [project, setProject] = useState()
   const [tasks, setTasks] = useState([])
+  const { user } = useAuth()
 
   const navigate = useNavigate()
   const toast = useToast()
@@ -85,6 +86,7 @@ export default function SingleProgram() {
                       label='Program Name'
                       defaultValue={project.name}
                       variant='outlined'
+                      disabled={!user.is_pm}
                       onChange={(e) =>
                         setProject({
                           ...project,
@@ -100,6 +102,7 @@ export default function SingleProgram() {
                       label='Program Description'
                       defaultValue={project.description}
                       variant='outlined'
+                      disabled={!user.is_pm}
                       multiline
                       rows={5}
                       onChange={(e) =>
@@ -111,41 +114,41 @@ export default function SingleProgram() {
                     />
                   </FormControl>
                   <Box display='flex' justifyContent='space-around'>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        sx={{ m: 1 }}
-                        defaultValue={dayjs(project.start_date)}
-                        label='Start Date'
-                        onChange={(e) =>
-                          setProject({
-                            ...project,
-                            start_date: dayjs(e).valueOf(),
-                          })
-                        }
-                      />
-                    </LocalizationProvider>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        sx={{ m: 1 }}
-                        defaultValue={dayjs(project.end_date)}
-                        label='End Date'
-                        onChange={(e) =>
-                          setProject({
-                            ...project,
-                            end_date: dayjs(e).valueOf(),
-                          })
-                        }
-                      />
-                    </LocalizationProvider>
+                    <DatePicker
+                      sx={{ m: 1 }}
+                      defaultValue={dayjs(project.start_date)}
+                      label='Start Date'
+                      disabled={!user.is_pm}
+                      onChange={(e) =>
+                        setProject({
+                          ...project,
+                          start_date: dayjs(e).valueOf(),
+                        })
+                      }
+                    />
+                    <DatePicker
+                      sx={{ m: 1 }}
+                      defaultValue={dayjs(project.end_date)}
+                      label='End Date'
+                      disabled={!user.is_pm}
+                      onChange={(e) =>
+                        setProject({
+                          ...project,
+                          end_date: dayjs(e).valueOf(),
+                        })
+                      }
+                    />
                   </Box>
-                  <Button sx={{ mt: 1 }} variant='contained' type='submit'>
-                    Update
-                  </Button>
+                  {user.is_pm && (
+                    <Button sx={{ mt: 1 }} variant='contained' type='submit'>
+                      Update
+                    </Button>
+                  )}
+
                   <Button
                     sx={{ mt: 1 }}
                     variant='outlined'
-                    onClick={() => navigate('/Home')}
+                    onClick={() => navigate('/')}
                   >
                     Back
                   </Button>
@@ -157,7 +160,9 @@ export default function SingleProgram() {
           <Paper as='form' id='update-task-form'>
             <Stack direction='row' sx={{ p: 2 }} justifyContent='space-between'>
               <Typography variant='h6'>Tasks</Typography>
-              <Button variant='outlined'>Create New Task</Button>
+              {user.is_pm && (
+                <Button variant='outlined'>Create New Task</Button>
+              )}
             </Stack>
 
             <TableContainer>
@@ -198,66 +203,62 @@ export default function SingleProgram() {
                         </TableCell>
                         <TableCell>{task.title}</TableCell>
                         <TableCell>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                              label='Start date'
-                              id={`start-date-${task.id}`}
-                              value={dayjs(task.start_date)}
-                              onChange={async (e) => {
-                                try {
-                                  await fetch(
-                                    `http://localhost:8080/api/v1/tasks/${task.id}`,
-                                    {
-                                      method: 'PATCH',
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                      },
-                                      body: JSON.stringify({
-                                        ...task,
-                                        start_date: dayjs(e).toISOString(),
-                                      }),
-                                      credentials: 'include',
+                          <DatePicker
+                            label='Start date'
+                            id={`start-date-${task.id}`}
+                            value={dayjs(task.start_date)}
+                            disabled={!user.is_pm}
+                            onChange={async (e) => {
+                              try {
+                                await fetch(
+                                  `http://localhost:8080/api/v1/tasks/${task.id}`,
+                                  {
+                                    method: 'PATCH',
+                                    headers: {
+                                      'Content-Type': 'application/json',
                                     },
-                                  )
-                                  toast.success(
-                                    'Start date updated successfully',
-                                  )
-                                } catch (error) {
-                                  toast.error(error.message)
-                                }
-                              }}
-                            />
-                          </LocalizationProvider>
+                                    body: JSON.stringify({
+                                      ...task,
+                                      start_date: dayjs(e).toISOString(),
+                                    }),
+                                    credentials: 'include',
+                                  },
+                                )
+                                toast.success('Start date updated successfully')
+                              } catch (error) {
+                                toast.error(error.message)
+                              }
+                            }}
+                          />
                         </TableCell>
                         <TableCell>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                              label='End date'
-                              id={`end-date-${task.id}`}
-                              value={dayjs(task.end_date)}
-                              onChange={async (e) => {
-                                try {
-                                  await fetch(
-                                    `http://localhost:8080/api/v1/tasks/${task.id}`,
-                                    {
-                                      method: 'PATCH',
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                      },
-                                      body: JSON.stringify({
-                                        ...task,
-                                        end_date: dayjs(e).toISOString(),
-                                      }),
-                                      credentials: 'include',
+                          <DatePicker
+                            label='End date'
+                            id={`end-date-${task.id}`}
+                            value={dayjs(task.end_date)}
+                            disabled={!user.is_pm}
+                            onChange={async (e) => {
+                              try {
+                                await fetch(
+                                  `http://localhost:8080/api/v1/tasks/${task.id}`,
+                                  {
+                                    method: 'PATCH',
+                                    headers: {
+                                      'Content-Type': 'application/json',
                                     },
-                                  )
-                                  toast.success('End date updated successfully')
-                                } catch (error) {
-                                  toast.error(error.message)
-                                }
-                              }}
-                            />
-                          </LocalizationProvider>
+                                    body: JSON.stringify({
+                                      ...task,
+                                      end_date: dayjs(e).toISOString(),
+                                    }),
+                                    credentials: 'include',
+                                  },
+                                )
+                                toast.success('End date updated successfully')
+                              } catch (error) {
+                                toast.error(error.message)
+                              }
+                            }}
+                          />
                         </TableCell>
                         <TableCell>{task.project.name}</TableCell>
                         <TableCell>{task.pathway.name}</TableCell>
