@@ -3,6 +3,7 @@ import {
   Box,
   Divider,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -11,6 +12,7 @@ import {
   Stack,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { UserProfileMenu } from './components/UserProfileMenu'
@@ -21,6 +23,9 @@ import { logout } from './api/users'
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
 import { DarkModeToggle } from './components/DarkModeToggle'
+import MenuIcon from '@mui/icons-material/Menu'
+import { useTheme } from '@emotion/react'
+import { useState } from 'react'
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: DashboardIcon },
@@ -30,7 +35,10 @@ const navItems = [
 const drawerWidth = 240
 
 export default function Layout() {
-  const isMd = (theme) => theme.breakpoints.up('md')
+  const [open, setOpen] = useState(false)
+
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
   const navigate = useNavigate()
   const toast = useToast()
   const { setIsAuthenticated, setUser } = useAuth()
@@ -100,35 +108,59 @@ export default function Layout() {
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
       <AppBar
-        osition='fixed'
+        position='fixed'
         sx={{
-          width: `calc(100% - ${drawerWidth}px)`,
-          ml: `${drawerWidth}px`,
+          width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
         }}
         elevation={0}
       >
         <Toolbar variant='dense'>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1 }}>
+            {!isDesktop && (
+              <IconButton color='inherit' onClick={() => setOpen(!open)}>
+                <MenuIcon />
+              </IconButton>
+            )}
+          </Box>
           <DarkModeToggle />
           <UserProfileMenu />
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        variant={isMd ? 'permanent' : 'temporary'}
-        anchor='left'
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+      {isDesktop ? (
+        <Drawer
+          variant='permanent'
+          anchor='left'
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        {nav}
-      </Drawer>
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          {nav}
+        </Drawer>
+      ) : (
+        <Drawer
+          variant='temporary'
+          anchor='left'
+          open={open}
+          onClose={() => setOpen(false)}
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          {nav}
+        </Drawer>
+      )}
 
       <Box component='main' sx={{ flexGrow: 1 }}>
         <Toolbar />
