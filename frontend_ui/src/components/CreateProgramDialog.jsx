@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -71,13 +72,11 @@ export function CreateProgramDialog({ onSuccess }) {
 
   return (
     <>
-      <Fab
-        color='secondary'
-        aria-label='add'
-        sx={{ position: 'absolute', bottom: 40, right: 40 }}
-      >
-        <AddIcon onClick={showDialog} />
-      </Fab>
+      <Box sx={{ position: 'absolute', bottom: 40, right: 40 }}>
+        <Fab color='secondary' aria-label='add'>
+          <AddIcon onClick={showDialog} />
+        </Fab>
+      </Box>
 
       <Dialog
         open={open}
