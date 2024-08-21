@@ -56,7 +56,15 @@ export default function Layout() {
 
   const nav = (
     <Stack height='100%'>
-      <Toolbar variant='dense'>
+      <Toolbar
+        variant='dense'
+        sx={{
+          bgcolor:
+            'var(--mui-palette-AppBar-darkBg, var(--mui-palette-primary-main))',
+          color:
+            'var(--mui-palette-AppBar-darkColor, var(--mui-palette-primary-contrastText))',
+        }}
+      >
         <Typography variant='h6' noWrap>
           PROMPT
         </Typography>
