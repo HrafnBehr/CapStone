@@ -8,13 +8,11 @@ import {
   CardActions,
   Typography,
   Grid,
-  Chip,
   Stack,
 } from '@mui/material'
 import { useAuth } from './hooks/useAuth'
 import DeleteIcon from '@mui/icons-material/Delete'
 import dayjs from 'dayjs'
-import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { ConfirmationDialog } from './components/ConfirmationDialog'
 import { useToast } from './hooks/useToast'
 import { CreateProgramDialog } from './components/CreateProgramDialog'
