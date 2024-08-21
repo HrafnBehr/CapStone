@@ -1,88 +1,14 @@
 import {
   california,
-  chateauGreen,
   kepple,
   lapisLazuli,
-  neonBlue,
   nevada,
   redOrange,
-  royalBlue,
   shakespeare,
   stormGrey,
-  tomatoOrange,
 } from './colors'
 
 const primarySchemes = {
-  chateauGreen: {
-    dark: {
-      ...chateauGreen,
-      light: chateauGreen[300],
-      main: chateauGreen[400],
-      dark: chateauGreen[500],
-      contrastText: 'var(--mui-palette-common-black)',
-      activated:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-      hovered:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))',
-      selected:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))',
-    },
-    light: {
-      ...chateauGreen,
-      light: chateauGreen[400],
-      main: chateauGreen[500],
-      dark: chateauGreen[600],
-      contrastText: 'var(--mui-palette-common-white)',
-      activated:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-      hovered:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))',
-      selected:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))',
-    },
-  },
-  neonBlue: {
-    dark: {
-      ...neonBlue,
-      light: neonBlue[300],
-      main: neonBlue[400],
-      dark: neonBlue[500],
-      contrastText: 'var(--mui-palette-common-black)',
-      activated:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-      hovered:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))',
-      selected:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))',
-    },
-    light: {
-      ...neonBlue,
-      light: neonBlue[400],
-      main: neonBlue[500],
-      dark: neonBlue[600],
-      contrastText: 'var(--mui-palette-common-white)',
-      activated:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-      hovered:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))',
-      selected:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))',
-    },
-  },
-  royalBlue: {
-    dark: {
-      ...royalBlue,
-      light: royalBlue[300],
-      main: royalBlue[400],
-      dark: royalBlue[500],
-    },
-    light: {
-      ...royalBlue,
-      light: royalBlue[400],
-      main: royalBlue[500],
-      dark: royalBlue[600],
-    },
-  },
   lapisLazuli: {
     dark: {
       ...lapisLazuli,
@@ -95,34 +21,6 @@ const primarySchemes = {
       light: lapisLazuli[400],
       main: lapisLazuli[500],
       dark: lapisLazuli[600],
-    },
-  },
-  tomatoOrange: {
-    dark: {
-      ...tomatoOrange,
-      light: tomatoOrange[300],
-      main: tomatoOrange[400],
-      dark: tomatoOrange[500],
-      contrastText: 'var(--mui-palette-common-black)',
-      activated:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-      hovered:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))',
-      selected:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))',
-    },
-    light: {
-      ...tomatoOrange,
-      light: tomatoOrange[400],
-      main: tomatoOrange[500],
-      dark: tomatoOrange[600],
-      contrastText: 'var(--mui-palette-common-white)',
-      activated:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-      hovered:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))',
-      selected:
-        'rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))',
     },
   },
 }
