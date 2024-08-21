@@ -8,11 +8,13 @@ export function ProgramStatusChip(props) {
   const daysLeft = dayjs(project.end_date).diff(project.start_date, 'days')
   const status = daysLeft > 0 ? 'On-time' : 'Delayed'
 
+  const icon = <AccessTimeIcon />
+
   if (daysLeft < 0) {
     return (
       <>
         <Chip
-          icon={<AccessTimeIcon />}
+          icon={icon}
           size='small'
           color='error'
           label={`${Math.abs(daysLeft)} days overdue`}
@@ -24,7 +26,7 @@ export function ProgramStatusChip(props) {
     return (
       <>
         <Chip
-          icon={<AccessTimeIcon />}
+          icon={icon}
           size='small'
           color='warning'
           label={daysLeft >= 365 ? status : `${daysLeft} days left`}
@@ -36,7 +38,7 @@ export function ProgramStatusChip(props) {
     return (
       <>
         <Chip
-          icon={<AccessTimeIcon />}
+          icon={icon}
           size='small'
           color='success'
           label={daysLeft >= 365 ? status : `${daysLeft} days left`}

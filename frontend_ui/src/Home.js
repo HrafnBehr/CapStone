@@ -129,16 +129,6 @@ export default function YourHome() {
                 </CardContent>
 
                 <CardActions disableSpacing sx={{ px: 2 }}>
-                  {/*                   <Chip
-                    icon={<AccessTimeIcon />}
-                    size='small'
-                    color='success'
-                    label={`${dayjs(project.end_date).diff(
-                      project.start_date,
-                      'days',
-                    )} days left`}
-                    sx={{ userSelect: 'none' }}
-                  /> */}
                   <ProgramStatusChip project={project} />
 
                   <Stack direction='row' spacing={1} sx={{ ml: 'auto' }}>
