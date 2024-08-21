@@ -23,7 +23,6 @@ function App() {
               <Route element={<AuthGuard redirectTo='/login' />}>
                 <Route element={<Layout />}>
                   <Route path='/' element={<Home />} />
-                  <Route path='CreateProgram' element={<CreateProgram />} />
                   <Route path='Program/:id' element={<SingleProgram />} />
                   <Route path='tasks' element={<TasksView />} />
                   <Route path='profile' element={<ProfilePage />} />
