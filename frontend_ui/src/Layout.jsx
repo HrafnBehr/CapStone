@@ -26,6 +26,7 @@ import { DarkModeToggle } from './components/DarkModeToggle'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useTheme } from '@emotion/react'
 import { useState } from 'react'
+import { AppBarSearchBox } from './components/AppBarSearchBox'
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: DashboardIcon },
@@ -65,7 +66,6 @@ export default function Layout() {
   const nav = (
     <Stack height='100%'>
       <Toolbar
-        variant='dense'
         sx={{
           bgcolor:
             'var(--mui-palette-AppBar-darkBg, var(--mui-palette-primary-main))',
@@ -115,13 +115,15 @@ export default function Layout() {
         }}
         elevation={0}
       >
-        <Toolbar variant='dense'>
+        <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             {!isDesktop && (
               <IconButton color='inherit' onClick={() => setOpen(!open)}>
                 <MenuIcon />
               </IconButton>
             )}
+
+            <AppBarSearchBox />
           </Box>
           <DarkModeToggle />
           <UserProfileMenu />
@@ -162,7 +164,7 @@ export default function Layout() {
         </Drawer>
       )}
 
-      <Box component='main' sx={{ flexGrow: 1 }}>
+      <Box component='main' sx={{ flexGrow: 1, my: 3 }}>
         <Toolbar />
         <Outlet />
       </Box>
