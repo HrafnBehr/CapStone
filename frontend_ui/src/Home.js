@@ -1,12 +1,29 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Container, Card, Button, CardContent } from '@mui/material'
+import {
+  Container,
+  Card,
+  Button,
+  CardContent,
+  CardActions,
+  Typography,
+  Grid,
+  Chip,
+  Stack,
+} from '@mui/material'
 import { useAuth } from './hooks/useAuth'
+import DeleteIcon from '@mui/icons-material/Delete'
+import dayjs from 'dayjs'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import { ConfirmationDialog } from './components/ConfirmationDialog'
+import { useToast } from './hooks/useToast'
+import { CreateProgramDialog } from './components/CreateProgramDialog'
+import { getProjects } from './api/projects'
 
 export default function YourHome() {
   const [data, setData] = useState([])
-  const [deleteFlag, setDeleteFlag] = useState(false)
 
+  const toast = useToast()
   const { user } = useAuth()
   const navigate = useNavigate()
 
@@ -23,14 +40,14 @@ export default function YourHome() {
       .then((data) => {
         setData(data.projects)
       })
-  }, [deleteFlag, user])
+  }, [user])
 
   if (!data) return 'Loading...'
 
-  const deleteItem = async (projectID) => {
+  const handleDeleteConfirmation = async (project) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/projects/${projectID}`,
+        `http://localhost:8080/api/v1/projects/${project.id}`,
         {
           method: 'DELETE',
           credentials: 'include',
@@ -41,67 +58,127 @@ export default function YourHome() {
         throw new Error('Could not be deleted!')
       }
 
-      setDeleteFlag(!deleteFlag)
-
-      alert('Item removed!')
+      setData(data.filter((p) => p.id !== project.id))
+      toast.success(`${project.name} deleted successfully!`)
     } catch (error) {
-      console.error('Could not remove project', error)
+      toast.error(error.message)
+    }
+  }
+
+  const handleCreateProgram = async (newProject) => {
+    try {
+      const projects = await getProjects()
+      setData(projects)
+    } catch (error) {
+      toast.error(error.message)
     }
   }
 
   return (
     <>
       <Container maxWidth='lg'>
-        <Card className='home-card'>
-          <CardContent className='home-header'>
-            <h1 className='home-title'>
-              {' '}
-              Welcome, {user.username}! These are your available projects.
-            </h1>
-            {user.is_pm && (
-              <Button
-                sx={{ m: 1 }}
-                variant='contained'
-                type='submit'
-                className='create-project-btn'
-                onClick={() => navigate('/CreateProgram')}
+        <Typography variant='h4' component='h1' gutterBottom>
+          Welcome, {user.username}! These are your available projects.
+        </Typography>
+
+        {user.is_pm && <CreateProgramDialog onSuccess={handleCreateProgram} />}
+
+        <Grid container spacing={3} my={3}>
+          {data.map((project) => (
+            <Grid item xs={12} sm={6} lg={4} key={project.id}>
+              <Card
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                }}
               >
-                Create Program
-              </Button>
-            )}
-          </CardContent>
-          <Card className='home-card'>
-            <CardContent className='home-card-content'>
-              <div>
-                <h2 className='project-title'>Projectagrams</h2>
-                {data.length === 0 ? (
-                  <h3 style={{ color: 'white' }}>You have no projects</h3>
-                ) : (
-                  data.map((project) => (
-                    <div key={project.id}>
-                      <h3
-                        className='project'
-                        onClick={() => navigate(`/Program/${project.id}`)}
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant='h6'
+                    component='div'
+                    sx={{ fontWeight: 400 }}
+                  >
+                    {project.name}
+                  </Typography>
+
+                  <Typography
+                    gutterBottom
+                    variant='body2'
+                    color='text.secondary'
+                  >
+                    {project.description}
+                  </Typography>
+
+                  <Typography variant='body2'>
+                    Project Manager: {project.project_manager.first_name}{' '}
+                    {project.project_manager.last_name}
+                  </Typography>
+
+                  <Typography variant='body2'>
+                    Start Date:{' '}
+                    {dayjs(project.start_date).format('YYYY-MMM-DD')}
+                  </Typography>
+
+                  <Typography variant='body2'>
+                    End Date: {dayjs(project.end_date).format('YYYY-MMM-DD')}
+                  </Typography>
+                </CardContent>
+
+                <CardActions disableSpacing sx={{ px: 2 }}>
+                  <Chip
+                    icon={<AccessTimeIcon />}
+                    size='small'
+                    color='success'
+                    label={`${dayjs(project.end_date).diff(
+                      project.start_date,
+                      'days',
+                    )} days left`}
+                    sx={{ userSelect: 'none' }}
+                  />
+
+                  <Stack direction='row' spacing={1} sx={{ ml: 'auto' }}>
+                    {true && (
+                      <ConfirmationDialog
+                        title='Delete Project'
+                        content={
+                          <>
+                            Are you sure you want to delete the project{' '}
+                            <strong>{project.name}</strong>?
+                          </>
+                        }
+                        onConfirm={() => handleDeleteConfirmation(project)}
                       >
-                        {project.name} Next Due Date: {project.end_date}
-                      </h3>
-                      {user.is_pm && (
-                        <Button
-                          sx={{ m: 1 }}
-                          variant='contained'
-                          className='delete-project-btn'
-                          onClick={() => deleteItem(project.id)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </Card>
+                        {(showDialog) => (
+                          <Button
+                            variant='outlined'
+                            size='small'
+                            color='error'
+                            disableElevation
+                            onClick={showDialog}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        )}
+                      </ConfirmationDialog>
+                    )}
+
+                    <Button
+                      variant='contained'
+                      disableElevation
+                      size='small'
+                      onClick={() => navigate(`/Program/${project.id}`)}
+                    >
+                      View
+                    </Button>
+                  </Stack>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </>
   )
