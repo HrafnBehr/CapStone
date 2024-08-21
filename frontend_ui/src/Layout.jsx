@@ -96,8 +96,6 @@ export default function Layout() {
         sx={{
           width: `calc(100% - ${drawerWidth}px)`,
           ml: `${drawerWidth}px`,
-          backgroundColor: 'white',
-          color: 'black',
         }}
         elevation={0}
       >
@@ -124,7 +122,7 @@ export default function Layout() {
         {nav}
       </Drawer>
 
-      <Box component='main' sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
+      <Box component='main' sx={{ flexGrow: 1 }}>
         <Toolbar />
         <Outlet />
       </Box>

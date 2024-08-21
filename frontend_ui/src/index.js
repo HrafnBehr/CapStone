@@ -1,15 +1,22 @@
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import { theme } from './theme'
+import {
+  CssBaseline,
+  Experimental_CssVarsProvider as CssVarsProvider,
+} from '@mui/material'
+import { createTheme } from './styles/theme/create-theme'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Fragment>
-    <ThemeProvider theme={theme}>
+    <CssVarsProvider
+      defaultColorScheme='light'
+      defaultMode='light'
+      theme={createTheme()}
+    >
       <CssBaseline />
       <App />
-    </ThemeProvider>
+    </CssVarsProvider>
   </Fragment>,
 )

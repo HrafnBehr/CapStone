@@ -60,7 +60,9 @@ export default function TasksView() {
 
     const search = queryParams.toString()
 
-    const res = await fetch(`http://localhost:8080/api/v1/tasks?${search}`)
+    const res = await fetch(`http://localhost:8080/api/v1/tasks?${search}`, {
+      credentials: 'include',
+    })
     const data = await res.json()
 
     setTasks(data.tasks)
