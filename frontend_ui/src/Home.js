@@ -19,6 +19,7 @@ import { ConfirmationDialog } from './components/ConfirmationDialog'
 import { useToast } from './hooks/useToast'
 import { CreateProgramDialog } from './components/CreateProgramDialog'
 import { getProjects } from './api/projects'
+import { ProgramStatusChip } from './components/ProgramStatusChip'
 
 export default function YourHome() {
   const [data, setData] = useState([])
@@ -128,7 +129,7 @@ export default function YourHome() {
                 </CardContent>
 
                 <CardActions disableSpacing sx={{ px: 2 }}>
-                  <Chip
+                  {/*                   <Chip
                     icon={<AccessTimeIcon />}
                     size='small'
                     color='success'
@@ -137,7 +138,8 @@ export default function YourHome() {
                       'days',
                     )} days left`}
                     sx={{ userSelect: 'none' }}
-                  />
+                  /> */}
+                  <ProgramStatusChip project={project} />
 
                   <Stack direction='row' spacing={1} sx={{ ml: 'auto' }}>
                     {true && (
