@@ -1,0 +1,74 @@
+/* /* 
+Rich Black: #040F16
+Lapis Lazuli: #005E7C
+White: #FFF
+ 
+h1.home-title,
+h2.project-title,
+h3.project {
+  color: #fff;
+}
+
+h3.project:hover {
+  cursor: pointer;
+  color: #040f16;
+}
+
+body,
+.css-hyum1k-MuiToolbar-root,
+.css-1oqqzyl-MuiContainer-root,
+header > div {
+  background-color: #040f16 !important;
+}
+
+.home-card,
+.home-header,
+.home-card-content {
+  background-color: #005e7c;
+  border-radius: 0 !important;
+}
+
+.home-header {
+  border-bottom: 1px solid #fff;
+}
+
+.MuiDrawer-paper {
+  background-color: #040f16 !important;
+  color: #fff !important;
+}
+
+hr.MuiDivider-root {
+  background-color: #fff;
+}
+
+.MuiListItemIcon-root {
+  color: #fff !important;
+}
+
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  border-right: 1px solid #fff !important;
+}
+
+.MuiListItem-root:hover {
+  background-color: #005e7c;
+}
+
+.delete-project-btn,
+.create-project-btn {
+  background-color: white !important;
+  color: #005e7c !important;
+  border: 2px solid #005e7c !important;
+}
+
+.delete-project-btn:hover,
+.create-project-btn:hover {
+  background-color: #f4f4f4 !important;
+  color: #004c63 !important;
+}
+
+@media (min-width: 1200px) {
+  .css-1oqqzyl-MuiContainer-root {
+    max-width: 100% !important;
+  }
+} 
+ */
