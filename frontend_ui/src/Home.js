@@ -1,5 +1,3 @@
-import './App.css'
-import './Home.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Card, Button, CardContent } from '@mui/material'
@@ -18,7 +16,9 @@ export default function YourHome() {
       urlSearchParams.append('project_manager_id', user.id)
     }
 
-    fetch(`http://localhost:8080/api/v1/projects?${urlSearchParams}`)
+    fetch(`http://localhost:8080/api/v1/projects?${urlSearchParams}`, {
+      credentials: 'include',
+    })
       .then((res) => res.json())
       .then((data) => {
         setData(data.projects)
@@ -33,9 +33,7 @@ export default function YourHome() {
         `http://localhost:8080/api/v1/projects/${projectID}`,
         {
           method: 'DELETE',
-          headers: {
-            Authorization: ``,
-          },
+          credentials: 'include',
         },
       )
 
@@ -54,9 +52,9 @@ export default function YourHome() {
   return (
     <>
       <Container maxWidth='lg'>
-        <Card>
-          <CardContent>
-            <h1>
+        <Card className='home-card'>
+          <CardContent className='home-header'>
+            <h1 className='home-title'>
               {' '}
               Welcome, {user.username}! These are your available projects.
             </h1>
@@ -65,18 +63,19 @@ export default function YourHome() {
                 sx={{ m: 1 }}
                 variant='contained'
                 type='submit'
+                className='create-project-btn'
                 onClick={() => navigate('/CreateProgram')}
               >
                 Create Program
               </Button>
             )}
           </CardContent>
-          <Card>
-            <CardContent>
+          <Card className='home-card'>
+            <CardContent className='home-card-content'>
               <div>
-                <h2>Projectagrams</h2>
+                <h2 className='project-title'>Projectagrams</h2>
                 {data.length === 0 ? (
-                  <h3>You have no projects</h3>
+                  <h3 style={{ color: 'white' }}>You have no projects</h3>
                 ) : (
                   data.map((project) => (
                     <div key={project.id}>
@@ -90,6 +89,7 @@ export default function YourHome() {
                         <Button
                           sx={{ m: 1 }}
                           variant='contained'
+                          className='delete-project-btn'
                           onClick={() => deleteItem(project.id)}
                         >
                           Remove
