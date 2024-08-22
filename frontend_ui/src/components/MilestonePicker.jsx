@@ -36,6 +36,7 @@ export function MilestonePicker() {
         labelId='milestone-picker-label'
         label='Milestone'
         name='milestone_id'
+        defaultValue=''
       >
         {loading ? (
           <MenuItem>Loading...</MenuItem>

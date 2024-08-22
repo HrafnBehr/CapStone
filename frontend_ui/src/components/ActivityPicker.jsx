@@ -36,6 +36,7 @@ export function ActivityPicker() {
         labelId='activity-picker-label'
         label='Activity'
         name='activity_id'
+        defaultValue=''
       >
         {loading ? (
           <MenuItem>Loading...</MenuItem>
