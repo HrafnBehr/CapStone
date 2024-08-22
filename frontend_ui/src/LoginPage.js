@@ -15,7 +15,6 @@ import {
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
 import { login } from './api/users'
-import { DarkModeToggle } from './components/DarkModeToggle'
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
@@ -132,7 +131,6 @@ export default function Login() {
                 >
                   Register
                 </Button>
-                <DarkModeToggle />
               </Stack>
             </Box>
           </Grid>
