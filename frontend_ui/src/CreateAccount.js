@@ -68,10 +68,24 @@ export default function CreateAccount() {
           </Typography>
 
           <Stack as='form' onSubmit={handleSubmit} spacing={2}>
-            <TextField label='Username' variant='outlined' name='username' />
+            <TextField
+              label='Username'
+              variant='outlined'
+              name='username'
+              autoComplete='username'
+            />
 
-            <TextField label='First Name' name='first_name' />
-            <TextField label='Last Name' variant='outlined' name='last_name' />
+            <TextField
+              label='First Name'
+              name='first_name'
+              autoComplete='given-name'
+            />
+            <TextField
+              label='Last Name'
+              variant='outlined'
+              name='last_name'
+              autoComplete='family-name'
+            />
             <TextField
               label='Password'
               type='password'
