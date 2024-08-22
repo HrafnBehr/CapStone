@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Container,
@@ -18,13 +18,21 @@ import { useToast } from './hooks/useToast'
 import { CreateProgramDialog } from './components/CreateProgramDialog'
 import { getProjects } from './api/projects'
 import { ProgramStatusChip } from './components/ProgramStatusChip'
+import { useSearch } from './hooks/useSearch'
 
 export default function YourHome() {
   const [data, setData] = useState([])
 
   const toast = useToast()
   const { user } = useAuth()
+  const { search } = useSearch({ showSearch: true })
   const navigate = useNavigate()
+
+  const filteredData = useMemo(() => {
+    return data.filter((project) =>
+      project.name.toLowerCase().includes(search.toLowerCase()),
+    )
+  }, [data, search])
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams()
@@ -83,7 +91,7 @@ export default function YourHome() {
         {user.is_pm && <CreateProgramDialog onSuccess={handleCreateProgram} />}
 
         <Grid container spacing={3} my={3}>
-          {data.map((project) => (
+          {filteredData.map((project) => (
             <Grid item xs={12} sm={6} lg={4} key={project.id}>
               <Card
                 sx={{
