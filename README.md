@@ -18,12 +18,10 @@
 
 * The Frontend uses the REACT framework (create-react-app)
 
-* The backend used Docker, Knex and MySQL.
+* The backend used Docker, Knex and Postgres Database.
 
-* Navigate to the backend folder and run #nmp install to install all the dependencies.
+* Navigate to the root directory and run #npm install to install all the dependencies.
   The backend server is running in port localhost:8080.
-
-* Navigate to the frontend and run #nmp install to install all the dependencies.
   The frontend is running on port localhost:3000
 
 - Walkthrough
@@ -44,8 +42,10 @@
 
   - The PM can Select a program to update or delete.
 
-  Test Manager - If the user is not a PM, their Home page will be blank and has a filter button to enable them to search for specific activities/tasks.
+  Test Manager
 
-         - ased on their filter criteria, the appropriate activities/tasks will be displayed.
+  - If the user is not a PM, their Home page will be blank and has a filter button to enable them to search for specific activities/tasks.
+
+  - Based on the Test Manager filter criteria, the appropriate activities/tasks will be displayed.
 
 * When the user is done using the application, the user can logout and exit the application.
