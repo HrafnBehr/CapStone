@@ -30,6 +30,7 @@ import { useState } from 'react'
 import { AppBarSearchBox } from './components/AppBarSearchBox'
 import GroupIcon from '@mui/icons-material/Group'
 import RouteIcon from '@mui/icons-material/Route'
+import FormatOverlineIcon from '@mui/icons-material/FormatOverline'
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: DashboardIcon },
@@ -81,8 +82,14 @@ export default function Layout() {
             'var(--mui-palette-AppBar-darkColor, var(--mui-palette-primary-contrastText))',
         }}
       >
-        <Typography variant='h6' noWrap>
-          PROMPT
+        <Typography
+          variant='h6'
+          noWrap
+          sx={{ display: 'flex', alignItems: 'center', userSelect: 'none' }}
+        >
+          pr
+          <FormatOverlineIcon fontSize='12' sx={{ ml: -0.5, mr: -0.4 }} />
+          mpt
         </Typography>
       </Toolbar>
       <Divider />
