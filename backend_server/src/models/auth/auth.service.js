@@ -2,16 +2,10 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../../db')
 
-async function register({
-  first_name,
-  last_name,
-  username,
-  password,
-  is_pm = false,
-}) {
+async function register({ first_name, last_name, username, password, is_pm }) {
   const hashedPassword = await bcrypt.hash(password, 12)
   const [user] = await db('users').insert(
-    { username, first_name, last_name, is_pm },
+    { username, first_name, last_name, is_pm: is_pm || false },
     ['id'],
   )
   await db('passwords').insert({ user_id: user.id, password: hashedPassword })

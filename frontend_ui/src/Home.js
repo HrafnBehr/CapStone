@@ -16,7 +16,6 @@ import dayjs from 'dayjs'
 import { ConfirmationDialog } from './components/ConfirmationDialog'
 import { useToast } from './hooks/useToast'
 import { CreateProgramDialog } from './components/CreateProgramDialog'
-import { getProjects } from './api/projects'
 import { ProgramStatusChip } from './components/ProgramStatusChip'
 import { useSearch } from './hooks/useSearch'
 
@@ -74,8 +73,24 @@ export default function YourHome() {
 
   const handleCreateProgram = async (newProject) => {
     try {
-      const projects = await getProjects()
-      setData(projects)
+      const urlSearchParams = new URLSearchParams()
+      if (user.is_pm) {
+        urlSearchParams.append('project_manager_id', user.id)
+      }
+
+      const response = await fetch(
+        `http://localhost:8080/api/v1/projects?${urlSearchParams}`,
+        {
+          credentials: 'include',
+        },
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch projects')
+      }
+
+      const data = await response.json()
+      setData(data.projects)
     } catch (error) {
       toast.error(error.message)
     }
@@ -138,7 +153,7 @@ export default function YourHome() {
                   <ProgramStatusChip project={project} />
 
                   <Stack direction='row' spacing={1} sx={{ ml: 'auto' }}>
-                    {true && (
+                    {user.is_pm && (
                       <ConfirmationDialog
                         title='Delete Project'
                         content={

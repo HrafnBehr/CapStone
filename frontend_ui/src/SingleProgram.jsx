@@ -242,12 +242,14 @@ export default function SingleProgram() {
                         <TableCell>{task.milestone.name}</TableCell>
                         <TableCell>{task.activity.name}</TableCell>
                         <TableCell>
-                          <IconButton
-                            onClick={() => handleDeleteTask(task.id)}
-                            disabled={!user.is_pm}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
+                          {user.is_pm && (
+                            <IconButton
+                              onClick={() => handleDeleteTask(task.id)}
+                              disabled={!user.is_pm}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))

@@ -15,6 +15,7 @@ import {
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
 import { login } from './api/users'
+import FormatOverlineIcon from '@mui/icons-material/FormatOverline'
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
@@ -119,8 +120,27 @@ export default function Login() {
                 justifyContent='center'
                 color='white'
               >
-                <Typography variant='h5' component='h2'>
-                  Welcome to PROMPT
+                <Typography
+                  variant='h5'
+                  component='h2'
+                  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                >
+                  Welcome to{' '}
+                  <Box
+                    component='span'
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      userSelect: 'none',
+                    }}
+                  >
+                    pr
+                    <FormatOverlineIcon
+                      fontSize='12'
+                      sx={{ ml: -0.5, mr: -0.4 }}
+                    />
+                    mpt
+                  </Box>
                 </Typography>
                 <Typography variant='body1'>Begin Your Journey Here</Typography>
                 <Button
