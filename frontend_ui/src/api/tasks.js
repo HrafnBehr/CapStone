@@ -16,3 +16,16 @@ export async function getTasksByProjectId(project_id) {
   const data = await res.json()
   return data.tasks
 }
+
+export const deleteTask = async (taskId) => {
+  const response = await fetch(`http://localhost:8080/api/v1/tasks/${taskId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete task')
+  }
+
+  return response.json()
+}

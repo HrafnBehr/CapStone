@@ -1,3 +1,4 @@
+import { deleteTask } from './api/tasks'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
@@ -14,7 +15,6 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  Checkbox,
   CardHeader,
   CardActions,
 } from '@mui/material'
@@ -25,6 +25,8 @@ import { useAuth } from './hooks/useAuth'
 import { CreateTaskModal } from './components/CreateTaskModal'
 import { getProjectById, updateProject } from './api/projects'
 import { getTasksByProjectId } from './api/tasks'
+import { IconButton } from '@mui/material'
+import { Delete as DeleteIcon } from '@mui/icons-material'
 
 export default function SingleProgram() {
   const [project, setProject] = useState()
@@ -33,6 +35,16 @@ export default function SingleProgram() {
   const { id } = useParams()
   const { user } = useAuth()
   const toast = useToast()
+
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await deleteTask(taskId)
+      setTasks(tasks.filter((t) => t.id !== taskId))
+      toast.success('Task deleted successfully')
+    } catch (error) {
+      toast.error('Failed to delete task: ' + error.message)
+    }
+  }
 
   useEffect(() => {
     getProjectById(id).then((project) => setProject(project))
@@ -139,9 +151,6 @@ export default function SingleProgram() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell padding='checkbox'>
-                      <Checkbox color='primary' />
-                    </TableCell>
                     <TableCell>Task</TableCell>
                     <TableCell>Start Date</TableCell>
                     <TableCell>End Date</TableCell>
@@ -149,6 +158,7 @@ export default function SingleProgram() {
                     <TableCell>Pathway</TableCell>
                     <TableCell>Milestone</TableCell>
                     <TableCell>Activity</TableCell>
+                    <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -168,9 +178,6 @@ export default function SingleProgram() {
                   ) : (
                     tasks.map((task) => (
                       <TableRow key={task.id} hover>
-                        <TableCell padding='checkbox'>
-                          <Checkbox color='primary' />
-                        </TableCell>
                         <TableCell>{task.title}</TableCell>
                         <TableCell>
                           <DatePicker
@@ -234,6 +241,14 @@ export default function SingleProgram() {
                         <TableCell>{task.pathway.name}</TableCell>
                         <TableCell>{task.milestone.name}</TableCell>
                         <TableCell>{task.activity.name}</TableCell>
+                        <TableCell>
+                          <IconButton
+                            onClick={() => handleDeleteTask(task.id)}
+                            disabled={!user.is_pm}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     ))
                   )}
