@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
   Stack,
   Toolbar,
   Typography,
@@ -27,10 +28,17 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { useTheme } from '@emotion/react'
 import { useState } from 'react'
 import { AppBarSearchBox } from './components/AppBarSearchBox'
+import GroupIcon from '@mui/icons-material/Group'
+import RouteIcon from '@mui/icons-material/Route'
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: DashboardIcon },
   { label: 'Tasks', path: '/tasks', icon: PlaylistAddCheckIcon },
+]
+
+const adminItems = [
+  { label: 'Users', path: '/admin/users', icon: GroupIcon },
+  { label: 'Pathways', path: '/admin/pathways', icon: RouteIcon },
 ]
 
 const drawerWidth = 240
@@ -79,8 +87,24 @@ export default function Layout() {
       </Toolbar>
       <Divider />
 
-      <List sx={{ flexGrow: 1 }}>
+      <List>
         {navItems.map((item) => (
+          <ListItem key={item.label} disablePadding>
+            <ListItemButton onClick={() => handleNavItemClick(item.path)}>
+              <ListItemIcon>
+                <item.icon />
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List
+        subheader={<ListSubheader>Admin</ListSubheader>}
+        sx={{ flexGrow: 1 }}
+      >
+        {adminItems.map((item) => (
           <ListItem key={item.label} disablePadding>
             <ListItemButton onClick={() => handleNavItemClick(item.path)}>
               <ListItemIcon>
