@@ -8,6 +8,7 @@ import { AuthGuard } from './components/AuthGuard'
 import Layout from './Layout'
 import ProfilePage from './ProfilePage'
 import { Providers } from './components/Providers'
+import UsersPage from './Users'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='Program/:id' element={<SingleProgram />} />
             <Route path='tasks' element={<TasksView />} />
             <Route path='profile' element={<ProfilePage />} />
+            <Route path='admin/users' element={<UsersPage />} />
           </Route>
         </Route>
 
