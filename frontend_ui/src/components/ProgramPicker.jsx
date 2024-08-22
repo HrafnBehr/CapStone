@@ -32,7 +32,7 @@ export function ProgramPicker() {
   return (
     <FormControl fullWidth>
       <InputLabel htmlFor='project'>Project</InputLabel>
-      <Select id='project' name='project_id'>
+      <Select id='project' name='project_id' defaultValue=''>
         {loading ? (
           <MenuItem>Loading...</MenuItem>
         ) : (

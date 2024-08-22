@@ -28,7 +28,12 @@ export function UserPicker({ label, is_pm }) {
   return (
     <FormControl fullWidth>
       <InputLabel id={`user-label-${label}`}>{label}</InputLabel>
-      <Select name='user_id' labelId={`user-label-${label}`} label={label}>
+      <Select
+        name='user_id'
+        labelId={`user-label-${label}`}
+        label={label}
+        defaultValue=''
+      >
         {loading ? (
           <MenuItem>Loading...</MenuItem>
         ) : (

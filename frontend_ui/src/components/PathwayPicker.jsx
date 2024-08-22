@@ -32,7 +32,12 @@ export function PathwayPicker() {
   return (
     <FormControl fullWidth>
       <InputLabel id='pathway-picker-label'>Pathway</InputLabel>
-      <Select labelId='pathway-picker-label' label='Pathway' name='pathway_id'>
+      <Select
+        labelId='pathway-picker-label'
+        label='Pathway'
+        name='pathway_id'
+        defaultValue=''
+      >
         {loading ? (
           <MenuItem>Loading...</MenuItem>
         ) : (
