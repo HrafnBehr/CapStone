@@ -4,7 +4,7 @@ async function getAllUsers(filters) {
   if (filters.length === 0) {
     return await db('users')
   } else {
-    return await db('users').where(filters)
+    return await db('users').where(filters).orderBy('id')
   }
 }
 
