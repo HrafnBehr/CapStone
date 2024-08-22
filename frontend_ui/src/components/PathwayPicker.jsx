@@ -19,7 +19,7 @@ const fetchPathways = async () => {
   return response.json()
 }
 
-export function PathwayPicker() {
+export function PathwayPicker({ defaultValue = '', disabled = false }) {
   const [pathways, setPathways] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -36,7 +36,8 @@ export function PathwayPicker() {
         labelId='pathway-picker-label'
         label='Pathway'
         name='pathway_id'
-        defaultValue=''
+        defaultValue={defaultValue}
+        disabled={disabled}
       >
         {loading ? (
           <MenuItem>Loading...</MenuItem>
