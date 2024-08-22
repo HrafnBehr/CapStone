@@ -4,6 +4,17 @@ import { colorSchemes } from './color-schemes'
 export function createTheme() {
   const theme = extendTheme({
     colorSchemes: colorSchemes(),
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          '#root': {
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+          },
+        },
+      },
+    },
   })
 
   return theme

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Container,
   TextField,
   Button,
   Stack,
@@ -59,96 +58,86 @@ export default function Login() {
 
   return (
     <>
-      <Container maxWidth='md'>
-        <Box sx={{ mt: 8 }}>
-          <Card>
-            <Grid container>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
-                  <Stack p={4} spacing={2} as='form' onSubmit={handleLogin}>
-                    <Typography
-                      variant='h4'
-                      component='h1'
-                      color='primary.main'
-                      textAlign='center'
-                    >
-                      Login to your account
-                    </Typography>
-                    <Divider />
-
-                    <Stack spacing={2}>
-                      <TextField
-                        label='Username'
-                        name='username'
-                        autoComplete='username'
-                        fullWidth
-                      />
-
-                      <TextField
-                        type='password'
-                        label='Password'
-                        name='password'
-                        autoComplete='current-password'
-                        fullWidth
-                      />
-
-                      <FormControlLabel
-                        control={<Checkbox defaultChecked />}
-                        label='Remember Me'
-                        sx={{ width: 'fit-content' }}
-                      />
-
-                      <Button
-                        variant='contained'
-                        type='submit'
-                        disabled={loading}
-                      >
-                        {loading ? 'Logging in...' : 'Sign In'}
-                      </Button>
-                    </Stack>
-                  </Stack>
-                </Box>
-              </Grid>
-
-              <Grid item sm={6} display={{ xs: 'none', sm: 'grid' }}>
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    flexBasis: 0,
-                    bgcolor: 'primary.dark',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                  }}
+      <Card sx={{ flexGrow: 1 }}>
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
+              <Stack p={4} spacing={2} as='form' onSubmit={handleLogin}>
+                <Typography
+                  variant='h4'
+                  component='h1'
+                  color='primary.main'
+                  textAlign='center'
                 >
-                  <Stack
-                    p={4}
-                    alignItems='center'
-                    justifyContent='center'
-                    color='white'
-                  >
-                    <Typography variant='h5' component='h2'>
-                      Welcome to PROMPT
-                    </Typography>
-                    <Typography variant='body1'>
-                      Begin Your Journey Here
-                    </Typography>
-                    <Button
-                      variant='outlined'
-                      color='inherit'
-                      onClick={() => navigate('/register')}
-                      sx={{ mt: 3 }}
-                    >
-                      Register
-                    </Button>
-                    <DarkModeToggle />
-                  </Stack>
-                </Box>
-              </Grid>
-            </Grid>
-          </Card>
-        </Box>
-      </Container>
+                  Login to your account
+                </Typography>
+                <Divider />
+
+                <Stack spacing={2}>
+                  <TextField
+                    label='Username'
+                    name='username'
+                    autoComplete='username'
+                    fullWidth
+                  />
+
+                  <TextField
+                    type='password'
+                    label='Password'
+                    name='password'
+                    autoComplete='current-password'
+                    fullWidth
+                  />
+
+                  <FormControlLabel
+                    control={<Checkbox defaultChecked />}
+                    label='Remember Me'
+                    sx={{ width: 'fit-content' }}
+                  />
+
+                  <Button variant='contained' type='submit' disabled={loading}>
+                    {loading ? 'Logging in...' : 'Sign In'}
+                  </Button>
+                </Stack>
+              </Stack>
+            </Box>
+          </Grid>
+
+          <Grid item sm={6} display={{ xs: 'none', sm: 'grid' }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexBasis: 0,
+                bgcolor: 'primary.dark',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              <Stack
+                p={4}
+                alignItems='center'
+                justifyContent='center'
+                color='white'
+              >
+                <Typography variant='h5' component='h2'>
+                  Welcome to PROMPT
+                </Typography>
+                <Typography variant='body1'>Begin Your Journey Here</Typography>
+                <Button
+                  variant='outlined'
+                  color='inherit'
+                  onClick={() => navigate('/register')}
+                  sx={{ mt: 3 }}
+                >
+                  Register
+                </Button>
+                <DarkModeToggle />
+              </Stack>
+            </Box>
+          </Grid>
+        </Grid>
+      </Card>
 
       {/*       <Container maxWidth='lg'>
         <Box className='login-form'>
