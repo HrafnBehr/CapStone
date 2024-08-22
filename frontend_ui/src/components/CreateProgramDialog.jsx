@@ -72,9 +72,9 @@ export function CreateProgramDialog({ onSuccess }) {
 
   return (
     <>
-      <Box sx={{ position: 'absolute', bottom: 40, right: 40 }}>
-        <Fab color='secondary' aria-label='add'>
-          <AddIcon onClick={showDialog} />
+      <Box sx={{ position: 'absolute', bottom: 40, right: 40, zIndex: 1 }}>
+        <Fab color='secondary' aria-label='add' onClick={showDialog}>
+          <AddIcon />
         </Fab>
       </Box>
 
