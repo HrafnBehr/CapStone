@@ -6,7 +6,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  Checkbox,
   TableBody,
   Stack,
   Typography,
@@ -14,8 +13,13 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import dayjs from 'dayjs'
+import dayjsUTC from 'dayjs/plugin/utc'
+import dayjsTimezone from 'dayjs/plugin/timezone'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { FilterTasksDrawer } from './components/FilterTasksDrawer'
+
+dayjs.extend(dayjsUTC)
+dayjs.extend(dayjsTimezone)
 
 export default function TasksView() {
   const [selectedPathways, setSelectedPathways] = useState([])
@@ -111,9 +115,6 @@ export default function TasksView() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding='checkbox'>
-                  <Checkbox color='primary' />
-                </TableCell>
                 <TableCell>Task</TableCell>
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
@@ -126,7 +127,7 @@ export default function TasksView() {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={8}>
+                  <TableCell colSpan={7}>
                     <Stack
                       direction='row'
                       gap={0.5}
@@ -139,7 +140,7 @@ export default function TasksView() {
                 </TableRow>
               ) : tasks.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8}>
+                  <TableCell colSpan={7}>
                     <Stack
                       direction='row'
                       gap={0.5}
@@ -153,15 +154,12 @@ export default function TasksView() {
               ) : (
                 tasks.map((task) => (
                   <TableRow key={task.id} hover>
-                    <TableCell padding='checkbox'>
-                      <Checkbox color='primary' />
-                    </TableCell>
                     <TableCell>{task.title}</TableCell>
                     <TableCell>
-                      {dayjs(task.start_date).format('MM-DD-YYYY')}
+                      {dayjs(task.start_date).utc().format('MM-DD-YYYY')}
                     </TableCell>
                     <TableCell>
-                      {dayjs(task.end_date).format('MM-DD-YYYY')}
+                      {dayjs(task.end_date).utc().format('MM-DD-YYYY')}
                     </TableCell>
                     <TableCell>{task.project.name}</TableCell>
                     <TableCell>{task.pathway.name}</TableCell>

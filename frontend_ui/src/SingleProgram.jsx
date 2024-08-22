@@ -21,6 +21,7 @@ import {
 } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
+import dayjsUtc from 'dayjs/plugin/utc'
 import { useToast } from './hooks/useToast'
 import { useAuth } from './hooks/useAuth'
 import { CreateTaskModal } from './components/CreateTaskModal'
@@ -29,6 +30,8 @@ import { getTasksByProjectId } from './api/tasks'
 import { IconButton } from '@mui/material'
 import { Delete as DeleteIcon } from '@mui/icons-material'
 import { PathwayPicker } from './components/PathwayPicker'
+
+dayjs.extend(dayjsUtc)
 
 export default function SingleProgram() {
   const [project, setProject] = useState()
@@ -112,13 +115,13 @@ export default function SingleProgram() {
                   />
                   <Box display='flex' justifyContent='space-around'>
                     <DatePicker
-                      defaultValue={dayjs(project.start_date)}
+                      defaultValue={dayjs(project.start_date).utc()}
                       label='Start Date'
                       name='start_date'
                       disabled={!user.is_pm}
                     />
                     <DatePicker
-                      defaultValue={dayjs(project.end_date)}
+                      defaultValue={dayjs(project.end_date).utc()}
                       label='End Date'
                       name='end_date'
                       disabled={!user.is_pm}
@@ -186,7 +189,7 @@ export default function SingleProgram() {
                           <DatePicker
                             label='Start date'
                             id={`start-date-${task.id}`}
-                            value={dayjs(task.start_date)}
+                            value={dayjs(task.start_date).utc()}
                             disabled={!user.is_pm}
                             onChange={async (e) => {
                               try {
@@ -215,7 +218,7 @@ export default function SingleProgram() {
                           <DatePicker
                             label='End date'
                             id={`end-date-${task.id}`}
-                            value={dayjs(task.end_date)}
+                            value={dayjs(task.end_date).utc()}
                             disabled={!user.is_pm}
                             onChange={async (e) => {
                               try {
