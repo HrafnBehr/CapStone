@@ -82,7 +82,7 @@ export default function TasksView() {
   return (
     <Container>
       <Typography variant='h4' gutterBottom>
-        Common Operating Picture
+        Tasks
       </Typography>
 
       <Paper>
