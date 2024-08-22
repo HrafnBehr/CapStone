@@ -8,7 +8,7 @@ import { AuthGuard } from './components/AuthGuard'
 import Layout from './Layout'
 import ProfilePage from './ProfilePage'
 import { Providers } from './components/Providers'
-import UsersPage from './Users'
+import UsersPage from './UsersPage'
 
 function App() {
   return (

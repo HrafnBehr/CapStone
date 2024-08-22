@@ -10,12 +10,24 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import { useSearch } from './hooks/useSearch'
 
 export default function UsersPage() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
+  const { search } = useSearch()
+
+  const filteredUsers = useMemo(() => {
+    return users.filter((user) => {
+      return (
+        user.first_name.toLowerCase().includes(search.toLowerCase()) ||
+        user.last_name.toLowerCase().includes(search.toLowerCase()) ||
+        user.username.toLowerCase().includes(search.toLowerCase())
+      )
+    })
+  }, [search, users])
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/users', {
@@ -61,7 +73,7 @@ export default function UsersPage() {
                       </Stack>
                     </TableCell>
                   </TableRow>
-                ) : users.length === 0 ? (
+                ) : filteredUsers.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={8}>
                       <Stack
@@ -75,7 +87,7 @@ export default function UsersPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  users.map((user) => (
+                  filteredUsers.map((user) => (
                     <TableRow key={user.id} hover>
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.first_name}</TableCell>
