@@ -147,7 +147,9 @@ export default function Layout() {
         elevation={0}
       >
         <Toolbar>
-          <Box sx={{ flexGrow: 1 }}>
+          <Box
+            sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: 2 }}
+          >
             {!isDesktop && (
               <IconButton color='inherit' onClick={() => setOpen(!open)}>
                 <MenuIcon />

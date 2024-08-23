@@ -32,6 +32,7 @@ const Search = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   width: '100%',
+  flexGrow: 1,
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
     width: 'auto',
@@ -58,8 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     flexGrow: 1,
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
+    // [theme.breakpoints.up('md')]: {
+    //   width: '20ch',
+    // },
   },
 }))
