@@ -8,12 +8,25 @@ dayjs.extend(dayjsUTC)
 export function ProgramStatusChip(props) {
   const { project } = props
 
-  const daysLeft = dayjs(project.end_date)
-    .utc()
-    .diff(dayjs(project.start_date).utc(), 'days')
+  const hasStarted = dayjs(project.start_date).utc().isBefore(dayjs().utc())
+  const daysLeft = dayjs(project.end_date).utc().diff(dayjs().utc(), 'days')
   const status = daysLeft > 0 ? 'On-time' : 'Delayed'
 
   const icon = <AccessTimeIcon />
+
+  if (!hasStarted) {
+    return (
+      <>
+        <Chip
+          icon={icon}
+          size='small'
+          color='info'
+          label='Not started'
+          sx={{ userSelect: 'none' }}
+        />
+      </>
+    )
+  }
 
   if (daysLeft < 0) {
     return (
