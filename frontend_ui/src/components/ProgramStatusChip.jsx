@@ -1,11 +1,16 @@
 import { Chip } from '@mui/material'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import dayjs from 'dayjs'
+import dayjsUTC from 'dayjs/plugin/utc'
+
+dayjs.extend(dayjsUTC)
 
 export function ProgramStatusChip(props) {
   const { project } = props
 
-  const daysLeft = dayjs(project.end_date).diff(project.start_date, 'days')
+  const daysLeft = dayjs(project.end_date)
+    .utc()
+    .diff(dayjs(project.start_date).utc(), 'days')
   const status = daysLeft > 0 ? 'On-time' : 'Delayed'
 
   const icon = <AccessTimeIcon />
